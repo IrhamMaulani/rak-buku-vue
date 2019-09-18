@@ -5,7 +5,9 @@
     },
     "extends": [
         "plugin:vue/essential",
-        "standard"
+        "plugin:prettier/recommended",
+        "standard",
+        "eslint:recommended"
     ],
     "globals": {
         "Atomics": "readonly",

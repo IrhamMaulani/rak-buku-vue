@@ -1,5 +1,5 @@
 import Modal from './components/Modal.vue'
-import User from './components/admin/BreadUser.vue'
+import User from './components/admin/user/BreadUser.vue'
 
 export default [{
     path: '/coba',

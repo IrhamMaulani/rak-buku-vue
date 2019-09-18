@@ -3,7 +3,7 @@
     <data-user ref="dataUser" v-on:editItem="editItem($event)" v-on:deleteItem="deleteItem($event)"></data-user>
     <modal ref="modal" v-on:saveData="validation($event)">
       <div slot="form-content">
-        <v-form ref="form" v-model="valid">
+        <v-form ref="form" v-model="valid" :lazy-validation="lazy">
           <v-text-field v-model="user.name" label="Name" :rules="nameRules" required></v-text-field>
           <v-text-field label="Email" v-model="user.email" :rules="emailRules" required></v-text-field>
           <v-text-field
@@ -52,12 +52,12 @@
 </template>
 
 <script>
-import AddButton from "../AddButton.vue";
+import AddButton from "../../AddButton.vue";
 import DataUser from "./DataUser.vue";
-import Modal from "../Modal.vue";
-import SnackBar from "../SnackBar.vue";
-import DialogConfirm from "../DialogConfirm.vue";
-import DialogLoader from "../DialogLoader.vue";
+import Modal from "../../Modal.vue";
+import SnackBar from "../../SnackBar.vue";
+import DialogConfirm from "../../DialogConfirm.vue";
+import DialogLoader from "../../DialogLoader.vue";
 
 export default {
   components: {
@@ -156,7 +156,6 @@ export default {
     editItem(item) {
       //TODO GET SINGLE DATA FOR ID
       this.user = Object.assign({}, item);
-
       this.openModal("Edit Data");
       this.isPost = false;
     },
@@ -206,7 +205,6 @@ export default {
         .post(this.$baseUrl + "admin/user", this.user)
         .then(response => {
           this.openSnackbar(true, response.data);
-
           this.reset();
           this.$refs.dataUser.getData();
           this.progress = false;
@@ -220,10 +218,7 @@ export default {
       this.$http
         .put(`${this.$baseUrl}admin/user/${this.user.id}`, this.user)
         .then(response => {
-          // alert(" " + response.data);
-
           this.openSnackbar(true, response.data);
-
           this.reset();
           this.$refs.dataUser.getData();
           this.progress = false;
@@ -238,10 +233,7 @@ export default {
       this.$http
         .delete(`${this.$baseUrl}admin/user/${this.user.id}`)
         .then(response => {
-          // alert(" " + response.data);
           this.openSnackbar(true, response.data);
-
-          // this.reset();
           this.$refs.dataUser.getData();
           this.progress = false;
         })

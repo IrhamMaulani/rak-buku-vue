@@ -1,19 +1,23 @@
 <template>
   <v-app>
-    <navbar-header></navbar-header>
-
-    <router-view></router-view>
+    <component :is="component">
+      <router-view slot="body-content"></router-view>
+    </component>
   </v-app>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
-import axios from "axios";
 
 export default {
   name: "app",
   components: {
     "navbar-header": Header
+  },
+  data() {
+    return {
+      component: "navbar-header"
+    };
   }
 };
 </script>

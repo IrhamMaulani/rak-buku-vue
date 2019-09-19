@@ -21,11 +21,9 @@ const vuetify = new Vuetify({
       }
     }
   }
-
 })
 
 Vue.prototype.$http = axios;
-
 Vue.prototype.$baseUrl = "http://rakbukuapi.com/api/";
 
 Vue.use(VueRouter);
@@ -37,7 +35,6 @@ const router = new VueRouter({
 
 new Vue({
   store,
-
   render: function (h) {
     return h(App)
   },

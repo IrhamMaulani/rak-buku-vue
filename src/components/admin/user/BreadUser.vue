@@ -3,7 +3,7 @@
     <data-user ref="dataUser" v-on:editItem="editItem($event)" v-on:deleteItem="deleteItem($event)"></data-user>
     <modal ref="modal" v-on:saveData="validation($event)">
       <div slot="form-content">
-        <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+        <v-form ref="form" v-model="valid">
           <v-text-field v-model="user.name" label="Name" :rules="nameRules" required></v-text-field>
           <v-text-field label="Email" v-model="user.email" :rules="emailRules" required></v-text-field>
           <v-text-field
@@ -29,7 +29,7 @@
           ></v-select>
           <v-select
             :items="rolesList"
-            :rules="[() => rules.atLeastOneItem(user.roles)]"
+            :rules="[() => roleRules.atLeastOneItem(user.roles)]"
             label="Pick Roles"
             item-text="name"
             item-value="id"
@@ -58,6 +58,12 @@ import Modal from "../../Modal.vue";
 import SnackBar from "../../SnackBar.vue";
 import DialogConfirm from "../../DialogConfirm.vue";
 import DialogLoader from "../../DialogLoader.vue";
+import {
+  nameRules,
+  passwordRules,
+  emailRules,
+  roleRules
+} from "../../FormRules.js";
 
 export default {
   components: {
@@ -69,25 +75,16 @@ export default {
     DialogLoader
   },
   created() {
-    this.getReputationList();
-    this.getRoleList();
+    this.getRoleAndReputation();
   },
   computed: {},
   data() {
     return {
       show1: false,
-      nameRules: [
-        v => !!v || "Name is required",
-        v => (v && v.length <= 20) || "Name must be less than 10 characters"
-      ],
-      passwordRules: {
-        required: value => !!value || "Required.",
-        min: v => (v && v.length) >= 8 || "Min 8 characters"
-      },
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-      ],
+      nameRules: nameRules,
+      passwordRules: passwordRules,
+      emailRules: emailRules,
+      roleRules: roleRules,
       password: "",
       reputationList: [],
       rolesList: [],
@@ -115,11 +112,7 @@ export default {
         message: "Are You Sure Want To Delete This Item?",
         title: "Delete Item"
       },
-      progress: false,
-      rules: {
-        atLeastOneItem: selected =>
-          selected.length > 0 || "At least one item should be selected"
-      }
+      progress: false
     };
   },
   watch: {
@@ -138,6 +131,10 @@ export default {
         this.saveData();
       }
     },
+    openSnackbar(isOpen, message) {
+      this.bodySnackBar.snackbar = isOpen;
+      this.bodySnackBar.message = message;
+    },
     saveData() {
       this.progress = true;
       if (this.isPost) {
@@ -154,7 +151,6 @@ export default {
       this.isPost = true;
     },
     editItem(item) {
-      //TODO GET SINGLE DATA FOR ID
       this.user = Object.assign({}, item);
       this.openModal("Edit Data");
       this.isPost = false;
@@ -177,22 +173,18 @@ export default {
           this.openSnackbar(true, error);
         });
     },
-    getReputationList() {
+    getRoleAndReputation() {
       this.$http
-        .get(this.$baseUrl + "admin/reputation")
-        .then(result => {
-          this.reputationList = result.data.data;
-        })
-        .catch(error => {
-          this.openSnackbar(true, error);
-        });
-    },
-    getRoleList() {
-      this.$http
-        .get(this.$baseUrl + "admin/role")
-        .then(result => {
-          this.rolesList = result.data.data;
-        })
+        .all([
+          this.$http.get(this.$baseUrl + "admin/reputation"),
+          this.$http.get(this.$baseUrl + "admin/role")
+        ])
+        .then(
+          this.$http.spread((reputation, role) => {
+            this.reputationList = reputation.data.data;
+            this.rolesList = role.data.data;
+          })
+        )
         .catch(error => {
           this.openSnackbar(true, error);
         });
@@ -241,10 +233,6 @@ export default {
           this.openSnackbar(true, error);
           this.progress = false;
         });
-    },
-    openSnackbar(isOpen, message) {
-      this.bodySnackBar.snackbar = isOpen;
-      this.bodySnackBar.message = message;
     }
   }
 };

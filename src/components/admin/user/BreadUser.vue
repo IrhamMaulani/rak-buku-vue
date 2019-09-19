@@ -42,12 +42,10 @@
         </v-form>
       </div>
     </modal>
-
-    <!-- <v-btn @click="openModal" color="primary" dark>Open Dialog</v-btn> -->
     <add-button v-on:openComponent="addData"></add-button>
     <snack-bar :body="bodySnackBar"></snack-bar>
-    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="confirmDialogDelete"></dialog-confirm>
-    <dialog-loader :progress="progress" ref="dialogLoader"></dialog-loader>
+    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="deleteUserData"></dialog-confirm>
+    <dialog-progress :progress="progress"></dialog-progress>
   </v-container>
 </template>
 
@@ -57,7 +55,7 @@ import DataUser from "./DataUser.vue";
 import Modal from "../../Modal.vue";
 import SnackBar from "../../SnackBar.vue";
 import DialogConfirm from "../../DialogConfirm.vue";
-import DialogLoader from "../../DialogLoader.vue";
+import DialogProgress from "../../DialogProgress.vue";
 import {
   nameRules,
   passwordRules,
@@ -72,7 +70,7 @@ export default {
     modal: Modal,
     SnackBar,
     DialogConfirm,
-    DialogLoader
+    DialogProgress
   },
   created() {
     this.getRoleAndReputation();
@@ -127,21 +125,17 @@ export default {
     },
     validation() {
       if (this.$refs.form.validate()) {
-        this.$refs.modal.dialog = false;
-        this.saveData();
+        this.progress = true;
+        if (this.isPost) {
+          this.postUserData();
+        } else {
+          this.updateUserData();
+        }
       }
     },
     openSnackbar(isOpen, message) {
       this.bodySnackBar.snackbar = isOpen;
       this.bodySnackBar.message = message;
-    },
-    saveData() {
-      this.progress = true;
-      if (this.isPost) {
-        this.postUserData();
-      } else {
-        this.updateUserData();
-      }
     },
     addData() {
       if (this.isPost == false) {
@@ -159,19 +153,6 @@ export default {
       this.isPost = false;
       this.bodyDialog.dialog = true;
       this.user = Object.assign({}, item);
-    },
-    confirmDialogDelete() {
-      this.deleteUserData();
-    },
-    getSingleDataUser(itemId) {
-      this.$http
-        .get(this.$baseUrl + "admin/user/" + itemId)
-        .then(result => {
-          this.singleData = result.data.data;
-        })
-        .catch(error => {
-          this.openSnackbar(true, error);
-        });
     },
     getRoleAndReputation() {
       this.$http
@@ -200,6 +181,7 @@ export default {
           this.reset();
           this.$refs.dataUser.getData();
           this.progress = false;
+          this.$refs.modal.dialog = false;
         })
         .catch(error => {
           this.openSnackbar(true, error);
@@ -214,6 +196,7 @@ export default {
           this.reset();
           this.$refs.dataUser.getData();
           this.progress = false;
+          this.$refs.modal.dialog = false;
         })
         .catch(error => {
           this.openSnackbar(true, error);

@@ -11,6 +11,7 @@
               <a href="#!" class="body-2 black--text">EDIT</a>
             </v-col>
           </v-row>
+
           <v-list-group
             v-else-if="item.children"
             :key="item.text"
@@ -25,23 +26,27 @@
                 </v-list-item-content>
               </v-list-item>
             </template>
-            <v-list-item v-for="(child, i) in item.children" :key="i" @click>
-              <v-list-item-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
+            <router-link v-for="(child, i) in item.children" :key="i" @click :to="child.url">
+              <v-list-item>
+                <v-list-item-action v-if="child.icon">
+                  <v-icon>{{ child.icon }}</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title>{{ child.text }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </router-link>
+          </v-list-group>
+          <router-link v-else :key="item.text" :to="item.url">
+            <v-list-item>
+              <v-list-item-action>
+                <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>{{ child.text }}</v-list-item-title>
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-          </v-list-group>
-          <v-list-item v-else :key="item.text" @click>
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.text }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          </router-link>
         </template>
       </v-list>
     </v-navigation-drawer>
@@ -88,23 +93,31 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { icon: "contacts", text: "Contacts" },
-      { icon: "history", text: "Frequently contacted" },
+      { icon: "home", text: "Home", url: "/home" },
       {
         icon: "keyboard_arrow_up",
         "icon-alt": "keyboard_arrow_down",
         text: "Books",
         model: false,
-        children: [{ icon: "add", text: "Create label" }]
+        children: [{ icon: "add", text: "Create label", url: "/" }]
       },
       {
         icon: "keyboard_arrow_up",
         "icon-alt": "keyboard_arrow_down",
         text: "User",
         model: false,
-        children: [{ icon: "add", text: "Create label" }]
+        children: [
+          { icon: "person_add", text: "Add New User", url: "/admin/add-user" }
+        ]
       }
     ]
   })
 };
 </script>
+
+<style scoped>
+a {
+  /* margin-left: 15px; */
+  text-decoration: none;
+}
+</style>

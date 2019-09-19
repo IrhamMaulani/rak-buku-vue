@@ -5,6 +5,6 @@ export default [{
     path: '/coba',
     component: Modal
 }, {
-    path: '/admin/user',
+    path: '/admin/add-user',
     component: User
 }]

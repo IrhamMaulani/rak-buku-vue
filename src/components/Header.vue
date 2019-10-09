@@ -99,7 +99,10 @@ export default {
         "icon-alt": "keyboard_arrow_down",
         text: "Books",
         model: false,
-        children: [{ icon: "add", text: "Create label", url: "/" }]
+        children: [
+          { icon: "add", text: "Create label", url: "/" },
+          { icon: "menu_book", text: "Add New Book", url: "/admin/add-book" }
+        ]
       },
       {
         icon: "keyboard_arrow_up",

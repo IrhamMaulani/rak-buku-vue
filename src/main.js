@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import store from './store'
+import {
+  store
+} from './store/store';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css';
 import VueRouter from 'vue-router'
 import Routes from './routes'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from "axios";
+
 
 Vue.config.productionTip = false
 Vue.use(Vuetify)
@@ -24,7 +27,7 @@ const vuetify = new Vuetify({
 })
 
 Vue.prototype.$http = axios;
-Vue.prototype.$baseUrl = "http://rakbukuapi.com/api/";
+Vue.prototype.$baseUrl = process.env.VUE_APP_API;
 
 Vue.use(VueRouter);
 

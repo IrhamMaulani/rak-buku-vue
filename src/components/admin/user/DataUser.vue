@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    {{coba}}
     <v-card>
       <v-card-title>
         <div class="flex-grow-1"></div>
@@ -7,7 +8,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="datas"
+        :items="datas.data"
         :search="search"
         :sort-by="['id']"
         :sort-desc="[true]"
@@ -34,13 +35,10 @@
 </template>
 <script>
 export default {
-  template: {
-    coba: `dada`
-  },
   data() {
     return {
       search: "",
-      datas: [],
+      coba: process.env.VUE_APP_TITLE,
       headers: [
         { text: "Id", value: "id" },
         { text: "Name", value: "name" },
@@ -55,6 +53,11 @@ export default {
       }
     };
   },
+  computed: {
+    datas() {
+      return this.$store.getters.users;
+    }
+  },
   watch: {
     datas() {
       //watch loading when data load
@@ -64,7 +67,9 @@ export default {
     }
   },
   created() {
-    this.getData();
+    // this.getData();
+
+    this.$store.dispatch("getUsers");
   },
   methods: {
     checkArray(item) {
@@ -75,20 +80,20 @@ export default {
     },
     deleteItem(item) {
       this.$emit("deleteItem", item);
-    },
-    getData() {
-      this.$http
-        .get(this.$baseUrl + "admin/user")
-        .then(result => {
-          this.loading.loading = true;
-          const data = result.data.data;
-          this.datas = data;
-        })
-        .catch(error => {
-          alert(error);
-          this.loading.message = "" + error;
-        });
     }
+    // getData() {
+    //   this.$http
+    //     .get(this.$baseUrl + "admin/user")
+    //     .then(result => {
+    //       this.loading.loading = true;
+    //       const data = result.data.data;
+    //       this.datas = data;
+    //     })
+    //     .catch(error => {
+    //       alert(error);
+    //       this.loading.message = "" + error;
+    //     });
+    // }
   }
 };
 </script>

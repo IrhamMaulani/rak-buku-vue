@@ -79,7 +79,7 @@
     </v-app-bar>
     <v-content>
       <v-container class="fill-height" fluid>
-        <slot name="body-content"></slot>
+        <router-view></router-view>
       </v-container>
     </v-content>
   </v-app>

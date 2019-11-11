@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
     state: {
         users: [],
-        user: []
+        user: {}
     },
     getters: {
         users: state => {
@@ -18,22 +18,29 @@ export default {
             state.users = payload;
         },
         setUser: (state, payload) => {
-            state.user = payload;
+            let user = state.users.filter(user => {
+                return user.id == payload;
+            });
+
+            state.user = user;
         },
         addUsers: (state, payload) => {
+
             state.users.push(payload);
         }
     },
     actions: {
         getUsers: async (context, payload) => {
             try {
-                let {
+                const {
                     data
                 } = await axios.get(`${process.env.VUE_APP_API}admin/user`);
-                context.commit("setUsers", data);
-            } catch (error) {
-
-            }
+                context.commit("setUsers", data.data);
+            } catch (error) {}
+        },
+        addUsers: async (context, payload) => {
+            const data = await axios.post(`${process.env.VUE_APP_API}admin/user`, payload)
+            context.commit("addUsers", payload);
 
         }
     }

@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    {{coba}}
     <v-card>
       <v-card-title>
         <div class="flex-grow-1"></div>
@@ -8,7 +7,7 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
-        :items="datas.data"
+        :items="datas"
         :search="search"
         :sort-by="['id']"
         :sort-desc="[true]"
@@ -38,7 +37,6 @@ export default {
   data() {
     return {
       search: "",
-      coba: process.env.VUE_APP_TITLE,
       headers: [
         { text: "Id", value: "id" },
         { text: "Name", value: "name" },
@@ -68,8 +66,15 @@ export default {
   },
   created() {
     // this.getData();
-
-    this.$store.dispatch("getUsers");
+    this.$store
+      .dispatch("getUsers")
+      .then(result => {
+        this.loading.loading = false;
+      })
+      .catch(err => {
+        alert(error);
+        this.loading.message = "" + error;
+      });
   },
   methods: {
     checkArray(item) {

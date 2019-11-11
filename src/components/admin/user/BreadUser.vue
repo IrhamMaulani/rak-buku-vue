@@ -73,9 +73,9 @@ export default {
     DialogProgress
   },
   created() {
-    this.getRoleAndReputation();
+    this.$store.dispatch("getRoles");
+    this.$store.dispatch("getReputations");
   },
-  computed: {},
   data() {
     return {
       show1: false,
@@ -84,8 +84,6 @@ export default {
       emailRules: emailRules,
       roleRules: roleRules,
       password: "",
-      reputationList: [],
-      rolesList: [],
       valid: true,
       user: {
         name: "",
@@ -119,6 +117,14 @@ export default {
       this.user.password_confirmation = this.user.password;
     }
   },
+  computed: {
+    rolesList() {
+      return this.$store.getters.roles;
+    },
+    reputationList() {
+      return this.$store.getters.reputations;
+    }
+  },
   methods: {
     openModal(message) {
       this.$refs.modal.open(message);
@@ -127,7 +133,23 @@ export default {
       if (this.$refs.form.validate()) {
         this.progress = true;
         if (this.isPost) {
-          this.postUserData();
+          // this.postUserData();
+          console.log(this.user);
+          try {
+            this.$store
+              .dispatch("addUsers", this.user)
+
+              .then(result => {
+                //  this.openSnackbar(true, response.data);
+                // this.reset();
+                // this.$refs.dataUser.getData();
+                this.progress = false;
+                this.$refs.modal.dialog = false;
+              })
+              .catch(err => {
+                alert("error" + err);
+              });
+          } catch (error) {}
         } else {
           this.updateUserData();
         }
@@ -154,22 +176,6 @@ export default {
       this.bodyDialog.dialog = true;
       this.user = Object.assign({}, item);
     },
-    getRoleAndReputation() {
-      this.$http
-        .all([
-          this.$http.get(this.$baseUrl + "admin/reputation"),
-          this.$http.get(this.$baseUrl + "admin/role")
-        ])
-        .then(
-          this.$http.spread((reputation, role) => {
-            this.reputationList = reputation.data.data;
-            this.rolesList = role.data.data;
-          })
-        )
-        .catch(error => {
-          this.openSnackbar(true, error);
-        });
-    },
     reset() {
       this.$refs.form.reset();
     },
@@ -179,7 +185,7 @@ export default {
         .then(response => {
           this.openSnackbar(true, response.data);
           this.reset();
-          this.$refs.dataUser.getData();
+          // this.$refs.dataUser.getData();
           this.progress = false;
           this.$refs.modal.dialog = false;
         })
@@ -194,7 +200,7 @@ export default {
         .then(response => {
           this.openSnackbar(true, response.data);
           this.reset();
-          this.$refs.dataUser.getData();
+          // this.$refs.dataUser.getData();
           this.progress = false;
           this.$refs.modal.dialog = false;
         })

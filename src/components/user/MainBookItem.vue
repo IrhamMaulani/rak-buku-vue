@@ -1,15 +1,24 @@
 <template>
   <div>
-    <v-row class="mt-12" v-for="n in 43" :key="n">
+    <v-row class="mt-8" v-for="n in 15" :key="n">
       <v-col cols="8" class="pa-0 mx-0">
-        <p class="caption mx-4">Romance, Manga, Fucking Weaboo</p>
+        <p class="caption mx-4">
+          <router-link :to="url">Romance</router-link>,
+          <router-link :to="url">Manga</router-link>,
+          <router-link :to="url">Fucking Weaboo</router-link>
+        </p>
         <router-link :to="url">
           <h1 class="mx-4">Judul Buku</h1>
         </router-link>
         <p
           class=".body-2 mx-4 mt-4"
         >Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi tempore ...</p>
-        <p class="mx-4 body-1">Pengarang : John K Lupin</p>
+
+        <p class="mx-4 body-1">
+          Pengarang :
+          <router-link :to="url">John K Lupin</router-link>
+        </p>
+
         <div class="d-flex mx-2">
           <p class="pa-2">Vol 1</p>
           <v-btn icon class="pa-2 ml-auto">

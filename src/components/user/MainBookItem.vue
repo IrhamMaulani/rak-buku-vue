@@ -21,9 +21,14 @@
 
         <div class="d-flex mx-2">
           <p class="pa-2">Vol 1</p>
-          <v-btn icon class="pa-2 ml-auto">
-            <v-icon>bookmark_border</v-icon>
-          </v-btn>
+          <v-tooltip left>
+            <template v-slot:activator="{ on }">
+              <v-btn icon v-on="on" class="pa-2 ml-auto">
+                <v-icon>bookmark_border</v-icon>
+              </v-btn>
+            </template>
+            <span>Add To Your Wish List</span>
+          </v-tooltip>
         </div>
       </v-col>
       <v-col cols="4" class="pa-0">

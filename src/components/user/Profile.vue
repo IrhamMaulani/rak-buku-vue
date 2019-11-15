@@ -4,11 +4,14 @@
       <v-flex xs12 lg8 md10>
         <v-row class="ma-2">
           <v-col cols="12" md="4" lg="4" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
-            <v-card dark class="mr-2">
+            <v-card dark class="mr-2" height="590">
               <v-card-title class="pb-0"></v-card-title>
               <v-card-text class="text--primary mt-8 text-center">
-                <v-avatar size="180">
-                  <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+                <v-avatar size="180" class>
+                  <v-img
+                    :src="require('../../assets/cover-book.jpg')"
+                    lazy-src="https://picsum.photos/id/11/10/6"
+                  />
                 </v-avatar>
                 <div class="white--text">
                   <div class="divider mt-5"></div>
@@ -46,9 +49,23 @@
           </v-col>
 
           <v-col cols="12" md="8" lg="8" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
-            <v-card>
-              <v-card-title class="pb-0">Popular Review</v-card-title>
-              <v-card-text class="text--primary mt-8"></v-card-text>
+            <v-card height="590">
+              <v-card-title class="pb-0"></v-card-title>
+              <v-card-text class="text--primary mt-8">
+                <v-layout align-center justify-center>
+                  <div class="my-2">
+                    <v-btn text>My Book</v-btn>
+                  </div>
+                  <div class="my-2">
+                    <v-btn text>Wish List</v-btn>
+                  </div>
+                  <div class="my-2">
+                    <v-btn text>Favorite</v-btn>
+                  </div>
+                </v-layout>
+
+                <profile-book></profile-book>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -58,14 +75,15 @@
 </template>
 
 <script>
-export default {};
+import ProfileBookItem from "../user/ProfileBookItem";
+export default {
+  components: {
+    "profile-book": ProfileBookItem
+  }
+};
 </script>
 
 <style scoped>
-.cream {
-  background-color: #acbed8;
-  font-weight: bold;
-}
 .divider {
   width: 50%;
   height: 1px;

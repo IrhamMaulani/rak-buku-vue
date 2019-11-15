@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="white" flat>
+    <v-app-bar elevate-on-scroll color="white" flat>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-container :class="{'mt-12' : !$vuetify.breakpoint.smAndDown }">
         <v-layout justify-center>
@@ -30,8 +30,13 @@
                 </v-button>
               </template>
               <v-list>
-                <v-list-item v-for="(item, index) in items" :key="index" @click>
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item v-for="(item, index) in lists" :key="index" @click>
+                  <router-link :to="item.url">
+                    <v-list-item-title>
+                      <v-icon class="mr-2">{{item.icon}}</v-icon>
+                      {{ item.title }}
+                    </v-list-item-title>
+                  </router-link>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -80,11 +85,10 @@
 export default {
   data() {
     return {
-      items: [
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "Click Me 2" }
+      lists: [
+        { title: "Profile", icon: "person", url: "/profile" },
+        { title: "Setting", icon: "settings", url: "/admin/add-user" },
+        { title: "Log Out", icon: "exit_to_app", url: "/add-blog" }
       ],
       drawer: null,
       items: [
@@ -104,6 +108,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: black !important;
 }
 .inline-block {
   display: inline;

@@ -12,7 +12,7 @@
             </v-card>
           </v-col>
 
-          <v-col cols="12" md="4" lg="4" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
+          <v-col md="4" lg="4" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
             <v-row>
               <v-col cols="12" class="py-0 mb-4">
                 <v-card>

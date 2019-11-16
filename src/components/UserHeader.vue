@@ -77,7 +77,13 @@
         </v-btn>
       </v-list-item>
     </v-navigation-drawer>
-    <router-view></router-view>
+    <v-container>
+      <v-layout align-center justify-center>
+        <v-flex xs12 lg8 md10>
+          <router-view></router-view>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 

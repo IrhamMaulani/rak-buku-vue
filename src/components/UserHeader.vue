@@ -94,7 +94,7 @@ export default {
       items: [
         { title: "Home", icon: "dashboard", url: "/" },
         { title: "Books", icon: "menu_book", url: "/admin/add-user" },
-        { title: "My Books", icon: "bookmarks", url: "/add-blog" }
+        { title: "Reviews", icon: "record_voice_over", url: "/reviews" }
       ]
     };
   },

@@ -6,6 +6,7 @@ import AdminHeader from "./components/AdminHeader.vue";
 import UserHeader from "./components/UserHeader.vue";
 import Profile from "./components/user/Profile.vue";
 import Review from "./components/user/Review.vue";
+import BookMenu from "./components/user/BookMenu.vue";
 
 export default [{
         path: '/',
@@ -21,6 +22,10 @@ export default [{
             {
                 path: "reviews",
                 component: Review
+            },
+            {
+                path: "book",
+                component: BookMenu
             }
         ]
     },

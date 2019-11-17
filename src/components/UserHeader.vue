@@ -99,7 +99,7 @@ export default {
       drawer: null,
       items: [
         { title: "Home", icon: "dashboard", url: "/" },
-        { title: "Books", icon: "menu_book", url: "/admin/add-user" },
+        { title: "Books", icon: "menu_book", url: "/book" },
         { title: "Reviews", icon: "record_voice_over", url: "/reviews" }
       ]
     };

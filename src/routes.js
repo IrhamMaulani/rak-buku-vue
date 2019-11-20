@@ -7,6 +7,7 @@ import UserHeader from "./components/UserHeader.vue";
 import Profile from "./components/user/Profile.vue";
 import Review from "./components/user/Review.vue";
 import BookMenu from "./components/user/BookMenu.vue";
+import BookItem from "./components/user/BookItem.vue";
 
 export default [{
         path: '/',
@@ -26,6 +27,14 @@ export default [{
             {
                 path: "book",
                 component: BookMenu
+            },
+            {
+                path: "book",
+                component: BookMenu
+            },
+            {
+                path: "book/:id",
+                component: BookItem
             }
         ]
     },

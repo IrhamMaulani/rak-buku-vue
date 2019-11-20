@@ -25,16 +25,21 @@ export default [{
                 component: Review
             },
             {
-                path: "book",
-                component: BookMenu
+                path: "reviews/:id",
+                component: Review
             },
             {
                 path: "book",
                 component: BookMenu
             },
+
             {
                 path: "book/:id",
                 component: BookItem
+            },
+            {
+                path: "book/:id/reviews",
+                component: Review
             }
         ]
     },

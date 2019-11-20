@@ -6,7 +6,7 @@
         <v-card-text class="text--primary mt-8 text-center">
           <v-avatar size="180" class>
             <v-img
-              :src="require('../../assets/cover-book.jpg')"
+              :src="require('../../assets/profile.png')"
               lazy-src="https://picsum.photos/id/11/10/6"
             />
           </v-avatar>

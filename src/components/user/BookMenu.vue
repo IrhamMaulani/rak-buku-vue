@@ -138,7 +138,7 @@ export default {
         { params: "rating_down", title: "Rating", icon: "arrow_downward" },
         { params: "rating_up", title: "Rating", icon: "arrow_upward" }
       ],
-      url: "/"
+      url: "/book/1"
     };
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <v-row class="mt-6">
-    <v-col cols="7">
+    <v-col cols="12" md="7" lg="7">
       <v-img
         :src="require('../../assets/cover-book.jpg')"
         lazy-src="https://picsum.photos/id/11/10/6"
@@ -8,10 +8,10 @@
       />
     </v-col>
 
-    <v-col cols="5" class>
+    <v-col cols="12" md="5" lg="5" class>
       <v-row class="white mt-12">
         <v-col cols="6" class="border border-right text-center">
-          <p class="display-3">69</p>
+          <p class="display-3 font-weight-black">69</p>
         </v-col>
         <v-col cols="6" class="border border-right">
           <p class="subtitle-1">
@@ -48,14 +48,33 @@
         </v-col>
       </v-row>
     </v-col>
+    <v-col cols="12" md="12" lg="12">
+      <h1>Reviews</h1>
+      <div class="d-flex justify-end">
+        <v-icon class="mr-1 mb-4">create</v-icon>
+        <router-link :to="reviewUrl">
+          <p class="mr-5">Write Review</p>
+        </router-link>
+        <router-link :to="reviewUrl">
+          <p>More Reviews</p>
+        </router-link>
+      </div>
+      <v-divider class="mb-6"></v-divider>
+      <review />
+    </v-col>
   </v-row>
 </template>
 
 <script>
+import Review from "../user/Review";
 export default {
+  components: {
+    review: Review
+  },
   data() {
     return {
       url: "",
+      reviewUrl: "1/reviews",
       statuses: [
         { id: 1, name: "Wish List" },
         { id: 2, name: "On Hold" },

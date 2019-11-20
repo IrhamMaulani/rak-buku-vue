@@ -103,9 +103,6 @@
                   <v-icon class="mr-2 mb-2">star</v-icon>6.9
                 </span>
                 <span class="mr-6">
-                  <v-icon class="mr-2 mb-2">thumb_up</v-icon>200
-                </span>
-                <span class="mr-6">
                   <v-icon class="mr-2 mb-1">favorite</v-icon>100
                 </span>
                 <v-tooltip top>

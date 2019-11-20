@@ -43,14 +43,7 @@
                         </template>
                         <span>Your Score</span>
                       </v-tooltip>
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                          <p class="mr-2">
-                            <v-icon v-on="on" class="mr-1 white--text">thumb_up</v-icon>
-                          </p>
-                        </template>
-                        <span>You Recomended It</span>
-                      </v-tooltip>
+
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                           <p>

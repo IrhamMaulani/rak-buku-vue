@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>Latest Update</v-card-title>
         <v-card-text class="text--primary mt-8">
-          <main-item></main-item>
+          <main-item :datas="mainBook"></main-item>
         </v-card-text>
       </v-card>
     </v-col>
@@ -55,6 +55,28 @@ export default {
     "main-item": MainBookItem,
     "popular-book-item": PopularBookItem,
     "popular-review": PopularReview
+  },
+  data() {
+    return {
+      mainBook: []
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.$http
+        .all([this.$http.get(`${this.$baseUrl}book?sortBy=desc`)])
+        .then(
+          this.$http.spread(mainBook => {
+            this.mainBook = mainBook.data.data;
+          })
+        )
+        .catch(error => {
+          this.openSnackbar(true, error);
+        });
+    }
   }
 };
 </script>

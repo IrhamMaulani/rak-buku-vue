@@ -1,24 +1,28 @@
 <template>
   <div>
-    <v-row class="mt-8" v-for="data in datas" :key="id">
+    <v-row class="mt-8" v-for="book in datas.data" :key="book.id">
       <v-col cols="8" class="pa-0 mx-0">
-        <span class="caption mx-4" v-for="tag in data.tags" :key="id">
-          <router-link :to="url">{{tag.name}}</router-link>
-        </span>
-        <router-link :to="url">
-          <h1 class="mx-4">{{data.title}}</h1>
+        <p class="caption mx-4">
+          <router-link v-for="(tag, index) in book.tags" :key="index" :to="url">
+            <span v-if="index != 0">{{', '}}</span>
+            <span>{{ tag.name }}</span>
+          </router-link>
+        </p>
+        <router-link :to="'/book/' + book.slug">
+          <h1 class="mx-4">{{book.title}}</h1>
         </router-link>
-        <p class=".body-2 mx-4 mt-4">{{data.description}}</p>
+        <p class=".body-2 mx-4 mt-4">{{book.description}}</p>
 
         <p class="mx-4 body-1">
           Pengarang :
-          <span v-for="author in data.authors">
-            <router-link :to="url">{{author.name}}</router-link>
-          </span>
+          <router-link v-for="(author, index) in book.authors" :key="index" :to="url">
+            <span v-if="index != 0">{{', '}}</span>
+            <span>{{author.name}}</span>
+          </router-link>
         </p>
 
         <div class="d-flex mx-2">
-          <p class="pa-2">{{data.volume}}</p>
+          <p class="pa-2">Vol : {{book.volume}}</p>
           <v-tooltip left>
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on" class="pa-2 ml-auto">
@@ -33,15 +37,14 @@
         <v-layout align-center justify-center>
           <v-img
             class="justify-center"
-            :src="data.book_images_covers"
-            lazy-src="https://picsum.photos/id/11/10/6"
+            :src="book.book_images_cover.name"
+            :lazy-src="require('../../assets/cover-book.jpg')"
             aspect-ratio="1"
             max-width="200"
             max-height="183"
           />
         </v-layout>
       </v-col>
-      {{data.book_images_covers}}
     </v-row>
   </div>
 
@@ -57,7 +60,7 @@ export default {
   },
   data() {
     return {
-      url: "/"
+      url: this.$baseUrl
     };
   }
 };

@@ -26,7 +26,7 @@
             <v-card>
               <v-card-title class="pb-0">Popular Books</v-card-title>
               <v-card-text class="text--primary mt-8">
-                <popular-book-item></popular-book-item>
+                <popular-book-item :datas="popularBook"></popular-book-item>
               </v-card-text>
             </v-card>
           </v-col>
@@ -58,7 +58,8 @@ export default {
   },
   data() {
     return {
-      mainBook: []
+      mainBook: [],
+      popularBook: []
     };
   },
   created() {
@@ -67,10 +68,18 @@ export default {
   methods: {
     getData() {
       this.$http
-        .all([this.$http.get(`${this.$baseUrl}book?sortBy=desc`)])
+        .all([
+          this.$http.get(
+            `${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10`
+          ),
+          this.$http.get(
+            `${this.$baseUrl}book?orderBy=score&order=desc&limit=10`
+          )
+        ])
         .then(
-          this.$http.spread(mainBook => {
-            this.mainBook = mainBook.data.data;
+          this.$http.spread((mainBook, popularBook) => {
+            this.mainBook = mainBook.data;
+            this.popularBook = popularBook.data;
           })
         )
         .catch(error => {

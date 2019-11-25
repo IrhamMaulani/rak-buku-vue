@@ -1,25 +1,37 @@
 <template >
   <v-container class="py-0">
-    <v-row class="mb-3 pa-0" v-for="n in 10" :key="n">
+    <v-row class="mb-3 pa-0" v-for="book in datas.data" :key="book.id">
       <v-col cols="2" class="pa-0 ma-0 mr-2">
-        <v-img
-          class="justify-center"
-          :src="require('../../assets/cover-book.jpg')"
-          lazy-src="https://picsum.photos/id/11/10/6"
-          max-width="45"
-          max-height="90"
-        />
+        <div v-if="book.book_images_cover !== null">
+          <v-img
+            class="justify-center"
+            :src="book.book_images_cover.name"
+            lazy-src="require('../../assets/cover-book.jpg')"
+            max-width="45"
+            height="60"
+          />
+        </div>
+        <div v-else>
+          <v-img
+            class="justify-center"
+            :src="require('../../assets/cover-book.jpg')"
+            lazy-src="require('../../assets/cover-book.jpg')"
+            max-width="45"
+            height="60"
+          />
+        </div>
       </v-col>
       <v-col cols="9" class="pa-0 ma-0">
         <router-link :to="url">
-          <p class="subtitle-2">Judul Buku</p>
+          <p class="subtitle-2">{{book.title}}</p>
         </router-link>
         <div class="d-flex ma-0 pa-0">
           <router-link :to="url">
-            <p class="ma-0 pa-0">Vol 1</p>
+            <p class="ma-0 pa-0">Vol {{book.volume}}</p>
           </router-link>
           <p class="ml-auto my-0 pa-0">
-            <v-icon class="mr-2 mb-1">star</v-icon>6.9
+            <v-icon class="mr-2 mb-1">star</v-icon>
+            {{book.score}}
           </p>
         </div>
       </v-col>
@@ -33,6 +45,11 @@ export default {
     return {
       url: ""
     };
+  },
+  props: {
+    datas: {
+      required: true
+    }
   }
 };
 </script>

@@ -23,11 +23,11 @@
             </v-btn>
             <v-menu offset-y class="ml-auto">
               <template v-slot:activator="{ on }">
-                <v-button class="click-custom mt-2" v-on="on">
+                <v-btn text class="click-custom mt-2" v-on="on">
                   <v-icon class>person</v-icon>
                   <span class="mx-1">Irham</span>
                   <v-icon class>keyboard_arrow_down</v-icon>
-                </v-button>
+                </v-btn>
               </template>
               <v-list>
                 <v-list-item v-for="(item, index) in lists" :key="index" @click>

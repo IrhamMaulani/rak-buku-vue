@@ -34,10 +34,20 @@
         </div>
       </v-col>
       <v-col cols="4" class="pa-0">
-        <v-layout align-center justify-center>
+        <v-layout align-center justify-center v-if="book.book_images_cover !== null">
           <v-img
             class="justify-center"
             :src="book.book_images_cover.name"
+            :lazy-src="require('../../assets/cover-book.jpg')"
+            aspect-ratio="1"
+            max-width="200"
+            max-height="183"
+          />
+        </v-layout>
+        <v-layout align-center justify-center v-else>
+          <v-img
+            class="justify-center"
+            :src="require('../../assets/cover-book.jpg')"
             :lazy-src="require('../../assets/cover-book.jpg')"
             aspect-ratio="1"
             max-width="200"
@@ -60,8 +70,14 @@ export default {
   },
   data() {
     return {
-      url: this.$baseUrl
+      url: this.$baseUrl,
+      defaultImg: "require('../../assets/cover-book.jpg')"
     };
+  },
+  computed: {
+    imageDefault() {
+      return this.defaultImg;
+    }
   }
 };
 </script>

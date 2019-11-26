@@ -1,5 +1,8 @@
 <template>
   <v-row>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <v-col cols="12" md="8" lg="8">
       <v-card>
         <v-card-title>Latest Update</v-card-title>
@@ -60,7 +63,8 @@ export default {
     return {
       mainBook: [],
       popularBook: [],
-      popularReview: []
+      popularReview: [],
+      overlay: true
     };
   },
   created() {
@@ -85,6 +89,7 @@ export default {
             this.mainBook = mainBook.data;
             this.popularBook = popularBook.data;
             this.popularReview = popularReview.data;
+            this.overlay = false;
           })
         )
         .catch(error => {

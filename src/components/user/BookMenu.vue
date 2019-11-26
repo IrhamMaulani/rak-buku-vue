@@ -1,12 +1,17 @@
 <template >
   <v-row class="mt-12">
+    <v-overlay :value="overLay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <v-col cols="4" class="mt-6">
       <v-overflow-btn
-        v-model="select"
+        @change="order"
         target="#dropdown-example"
+        v-model="orderById"
         :items="dropdown_sort"
         label="Sort By"
-        item-value="params"
+        item-value="id"
+        item-text="id"
         class="combo"
       >
         <template slot="selection" slot-scope="data">
@@ -20,11 +25,11 @@
       </v-overflow-btn>
     </v-col>
     <v-col cols="12" class>
-      <v-card flat class="border" v-for="n in 6" :key="n">
+      <v-card flat class="border" v-for="(book, index) in books.data" :key="book.id">
         <!-- <v-card-title class="border"></v-card-title> -->
         <!-- <v-card-text> -->
         <div class="d-flex justify-end mr-4">
-          <p>{{n}}</p>
+          <p>{{index = index+1}}</p>
         </div>
         <v-row class="pa-0">
           <v-col cols="12" md="4" lg="4" class>
@@ -45,16 +50,7 @@
                       <div
                         class="body-1 justify-center text-center mx-4"
                         :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
-                      >
-                        Eighth story arc of JoJo no Kimyou na Bouken series.
-                        Following the Great East Japan earthquake,
-                        Morioh has been stricken by vast earthen protrusions known by the locals as Wall Eyes.
-                        Despite investigation, professional estimations are left empty. Meanwhile, the young girl
-                        Yasuho Hirose discovers a man buried within the ground, he possesses a distinctive star-shaped birthmark
-                        together with deeply penetrating bite marks. The man, who has contracted a staple case of amnesia is taken in by a local
-                        family and given the name Jousuke Higashikata, however mysterious events cannot stop from piling one upon the other
-                        and soon that enigma known as stand emerges to
-                      </div>
+                      >{{book.description}}</div>
                     </div>
                   </v-expand-transition>
                 </v-img>
@@ -67,28 +63,36 @@
             </div>
 
             <p class="subtitle-1">
-              <router-link :to="url">Romance</router-link>,
-              <router-link :to="url">Manga</router-link>,
-              <router-link :to="url">Fucking Weaboo</router-link>
+              <router-link v-for="(tag, index) in book.tags" :key="tag.id" :to="url">
+                <span v-if="index != 0">{{', '}}</span>
+                <span>{{tag.name}}</span>
+              </router-link>
+              <!-- <router-link :to="url">Manga</router-link>,
+              <router-link :to="url">Fucking Weaboo</router-link>-->
             </p>
 
             <div class="mt-6">
               <p class="display-2 font-weight-bold">
-                <router-link :to="url">The Lord Of The Rings The Return Of The King</router-link>
+                <router-link :to="url">{{book.title}}</router-link>
               </p>
             </div>
 
             <div class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular">
               <p class="mr-3">
                 Pengarang :
-                <router-link :to="url">J.K Dunkey Lmao</router-link>
+                <router-link v-for="(author, index) in book.authors" :key="index" :to="url">
+                  <span v-if="index != 0">{{', '}}</span>
+                  <span>{{author.name}}</span>
+                </router-link>
               </p>
+
               <p class="mr-3">
                 Publisher :
-                <router-link :to="url">Hogwart Lmao</router-link>
+                <router-link :to="url">{{book.publisher.name}}</router-link>
               </p>
               <p>
-                <v-icon class="mr-2">print</v-icon>2019
+                <v-icon class="mr-2">print</v-icon>
+                {{book.print_year}}
               </p>
             </div>
             <div
@@ -100,10 +104,12 @@
                   <p>Is Owned</p>
                 </span>
                 <span class="mr-6">
-                  <v-icon class="mr-2 mb-2">star</v-icon>6.9
+                  <v-icon class="mr-2 mb-2">star</v-icon>
+                  {{book.score}}
                 </span>
                 <span class="mr-6">
-                  <v-icon class="mr-2 mb-1">favorite</v-icon>100
+                  <v-icon class="mr-2 mb-1">favorite</v-icon>
+                  {{book.favorites}}
                 </span>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
@@ -128,15 +134,101 @@ export default {
   data() {
     return {
       dropdown_sort: [
-        { params: "title_down", title: "Title", icon: "arrow_downward" },
-        { params: "title_up", title: "Title", icon: "arrow_upward" },
-        { params: "date_down", title: "Date", icon: "arrow_downward" },
-        { params: "date_up", title: "Date", icon: "arrow_upward" },
-        { params: "rating_down", title: "Rating", icon: "arrow_downward" },
-        { params: "rating_up", title: "Rating", icon: "arrow_upward" }
+        {
+          params: "title_down",
+          title: "Title",
+          icon: "arrow_downward",
+          id: 1
+        },
+        {
+          params: "title_up",
+          title: "Title",
+          icon: "arrow_upward",
+          id: 2
+        },
+        {
+          params: "date_down",
+          title: "Date",
+          icon: "arrow_downward",
+          id: 3
+        },
+        {
+          params: "date_up",
+          title: "Date",
+          icon: "arrow_upward",
+          id: 4
+        },
+        {
+          params: "rating_down",
+          title: "Scores",
+          icon: "arrow_downward",
+          id: 5
+        },
+        {
+          params: "rating_up",
+          title: "Scores",
+          icon: "arrow_upward",
+          id: 6
+        }
       ],
-      url: "/book/1"
+      url: "/book/1",
+      books: [],
+      orderById: "",
+      dataOrderBy: [
+        {
+          id: 1,
+          orderBy: "title",
+          order: "desc"
+        },
+        {
+          id: 2,
+          orderBy: "title",
+          order: "asc"
+        },
+        {
+          id: 3,
+          orderBy: "created_at",
+          order: "desc"
+        },
+        {
+          id: 4,
+          orderBy: "created_at",
+          order: "asc"
+        },
+        {
+          id: 5,
+          orderBy: "score",
+          order: "desc"
+        },
+        {
+          id: 6,
+          orderBy: "score",
+          order: "asc"
+        }
+      ],
+      overLay: true
     };
+  },
+  created() {
+    this.getData("created_at", "desc");
+  },
+  methods: {
+    getData(orderBy, order) {
+      this.$http
+        .get(`${this.$baseUrl}book?orderBy=${orderBy}&order=${order}&limit=5`)
+        .then(result => {
+          this.books = result.data;
+          this.overLay = false;
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+    order() {
+      this.overLay = true;
+      const orderBy = this.dataOrderBy.find(x => x.id === this.orderById);
+      this.getData(orderBy.orderBy, orderBy.order);
+    }
   }
 };
 </script>

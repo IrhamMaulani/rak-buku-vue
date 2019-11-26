@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-overlay :value="overlay">
+    <v-overlay :value="overLay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
     <v-col cols="12" md="8" lg="8">
@@ -64,7 +64,7 @@ export default {
       mainBook: [],
       popularBook: [],
       popularReview: [],
-      overlay: true
+      overLay: true
     };
   },
   created() {
@@ -89,7 +89,7 @@ export default {
             this.mainBook = mainBook.data;
             this.popularBook = popularBook.data;
             this.popularReview = popularReview.data;
-            this.overlay = false;
+            this.overLay = false;
           })
         )
         .catch(error => {

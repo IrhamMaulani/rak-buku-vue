@@ -35,25 +35,48 @@
           <v-col cols="12" md="4" lg="4" class>
             <v-hover v-slot:default="{ hover }">
               <v-card color="grey lighten-4" class="mr-4">
-                <v-img
-                  :src="require('../../assets/cover-book.jpg')"
-                  lazy-src="https://picsum.photos/id/11/10/6"
-                  min-height="570"
-                  :aspect-ratio="16/9"
-                >
-                  <v-expand-transition>
-                    <div
-                      v-if="hover"
-                      class="d-flex transition-fast-in-fast-out blue-grey darken-2 v-card--reveal display-3 white--text"
-                      style="height: 100%;"
-                    >
+                <div v-if="book.book_images_cover !== null">
+                  <v-img
+                    :src="book.book_images_cover.name"
+                    lazy-src="https://picsum.photos/id/11/10/6"
+                    min-height="570"
+                    :aspect-ratio="16/9"
+                  >
+                    <v-expand-transition>
                       <div
-                        class="body-1 justify-center text-center mx-4"
-                        :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
-                      >{{book.description}}</div>
-                    </div>
-                  </v-expand-transition>
-                </v-img>
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out blue-grey darken-2 v-card--reveal display-3 white--text"
+                        style="height: 100%;"
+                      >
+                        <div
+                          class="body-1 justify-center text-center mx-4"
+                          :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
+                        >{{book.description}}</div>
+                      </div>
+                    </v-expand-transition>
+                  </v-img>
+                </div>
+                <div v-else>
+                  <v-img
+                    :src="require('../../assets/cover-book.jpg')"
+                    lazy-src="https://picsum.photos/id/11/10/6"
+                    min-height="570"
+                    :aspect-ratio="16/9"
+                  >
+                    <v-expand-transition>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out blue-grey darken-2 v-card--reveal display-3 white--text"
+                        style="height: 100%;"
+                      >
+                        <div
+                          class="body-1 justify-center text-center mx-4"
+                          :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
+                        >{{book.description}}</div>
+                      </div>
+                    </v-expand-transition>
+                  </v-img>
+                </div>
               </v-card>
             </v-hover>
           </v-col>

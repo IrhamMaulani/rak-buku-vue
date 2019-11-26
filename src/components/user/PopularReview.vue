@@ -1,30 +1,31 @@
   <template>
   <v-container class="py-0">
-    <v-row class="mb-3 pa-0" v-for="n in 10" :key="n">
+    <v-row class="mb-3 pa-0" v-for="review in datas.data" :key="review.id">
       <v-col cols="12" class="pa-0 ma-0">
         <v-layout :justify-center="!$vuetify.breakpoint.smAndDown" class="pa-0 ma-0">
           <router-link :to="url">
-            <p class="font-weight-bold pa-0 ma-0">Harry Potter Suck Fucking Dick So Much</p>
+            <p class="font-weight-bold pa-0 ma-0">{{review.title}}</p>
           </router-link>
         </v-layout>
       </v-col>
 
       <v-row class="pa-0 ma-0">
-        <v-col cols="3">
+        <v-col cols="5">
           <p class="ma-0 pa-0 caption">
             <v-icon class="mr-1 mb-1">person</v-icon>
-            <router-link :to="url">Jocoin</router-link>
+            <router-link :to="url">{{review.user.name | snippet(16)}}</router-link>
           </p>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="5">
           <p class="ma-0 pa-0 caption">
             <v-icon class="mr-1 mb-1">menu_book</v-icon>
-            <router-link :to="url">Lord Of The Ring Lmao</router-link>
+            <router-link :to="url">{{review.book.title | snippet(18) }}</router-link>
           </p>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="2">
           <p class="ma-0 pa-0 caption">
-            <v-icon class="mr-1 mb-1">emoji_emotions</v-icon>100
+            <v-icon class="mr-1 mb-1">emoji_emotions</v-icon>
+            {{review.likes}}
           </p>
         </v-col>
       </v-row>
@@ -39,6 +40,11 @@ export default {
     return {
       url: ""
     };
+  },
+  props: {
+    datas: {
+      required: true
+    }
   }
 };
 </script>

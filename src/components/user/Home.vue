@@ -9,18 +9,18 @@
       </v-card>
     </v-col>
 
-    <v-col md="4" lg="4" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
+    <v-col md="4" lg="4" :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }">
       <v-row>
         <v-col cols="12" class="py-0 mb-4">
           <v-card>
             <v-card-title class="pb-0">Popular Review</v-card-title>
             <v-card-text class="text--primary mt-8">
-              <popular-review></popular-review>
+              <popular-review :datas="popularReview"></popular-review>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
-      <div :class="{'sticky' : !$vuetify.breakpoint.smAndDown }">
+      <div :class="{ sticky: !$vuetify.breakpoint.smAndDown }">
         <v-row>
           <v-col cols="12" class="py-0 mb-1">
             <v-card>
@@ -59,7 +59,8 @@ export default {
   data() {
     return {
       mainBook: [],
-      popularBook: []
+      popularBook: [],
+      popularReview: []
     };
   },
   created() {
@@ -74,12 +75,16 @@ export default {
           ),
           this.$http.get(
             `${this.$baseUrl}book?orderBy=score&order=desc&limit=10`
+          ),
+          this.$http.get(
+            `${this.$baseUrl}review?orderBy=likes&order=desc&limit=10`
           )
         ])
         .then(
-          this.$http.spread((mainBook, popularBook) => {
+          this.$http.spread((mainBook, popularBook, popularReview) => {
             this.mainBook = mainBook.data;
             this.popularBook = popularBook.data;
+            this.popularReview = popularReview.data;
           })
         )
         .catch(error => {

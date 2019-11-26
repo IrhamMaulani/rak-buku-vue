@@ -36,6 +36,10 @@ const router = new VueRouter({
   routes: Routes
 })
 
+Vue.filter('snippet', function (value, slice) {
+  return value.slice(0, slice) + '...';
+})
+
 new Vue({
   store,
   render: function (h) {

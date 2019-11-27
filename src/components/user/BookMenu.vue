@@ -229,16 +229,30 @@ export default {
           order: "asc"
         }
       ],
-      overLay: true
+      overLay: true,
+      search: this.$route.query.search
     };
   },
   created() {
-    this.getData("created_at", "desc");
+    this.getData();
   },
   methods: {
-    getData(orderBy, order) {
+    getData(orderBy = "created_at", order = "desc", searchParams = 1) {
+      this.overLay = true;
+      let search = "";
+
+      if (this.search !== undefined) {
+        search = this.search;
+      }
+
+      if (searchParams !== 1) {
+        search = searchParams;
+      }
+
       this.$http
-        .get(`${this.$baseUrl}book?orderBy=${orderBy}&order=${order}&limit=5`)
+        .get(
+          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&limit=5`
+        )
         .then(result => {
           this.books = result.data;
           this.overLay = false;
@@ -251,6 +265,12 @@ export default {
       this.overLay = true;
       const orderBy = this.dataOrderBy.find(x => x.id === this.orderById);
       this.getData(orderBy.orderBy, orderBy.order);
+    }
+  },
+  watch: {
+    $route(to, from) {
+      // console.log(to.query.search);
+      this.getData("created_at", "desc", to.query.search);
     }
   }
 };

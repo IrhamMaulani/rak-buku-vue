@@ -16,9 +16,16 @@
             </router-link>
             <v-spacer></v-spacer>
             <div>
-              <v-text-field solo flat hint placeholder="Search" class="hidden-sm-and-down"></v-text-field>
+              <v-text-field
+                v-model="searchQuery"
+                solo
+                flat
+                hint
+                placeholder="Search"
+                class="hidden-sm-and-down"
+              ></v-text-field>
             </div>
-            <v-btn icon class="hidden-sm-and-down">
+            <v-btn @click="doSearch" icon class="hidden-sm-and-down">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
             <v-menu offset-y class="ml-auto">
@@ -70,10 +77,10 @@
         </v-list>
       </router-link>
       <v-list-item>
-        <v-text-field flat hint placeholder="Search"></v-text-field>
+        <v-text-field v-model="searchQuery" flat hint placeholder="Search"></v-text-field>
 
         <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
+          <v-icon @click="doSearch">mdi-magnify</v-icon>
         </v-btn>
       </v-list-item>
     </v-navigation-drawer>
@@ -101,11 +108,19 @@ export default {
         { title: "Home", icon: "dashboard", url: "/" },
         { title: "Books", icon: "menu_book", url: "/book" },
         { title: "Reviews", icon: "record_voice_over", url: "/reviews" }
-      ]
+      ],
+      searchQuery: ""
     };
   },
   methods: {
-    click: function() {}
+    click: function() {},
+    doSearch() {
+      // alert(this.searchQuery);
+
+      this.$router
+        .replace({ path: "book", query: { search: this.searchQuery } })
+        .catch(err => {});
+    }
   }
 };
 </script>

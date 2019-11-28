@@ -28,25 +28,48 @@
             <v-btn @click="doSearch" icon class="hidden-sm-and-down">
               <v-icon>mdi-magnify</v-icon>
             </v-btn>
-            <v-menu offset-y class="ml-auto">
-              <template v-slot:activator="{ on }">
-                <v-btn text class="click-custom mt-2" v-on="on">
-                  <v-icon class>person</v-icon>
-                  <span class="mx-1">Irham</span>
-                  <v-icon class>keyboard_arrow_down</v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item v-for="(item, index) in lists" :key="index" @click>
-                  <router-link :to="item.url">
-                    <v-list-item-title>
-                      <v-icon class="mr-2">{{item.icon}}</v-icon>
-                      {{ item.title }}
-                    </v-list-item-title>
-                  </router-link>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <div v-if="isLoggedIn">
+              <v-menu offset-y class="ml-auto">
+                <template v-slot:activator="{ on }">
+                  <v-btn text class="click-custom mt-2" v-on="on">
+                    <v-icon class>person</v-icon>
+                    <span class="mx-1">{{userName}}</span>
+                    <v-icon class>keyboard_arrow_down</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item v-for="(item, index) in lists" :key="index" @click>
+                    <router-link :to="item.url">
+                      <v-list-item-title>
+                        <v-icon class="mr-2">{{item.icon}}</v-icon>
+                        {{ item.title }}
+                      </v-list-item-title>
+                    </router-link>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
+            <div v-else>
+              <v-menu offset-y class="ml-auto">
+                <template v-slot:activator="{ on }">
+                  <v-btn text class="click-custom mt-2" v-on="on">
+                    <v-icon class>person</v-icon>
+                    <span class="mx-1">Hello Guest</span>
+                    <v-icon class>keyboard_arrow_down</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item v-for="(item, index) in listsGuest" :key="index" @click>
+                    <router-link :to="item.url">
+                      <v-list-item-title>
+                        <v-icon class="mr-2">{{item.icon}}</v-icon>
+                        {{ item.title }}
+                      </v-list-item-title>
+                    </router-link>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -103,6 +126,10 @@ export default {
         { title: "Setting", icon: "settings", url: "/admin/add-user" },
         { title: "Log Out", icon: "exit_to_app", url: "/add-blog" }
       ],
+      listsGuest: [
+        { title: "Login", icon: "exit_to_app", url: "/login" },
+        { title: "Sign Up", icon: "create", url: "/sign-up" }
+      ],
       drawer: null,
       items: [
         { title: "Home", icon: "dashboard", url: "/" },
@@ -120,6 +147,14 @@ export default {
       this.$router
         .replace({ path: "book", query: { search: this.searchQuery } })
         .catch(err => {});
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
+    userName() {
+      return this.$store.getters.userName;
     }
   }
 };

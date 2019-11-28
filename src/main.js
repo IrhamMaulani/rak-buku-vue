@@ -5,7 +5,6 @@ import {
 } from './store/store';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css';
-import VueRouter from 'vue-router'
 import Routes from './routes'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from "axios";
@@ -29,12 +28,11 @@ const vuetify = new Vuetify({
 Vue.prototype.$http = axios;
 Vue.prototype.$baseUrl = process.env.VUE_APP_API;
 
-Vue.use(VueRouter);
+const token = localStorage.getItem('token');
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
 
-const router = new VueRouter({
-  mode: 'history',
-  routes: Routes
-})
 
 Vue.filter('snippet', function (value, slice) {
   return value.slice(0, slice) + '...';
@@ -45,6 +43,6 @@ new Vue({
   render: function (h) {
     return h(App)
   },
-  router: router,
+  router: Routes,
   vuetify: vuetify
 }).$mount('#app')

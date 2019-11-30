@@ -7,7 +7,7 @@
       <v-card>
         <v-card-title>Latest Update</v-card-title>
         <v-card-text class="text--primary mt-8">
-          <main-item :datas="mainBook"></main-item>
+          <main-item></main-item>
         </v-card-text>
       </v-card>
     </v-col>
@@ -61,10 +61,8 @@ export default {
   },
   data() {
     return {
-      mainBook: [],
       popularBook: [],
-      popularReview: [],
-      overLay: true
+      popularReview: []
     };
   },
   created() {
@@ -72,11 +70,9 @@ export default {
   },
   methods: {
     getData() {
+      this.$store.dispatch("setStatus", true);
       this.$http
         .all([
-          this.$http.get(
-            `${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10`
-          ),
           this.$http.get(
             `${this.$baseUrl}book?orderBy=score&order=desc&limit=10`
           ),
@@ -85,16 +81,20 @@ export default {
           )
         ])
         .then(
-          this.$http.spread((mainBook, popularBook, popularReview) => {
-            this.mainBook = mainBook.data;
+          this.$http.spread((popularBook, popularReview) => {
             this.popularBook = popularBook.data;
             this.popularReview = popularReview.data;
-            this.overLay = false;
+            this.$store.dispatch("setStatus", false);
           })
         )
         .catch(error => {
           this.openSnackbar(true, error);
         });
+    }
+  },
+  computed: {
+    overLay() {
+      return this.$store.getters.status;
     }
   }
 };

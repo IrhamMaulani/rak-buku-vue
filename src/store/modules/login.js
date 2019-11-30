@@ -9,7 +9,7 @@ export default {
     },
     getters: {
         isLoggedIn: state => {
-            return !!window.$cookies.get("token") || !!state.token;
+            return !!state.token || !!window.$cookies.get("token");
         },
         authStatus: state => {
             return state.status;
@@ -18,8 +18,9 @@ export default {
             return state.message;
         },
         userName: state => {
-            return window.$cookies.get("user_name") || state.userName;
-        }
+            return state.userName || window.$cookies.get("user_name");
+        },
+        // userNameCoba: state => state.userName
     },
     mutations: {
         auth_request(state) {
@@ -40,17 +41,16 @@ export default {
         auth_failed(state) {
             state.status = "failed";
         },
-        logout(state) {
-            state.status = "";
-            state.token = "";
-            state.userName = "";
+        doLogout(state, status) {
+            state.status = status;
+            state.token = status;
+            state.userName = status;
         }
     },
     actions: {
         login({
             commit
         }, user) {
-
             return new Promise((resolve, reject) => {
                 commit("auth_request");
                 axios({
@@ -77,15 +77,42 @@ export default {
                     .catch(err => {
                         console.log(err);
 
-                        commit("auth_error", err.response.data.message);
+
                         window.$cookies.remove("token");
                         window.$cookies.remove("user_name");
+
+                        commit("auth_error", err.response.data.message);
                         reject(err);
                     });
             });
         },
         logout({
             commit
-        }, user) {}
+        }) {
+            return new Promise((resolve, reject) => {
+                commit("auth_request");
+                axios({
+                        url: `${process.env.VUE_APP_API}logout`,
+                        method: "POST"
+                    })
+                    .then(resp => {
+
+                        window.$cookies.remove("token")
+                            .remove("user_name");
+
+                        commit("doLogout",
+                            "");
+
+                        // Add the following line:
+                        axios.defaults.headers.common["Authorization"] = "";
+
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        reject(err);
+                    });
+            });
+        }
     }
 };

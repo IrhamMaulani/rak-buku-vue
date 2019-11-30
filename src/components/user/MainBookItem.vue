@@ -102,6 +102,12 @@ export default {
   },
   methods: {
     bookMark(bookId) {
+      if (window.$cookies.get("token") === null) {
+        alert("You Must Login First");
+        this.$router.push({ path: "/login" });
+        return 0;
+      }
+
       this.$store.dispatch("setStatus", true);
       this.$http({
         url: `${process.env.VUE_APP_API}bookmark`,

@@ -172,7 +172,6 @@ export default {
         .dispatch("logout")
         .then(() => {
           this.overLay = false;
-          this.$router.push("/login");
         })
         .catch(err => console.log(err));
     },

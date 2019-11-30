@@ -14,7 +14,7 @@
                 <v-spacer />
               </v-toolbar>
               <v-card-text>
-                <div class="text-center red--text title">{{authMessage}}</div>
+                <div class="text-center red--text title">{{ authMessage }}</div>
                 <!-- {{authStatus}}
                 {{token}}-->
                 <v-text-field
@@ -57,16 +57,18 @@ export default {
     return {
       email: "",
       password: "",
-      token: localStorage.getItem("token")
+      token: localStorage.getItem("token"),
+      rememberMe: false
     };
   },
   methods: {
     login() {
-      let email = this.email;
-      let password = this.password;
+      const email = this.email;
+      const password = this.password;
+      const rememberMe = this.rememberMe;
 
       this.$store
-        .dispatch("login", { email, password })
+        .dispatch("login", { email, password, rememberMe })
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }

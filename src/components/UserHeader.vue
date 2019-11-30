@@ -118,6 +118,9 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <v-overlay :value="overLay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <dialog-confirm :body="bodyDialog" v-on:confirmDialog="logOut"></dialog-confirm>
   </div>
 </template>
@@ -150,7 +153,8 @@ export default {
         dialog: false,
         message: "Are You Sure Want To Logout?",
         title: "Logout"
-      }
+      },
+      overLay: false
     };
   },
   methods: {
@@ -163,9 +167,13 @@ export default {
         .catch(err => {});
     },
     logOut() {
+      this.overLay = true;
       this.$store
         .dispatch("logout")
-        .then(() => this.$router.push("/login"))
+        .then(() => {
+          this.overLay = false;
+          this.$router.push("/login");
+        })
         .catch(err => console.log(err));
     },
     coba() {

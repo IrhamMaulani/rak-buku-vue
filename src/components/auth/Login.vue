@@ -15,31 +15,28 @@
               </v-toolbar>
               <v-card-text>
                 <div class="text-center red--text title">{{ authMessage }}</div>
-                <!-- {{authStatus}}
-                {{token}}-->
-                <v-text-field
-                  v-model="email"
-                  label="email"
-                  name="login"
-                  prepend-icon="email"
-                  type="text"
-                />
+                <form v-on:submit.prevent>
+                  <v-text-field
+                    v-model="email"
+                    label="email"
+                    name="login"
+                    prepend-icon="email"
+                    type="text"
+                  />
 
-                <v-text-field
-                  id="password"
-                  label="Password"
-                  name="password"
-                  prepend-icon="lock"
-                  type="password"
-                  v-model="password"
-                />
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    prepend-icon="lock"
+                    type="password"
+                    v-model="password"
+                  />
+                  <div class="text-center mb-2">
+                    <v-btn color="primary" v-on:click="login">Login</v-btn>
+                  </div>
+                </form>
               </v-card-text>
-
-              <v-card-actions class="justify-center">
-                <div class="text-center mb-2">
-                  <v-btn color="primary" v-on:click="login">Login</v-btn>
-                </div>
-              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>

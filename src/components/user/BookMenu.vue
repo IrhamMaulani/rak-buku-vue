@@ -123,9 +123,6 @@
               style="position: absolute; top:90%;"
             >
               <div class="d-flex fill-height mt-auto">
-                <span class="mr-6 mb-n1">
-                  <p>Is Owned</p>
-                </span>
                 <span class="mr-6">
                   <v-icon class="mr-2 mb-2">star</v-icon>
                   {{book.score}}
@@ -134,14 +131,27 @@
                   <v-icon class="mr-2 mb-1">favorite</v-icon>
                   {{book.favorites}}
                 </span>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on">
-                      <v-icon>bookmark_border</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Add To Your Wish List</span>
-                </v-tooltip>
+                <span v-if="book.check_bookmarked !== null">
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon v-on="on">
+                        <v-icon>bookmark</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Already Added To Your Wishlist!</span>
+                  </v-tooltip>
+                  <span v-if="book.check_bookmarked.is_owned === 1">Is Owned</span>
+                </span>
+                <span v-else>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon v-on="on" @click="bookMark(book.id)">
+                        <v-icon>bookmark_border</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Add To Your Wish List</span>
+                  </v-tooltip>
+                </span>
               </div>
             </div>
           </v-col>
@@ -149,13 +159,23 @@
         <!-- </v-card-text> -->
       </v-card>
     </v-col>
+    <snack-bar :body="bodySnackBar"></snack-bar>
   </v-row>
 </template>
 
 <script>
+import SnackBar from "../../components/SnackBar";
 export default {
+  components: {
+    SnackBar
+  },
   data() {
     return {
+      bodySnackBar: {
+        timeout: 2000,
+        message: "You Bookmarked It!",
+        snackbar: false
+      },
       dropdown_sort: [
         {
           params: "title_down",
@@ -237,7 +257,11 @@ export default {
     this.getData();
   },
   methods: {
-    getData(orderBy = "created_at", order = "desc", searchParams = 1) {
+    getData(
+      orderBy = this.$route.query.orderBy || "created_at",
+      order = this.$route.query.order || "desc",
+      searchParams = 1
+    ) {
       this.overLay = true;
       let search = "";
 
@@ -264,7 +288,39 @@ export default {
     order() {
       this.overLay = true;
       const orderBy = this.dataOrderBy.find(x => x.id === this.orderById);
-      this.getData(orderBy.orderBy, orderBy.order);
+      this.$router
+        .replace({
+          path: "book",
+          query: { orderBy: orderBy.orderBy, order: orderBy.order }
+        })
+        .catch(err => {});
+
+      this.getData(orderBy.orderBy, orderBy.order, " ");
+    },
+    bookMark(bookId) {
+      this.overLay = true;
+      this.$http({
+        url: `${process.env.VUE_APP_API}bookmark`,
+        method: "POST",
+        data: {
+          status: "wish_list",
+          is_owned: 0,
+          book_id: bookId
+        }
+      })
+        .then(resp => {
+          const queryOrderBy = this.$route.query.orderBy || "created_at";
+          const queryOrder = this.$route.query.order || "desc";
+          const searchQuery = this.$route.query.search || "";
+
+          this.getData(queryOrderBy, queryOrder, searchQuery);
+          this.overLay = false;
+          this.bodySnackBar.snackbar = true;
+        })
+        .catch(err => {
+          console.log(err);
+          alert("ERROR");
+        });
     }
   },
   watch: {

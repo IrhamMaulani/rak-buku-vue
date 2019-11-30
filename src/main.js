@@ -30,7 +30,7 @@ Vue.use(VueCookies)
 Vue.prototype.$http = axios;
 Vue.prototype.$baseUrl = process.env.VUE_APP_API;
 
-const token = localStorage.getItem('token');
+const token = window.$cookies.get('token');
 if (token) {
   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }

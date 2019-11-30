@@ -23,14 +23,26 @@
 
         <div class="d-flex mx-2">
           <p class="pa-2">Vol : {{book.volume}}</p>
-          <v-tooltip left>
-            <template v-slot:activator="{ on }">
-              <v-btn icon v-on="on" class="pa-2 ml-auto">
-                <v-icon>bookmark_border</v-icon>
-              </v-btn>
-            </template>
-            <span>Add To Your Wish List</span>
-          </v-tooltip>
+          <span class="ml-auto" v-if="book.check_bookmarked !== null">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                  <v-icon>bookmark</v-icon>
+                </v-btn>
+              </template>
+              <span>Already Added To Your Wishlist!</span>
+            </v-tooltip>
+          </span>
+          <span class="ml-auto" v-else>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on" @click="bookMark(book.id)">
+                  <v-icon>bookmark_border</v-icon>
+                </v-btn>
+              </template>
+              <span>Add To Your Wish List</span>
+            </v-tooltip>
+          </span>
         </div>
       </v-col>
       <v-col cols="4" class="pa-0">
@@ -56,27 +68,71 @@
         </v-layout>
       </v-col>
     </v-row>
+    <snack-bar :body="bodySnackBar"></snack-bar>
   </div>
 
   <!--  -->
 </template>
 
 <script>
+import SnackBar from "../../components/SnackBar";
 export default {
-  props: {
-    datas: {
-      required: true
-    }
+  components: {
+    SnackBar
   },
   data() {
     return {
       url: this.$baseUrl,
-      defaultImg: "require('../../assets/cover-book.jpg')"
+      defaultImg: "require('../../assets/cover-book.jpg')",
+      datas: [],
+      bodySnackBar: {
+        timeout: 2000,
+        message: "You Bookmarked It!",
+        snackbar: false
+      }
     };
+  },
+  created() {
+    this.getData();
   },
   computed: {
     imageDefault() {
       return this.defaultImg;
+    }
+  },
+  methods: {
+    bookMark(bookId) {
+      this.$store.dispatch("setStatus", true);
+      this.$http({
+        url: `${process.env.VUE_APP_API}bookmark`,
+        method: "POST",
+        data: {
+          status: "wish_list",
+          is_owned: 0,
+          book_id: bookId
+        }
+      })
+        .then(resp => {
+          this.$store.dispatch("setStatus", false);
+          this.getData();
+          this.bodySnackBar.snackbar = true;
+        })
+        .catch(err => {
+          console.log(err);
+          alert("ERROR");
+        });
+    },
+    getData() {
+      this.$store.dispatch("setStatus", true);
+      this.$http
+        .get(`${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10`)
+        .then(result => {
+          this.datas = result.data;
+          this.$store.dispatch("setStatus", false);
+        })
+        .catch(error => {
+          alert(error);
+        });
     }
   }
 };

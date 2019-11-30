@@ -38,7 +38,11 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-item v-for="(item, index) in lists" :key="index" @click>
+                  <v-list-item
+                    v-for="(item, index) in lists"
+                    :key="index"
+                    @click="helper(item.method)"
+                  >
                     <router-link :to="item.url">
                       <v-list-item-title>
                         <v-icon class="mr-2">{{item.icon}}</v-icon>
@@ -114,17 +118,22 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="logOut"></dialog-confirm>
   </div>
 </template>
 
 <script>
+import DialogConfirm from "../components/DialogConfirm";
 export default {
+  components: {
+    DialogConfirm
+  },
   data() {
     return {
       lists: [
         { title: "Profile", icon: "person", url: "/profile" },
         { title: "Setting", icon: "settings", url: "/admin/add-user" },
-        { title: "Log Out", icon: "exit_to_app", url: "/add-blog" }
+        { title: "Log Out", icon: "exit_to_app", url: "", method: "coba" }
       ],
       listsGuest: [
         { title: "Login", icon: "exit_to_app", url: "/login" },
@@ -136,7 +145,12 @@ export default {
         { title: "Books", icon: "menu_book", url: "/book" },
         { title: "Reviews", icon: "record_voice_over", url: "/reviews" }
       ],
-      searchQuery: ""
+      searchQuery: "",
+      bodyDialog: {
+        dialog: false,
+        message: "Are You Sure Want To Logout?",
+        title: "Logout"
+      }
     };
   },
   methods: {
@@ -147,6 +161,22 @@ export default {
       this.$router
         .replace({ path: "book", query: { search: this.searchQuery } })
         .catch(err => {});
+    },
+    logOut() {
+      this.$store
+        .dispatch("logout")
+        .then(() => this.$router.push("/login"))
+        .catch(err => console.log(err));
+    },
+    coba() {
+      alert("coba");
+    },
+    helper(method) {
+      // alert(method);
+      if (method !== undefined) {
+        this.bodyDialog.dialog = true;
+        // this[method]();
+      }
     }
   },
   computed: {

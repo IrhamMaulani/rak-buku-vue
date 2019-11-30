@@ -6,6 +6,8 @@ import 'vuetify/dist/vuetify.css';
 import Routes from './routes'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from "axios";
+import VueCookies from 'vue-cookies'
+
 
 
 Vue.config.productionTip = false
@@ -22,6 +24,8 @@ const vuetify = new Vuetify({
     }
   }
 })
+
+Vue.use(VueCookies)
 
 Vue.prototype.$http = axios;
 Vue.prototype.$baseUrl = process.env.VUE_APP_API;

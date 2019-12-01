@@ -118,7 +118,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-overlay :value="overLay">
+    <v-overlay :value="status">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
     <dialog-confirm :body="bodyDialog" v-on:confirmDialog="logOut"></dialog-confirm>
@@ -192,6 +192,9 @@ export default {
     },
     userName() {
       return this.$store.getters.userName;
+    },
+    status() {
+      return this.$store.getters.status;
     }
   }
 };

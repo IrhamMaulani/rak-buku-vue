@@ -24,6 +24,30 @@
         </template>
       </v-overflow-btn>
     </v-col>
+    <!-- <v-col cols="1"></v-col> -->
+    <v-col offset-md="6" class="mt-6">
+      <div class="d-flex justify-end">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn text class="d-flex click-custom mt-2 justify-end" v-on="on">
+              <v-icon class>add</v-icon>
+              <span class="mx-1">Add New</span>
+              <v-icon class>keyboard_arrow_down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, index) in addNewList" :key="index">
+              <router-link :to="item.url">
+                <v-list-item-title>
+                  <v-icon class="mr-2">{{item.icon}}</v-icon>
+                  {{ item.title }}
+                </v-list-item-title>
+              </router-link>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+    </v-col>
     <v-col cols="12" class>
       <v-card flat class="border" v-for="(book, index) in books.data" :key="index">
         <!-- <v-card-title class="border"></v-card-title> -->
@@ -248,7 +272,12 @@ export default {
         }
       ],
       overLay: true,
-      search: this.$route.query.search
+      search: this.$route.query.search,
+      addNewList: [
+        { title: "Book", icon: "menu_book", url: "/profile" },
+        { title: "Author", icon: "person", url: "/admin/add-user" },
+        { title: "Publisher", icon: "business", url: "" }
+      ]
     };
   },
   created() {

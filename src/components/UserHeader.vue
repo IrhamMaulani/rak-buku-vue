@@ -38,18 +38,14 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-item
-                    v-for="(item, index) in lists"
-                    :key="index"
-                    @click="helper(item.method)"
-                  >
-                    <router-link :to="item.url">
+                  <router-link v-for="(item, index) in lists" :key="index" :to="item.url">
+                    <v-list-item @click="helper(item.method)">
                       <v-list-item-title>
                         <v-icon class="mr-2">{{item.icon}}</v-icon>
                         {{ item.title }}
                       </v-list-item-title>
-                    </router-link>
-                  </v-list-item>
+                    </v-list-item>
+                  </router-link>
                 </v-list>
               </v-menu>
             </div>
@@ -63,14 +59,14 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-item v-for="(item, index) in listsGuest" :key="index" @click>
-                    <router-link :to="item.url">
+                  <router-link v-for="(item, index) in listsGuest" :key="index" :to="item.url">
+                    <v-list-item @click>
                       <v-list-item-title>
                         <v-icon class="mr-2">{{item.icon}}</v-icon>
                         {{ item.title }}
                       </v-list-item-title>
-                    </router-link>
-                  </v-list-item>
+                    </v-list-item>
+                  </router-link>
                 </v-list>
               </v-menu>
             </div>
@@ -167,11 +163,12 @@ export default {
         .catch(err => {});
     },
     logOut() {
-      this.overLay = true;
+      this.$store.dispatch("setStatus", true);
       this.$store
         .dispatch("logout")
         .then(() => {
-          this.overLay = false;
+          this.$store.dispatch("setStatus", false);
+          window.location.reload();
         })
         .catch(err => console.log(err));
     },

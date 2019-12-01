@@ -19,7 +19,7 @@
         <v-col cols="5">
           <p class="ma-0 pa-0 caption">
             <v-icon class="mr-1 mb-1">menu_book</v-icon>
-            <router-link :to="url">{{review.book.title | snippet(18) }}</router-link>
+            <router-link :to="'book/' + review.book.slug">{{review.book.title | snippet(18) }}</router-link>
           </p>
         </v-col>
         <v-col cols="2">

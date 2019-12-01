@@ -113,7 +113,7 @@ export default {
         url: `${process.env.VUE_APP_API}bookmark`,
         method: "POST",
         data: {
-          status: "wish_list",
+          status: "Wish List",
           is_owned: 0,
           book_id: bookId
         }

@@ -25,7 +25,7 @@
       </v-overflow-btn>
     </v-col>
     <v-col cols="12" class>
-      <v-card flat class="border" v-for="(book, index) in books.data" :key="book.id">
+      <v-card flat class="border" v-for="(book, index) in books.data" :key="index">
         <!-- <v-card-title class="border"></v-card-title> -->
         <!-- <v-card-text> -->
         <div class="d-flex justify-end mr-4">
@@ -86,17 +86,15 @@
             </div>
 
             <p class="subtitle-1">
-              <router-link v-for="(tag, index) in book.tags" :key="tag.id" :to="url">
+              <router-link v-for="(tag, index) in book.tags" :key="index" :to="url">
                 <span v-if="index != 0">{{', '}}</span>
                 <span>{{tag.name}}</span>
               </router-link>
-              <!-- <router-link :to="url">Manga</router-link>,
-              <router-link :to="url">Fucking Weaboo</router-link>-->
             </p>
 
             <div class="mt-6">
               <p class="display-2 font-weight-bold">
-                <router-link :to="url">{{book.title}}</router-link>
+                <router-link :to="'book/' + book.slug">{{book.title}}</router-link>
               </p>
             </div>
 
@@ -309,7 +307,7 @@ export default {
         url: `${process.env.VUE_APP_API}bookmark`,
         method: "POST",
         data: {
-          status: "wish_list",
+          status: "Wish List",
           is_owned: 0,
           book_id: bookId
         }

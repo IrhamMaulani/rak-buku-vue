@@ -22,7 +22,7 @@
         </div>
       </v-col>
       <v-col cols="9" class="pa-0 ma-0">
-        <router-link :to="url">
+        <router-link :to="'book/' + book.slug">
           <p class="subtitle-2">{{book.title}}</p>
         </router-link>
         <div class="d-flex ma-0 pa-0">

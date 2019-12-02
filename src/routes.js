@@ -8,6 +8,7 @@ import Profile from "./components/user/Profile.vue";
 import Review from "./components/user/Review.vue";
 import BookMenu from "./components/user/BookMenu.vue";
 import BookItem from "./components/user/BookItem.vue";
+import AddBook from "./components/user/AddBook.vue";
 import Login from "./components/auth/Login.vue";
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -49,6 +50,10 @@ const router = new Router({
                 {
                     path: "book/:id",
                     component: BookItem
+                },
+                {
+                    path: "add-book",
+                    component: AddBook
                 },
                 {
                     path: "book/:id/reviews",

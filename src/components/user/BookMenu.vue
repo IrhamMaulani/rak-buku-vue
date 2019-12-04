@@ -274,9 +274,9 @@ export default {
       overLay: true,
       search: this.$route.query.search,
       addNewList: [
-        { title: "Book", icon: "menu_book", url: "/profile" },
-        { title: "Author", icon: "person", url: "/admin/add-user" },
-        { title: "Publisher", icon: "business", url: "" }
+        { title: "Book", icon: "menu_book", url: "/add-book" },
+        { title: "Author", icon: "person", url: "/add-author" },
+        { title: "Publisher", icon: "business", url: "/add-publisher" }
       ]
     };
   },

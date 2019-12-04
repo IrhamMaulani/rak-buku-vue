@@ -35,7 +35,10 @@
 
       <v-row class="white mt-12">
         <v-col cols="6" class>
-          <p>Vol {{book.volume}}</p>
+          <div class="mb-4">
+            <span>Vol {{book.volume}}</span>
+            <span class="ml-8">Edition {{book.edition}}</span>
+          </div>
           <p>
             Pengarang :
             <router-link v-for="(author, index) in book.authors" :key="index" :to="url">

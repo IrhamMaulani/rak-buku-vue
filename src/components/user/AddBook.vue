@@ -56,13 +56,13 @@
           <v-col cols="6" class="mt-n8">
             <small>
               Can't Find The Author? Add
-              <router-link :to="'add-author'">Here</router-link>
+              <router-link :to="'add-author'" target="_blank">Here</router-link>
             </small>
           </v-col>
           <v-col cols="6" class="mt-n8">
             <small>
               Can't Find The Publisher? Add
-              <router-link :to="'add-publisher'">Here</router-link>
+              <router-link :to="'add-publisher'" target="_blank">Here</router-link>
             </small>
           </v-col>
           <v-col cols="12">
@@ -91,13 +91,31 @@
         <v-btn :disabled="!formIsValid" text color="primary" type="submit">Register</v-btn>
       </v-card-actions>
     </v-form>
+    <snack-bar :body="bodySnackBar"></snack-bar>
+    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="postData"></dialog-confirm>
   </v-card>
 </template>
 
 <script>
+import SnackBar from "../../components/SnackBar";
+import DialogConfirm from "../../components/DialogConfirm";
 export default {
+  components: {
+    SnackBar,
+    DialogConfirm
+  },
   data() {
     return {
+      bodyDialog: {
+        dialog: false,
+        message: "Added This Book?",
+        title: "Add Book"
+      },
+      bodySnackBar: {
+        timeout: 2000,
+        message: "",
+        snackbar: false
+      },
       form: {
         title: "",
         volume: "",
@@ -148,7 +166,8 @@ export default {
       this.$refs.form.reset();
     },
     submit() {
-      this.postData();
+      // this.postData();
+      this.bodyDialog.dialog = true;
       // this.resetForm();
     },
     getData() {
@@ -187,9 +206,14 @@ export default {
         })
         .then(response => {
           this.$store.dispatch("setStatus", false);
+          this.bodySnackBar.message = "Success Added Book!";
+          this.bodySnackBar.snackbar = true;
+          this.resetForm();
         })
         .catch(error => {
-          alert("error");
+          this.$store.dispatch("setStatus", false);
+          this.bodySnackBar.message = "Failed Add Book!";
+          this.bodySnackBar.snackbar = true;
         });
     },
     handleFileUpload() {}

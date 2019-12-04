@@ -61,7 +61,7 @@
               <v-card color="grey lighten-4" class="mr-4">
                 <div v-if="book.book_images_cover !== null">
                   <v-img
-                    :src="book.book_images_cover.name"
+                    :src="`${imageUrl}storage/${book.book_images_cover.name}`"
                     lazy-src="https://picsum.photos/id/11/10/6"
                     min-height="570"
                     :aspect-ratio="16/9"
@@ -193,9 +193,10 @@ export default {
   },
   data() {
     return {
+      imageUrl: "http://localhost/rak-buku-web/public/",
       bodySnackBar: {
         timeout: 2000,
-        message: "You Bookmarked It!",
+        message: "",
         snackbar: false
       },
       dropdown_sort: [
@@ -348,11 +349,13 @@ export default {
 
           this.getData(queryOrderBy, queryOrder, searchQuery);
           this.overLay = false;
+          this.bodySnackBar.message = "You Bookmarked It!";
           this.bodySnackBar.snackbar = true;
         })
         .catch(err => {
-          console.log(err);
-          alert("ERROR");
+          this.overLay = false;
+          this.bodySnackBar.message = "Failed!";
+          this.bodySnackBar.snackbar = true;
         });
     }
   },

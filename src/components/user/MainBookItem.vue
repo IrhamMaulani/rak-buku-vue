@@ -49,7 +49,7 @@
         <v-layout align-center justify-center v-if="book.book_images_cover !== null">
           <v-img
             class="justify-center"
-            :src="book.book_images_cover.name"
+            :src="`${url}storage/${book.book_images_cover.name}`"
             :lazy-src="require('../../assets/cover-book.jpg')"
             aspect-ratio="1"
             max-width="200"
@@ -82,12 +82,12 @@ export default {
   },
   data() {
     return {
-      url: this.$baseUrl,
+      url: "http://localhost/rak-buku-web/public/",
       defaultImg: "require('../../assets/cover-book.jpg')",
       datas: [],
       bodySnackBar: {
         timeout: 2000,
-        message: "You Bookmarked It!",
+        message: "",
         snackbar: false
       }
     };
@@ -121,11 +121,13 @@ export default {
         .then(resp => {
           this.$store.dispatch("setStatus", false);
           this.getData();
+          this.bodySnackBar.message = "You Bookmarked It!";
           this.bodySnackBar.snackbar = true;
         })
         .catch(err => {
-          console.log(err);
-          alert("ERROR");
+          this.$store.dispatch("setStatus", false);
+          this.bodySnackBar.message = "Failed";
+          this.bodySnackBar.snackbar = true;
         });
     },
     getData() {

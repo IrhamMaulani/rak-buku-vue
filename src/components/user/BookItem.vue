@@ -3,7 +3,7 @@
     <v-col cols="12" md="7" lg="7">
       <div v-if="book.book_images_cover !== null">
         <v-img
-          :src="book.book_images_cover.name"
+          :src="`${url}storage/${book.book_images_cover.name}`"
           lazy-src="https://picsum.photos/id/11/10/6"
           height="825"
         />
@@ -87,21 +87,29 @@
       <v-divider class="mb-6"></v-divider>
       <review />
     </v-col>
+    <snack-bar :body="bodySnackBar"></snack-bar>
   </v-row>
 </template>
 
 <script>
 import Review from "../user/Review";
+import SnackBar from "../../components/SnackBar";
 export default {
   components: {
-    review: Review
+    review: Review,
+    SnackBar
   },
   created() {
     this.getData();
   },
   data() {
     return {
-      url: "",
+      bodySnackBar: {
+        timeout: 2000,
+        message: "",
+        snackbar: false
+      },
+      url: "http://localhost/rak-buku-web/public/",
       reviewUrl: "1/reviews",
       statuses: [
         { id: 1, name: "Wish List" },
@@ -175,10 +183,14 @@ export default {
         .post(`${process.env.VUE_APP_API}bookmark`, data)
         .then(result => {
           this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Success Added Status!";
+          this.bodySnackBar.snackbar = true;
           this.getData();
         })
         .catch(err => {
-          alert(error);
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Failed";
+          this.bodySnackBar.snackbar = true;
         });
     },
     addScore() {
@@ -192,10 +204,14 @@ export default {
         .post(`${process.env.VUE_APP_API}score`, data)
         .then(result => {
           this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Success Scored Book!";
+          this.bodySnackBar.snackbar = true;
           this.getData();
         })
         .catch(err => {
-          alert(error);
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Failed Scored Book!";
+          this.bodySnackBar.snackbar = true;
         });
     }
   }

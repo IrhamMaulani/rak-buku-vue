@@ -9,6 +9,8 @@ import Review from "./components/user/Review.vue";
 import BookMenu from "./components/user/BookMenu.vue";
 import BookItem from "./components/user/BookItem.vue";
 import AddBook from "./components/user/AddBook.vue";
+import AddPublisher from "./components/user/AddPublisher.vue";
+import AddAuthor from "./components/user/AddAuthor.vue";
 import Login from "./components/auth/Login.vue";
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -53,7 +55,24 @@ const router = new Router({
                 },
                 {
                     path: "add-book",
-                    component: AddBook
+                    component: AddBook,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: "add-author",
+                    component: AddAuthor,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: "add-publisher",
+                    component: AddPublisher,
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: "book/:id/reviews",

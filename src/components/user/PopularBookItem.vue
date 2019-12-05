@@ -26,7 +26,7 @@
           <p class="subtitle-2">{{book.title}}</p>
         </router-link>
         <div class="d-flex ma-0 pa-0">
-          <router-link :to="url">
+          <router-link :to="imageUrl">
             <p class="ma-0 pa-0">Vol {{book.volume}}</p>
           </router-link>
           <p class="ml-auto my-0 pa-0">

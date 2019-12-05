@@ -150,7 +150,7 @@ export default {
         this.form.print_year &&
         this.form.origin_language &&
         this.form.publisher_id &&
-        // this.form.book_images &&
+        this.files &&
         this.form.tags &&
         this.form.authors
       );

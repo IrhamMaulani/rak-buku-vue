@@ -7,13 +7,13 @@
           <v-card-text class="text--primary mt-8 text-center">
             <v-avatar v-if="userProfile.image_profile !== null" size="180" class>
               <v-img
-                :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
+                :src="`${imageUrl}storage/${userProfile.image_profile.name}` "
                 lazy-src="https://picsum.photos/id/11/10/6"
               />
             </v-avatar>
             <v-avatar v-else size="180" class>
               <v-img
-                :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
+                :src="require('../../assets/cover-book.jpg')"
                 lazy-src="https://picsum.photos/id/11/10/6"
               />
             </v-avatar>
@@ -129,6 +129,7 @@
       </v-card>
     </v-col>
     <dialog-confirm :body="bodyDialog" v-on:confirmDialog="functionHelper"></dialog-confirm>
+    <snack-bar :body="bodySnackBar"></snack-bar>
   </v-row>
 </template>
 
@@ -172,9 +173,7 @@ export default {
         reputation: {
           name: ""
         },
-        image_profile: {
-          name: ""
-        }
+        image_profile: null
       },
       bodyDialog: {
         dialog: false,
@@ -244,7 +243,7 @@ export default {
       }
       form.delete("image_profile");
       form.delete("reputation");
-      if (this.avatar.imageFile !== null) {
+      if (this.avatar) {
         form.append("image_profile", this.avatar.imageFile);
       }
 
@@ -256,13 +255,14 @@ export default {
           headers: { "content-type": "multipart/form-data" }
         })
         .then(response => {
+          this.getData();
           window.$cookies.set("user_name", this.userProfile.name);
           this.$store.dispatch("setStatus", false);
           this.bodySnackBar.message = "Success Added Book!";
           this.bodySnackBar.snackbar = true;
-          this.resetForm();
         })
         .catch(error => {
+          console.log(error);
           this.$store.dispatch("setStatus", false);
           this.bodySnackBar.message = "Failed Add Book!";
           this.bodySnackBar.snackbar = true;

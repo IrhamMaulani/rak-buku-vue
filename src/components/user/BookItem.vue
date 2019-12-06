@@ -131,7 +131,7 @@ export default {
         { id: 10 }
       ],
       book: {
-        book_images_cover: {},
+        book_images_cover: null,
         publisher: {}
       },
       slug: this.$route.params.id,

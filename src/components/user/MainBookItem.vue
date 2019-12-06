@@ -11,7 +11,7 @@
         <router-link :to="'/book/' + book.slug">
           <h1 class="mx-4">{{book.title}}</h1>
         </router-link>
-        <p class=".body-2 mx-4 mt-4">{{book.description}}</p>
+        <p class=".body-2 mx-4 mt-4">{{book.description | snippet(50)}}</p>
 
         <p class="mx-4 body-1">
           Pengarang :

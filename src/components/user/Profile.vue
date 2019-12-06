@@ -258,13 +258,13 @@ export default {
           this.getData();
           window.$cookies.set("user_name", this.userProfile.name);
           this.$store.dispatch("setStatus", false);
-          this.bodySnackBar.message = "Success Added Book!";
+          this.bodySnackBar.message = "Success!";
           this.bodySnackBar.snackbar = true;
         })
         .catch(error => {
           console.log(error);
           this.$store.dispatch("setStatus", false);
-          this.bodySnackBar.message = "Failed Add Book!";
+          this.bodySnackBar.message = "Failed!";
           this.bodySnackBar.snackbar = true;
         });
     }

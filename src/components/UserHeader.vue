@@ -159,7 +159,7 @@ export default {
       // alert(this.searchQuery);
 
       this.$router
-        .replace({ path: "book", query: { search: this.searchQuery } })
+        .replace({ path: "/book", query: { search: this.searchQuery } })
         .catch(err => {});
     },
     logOut() {

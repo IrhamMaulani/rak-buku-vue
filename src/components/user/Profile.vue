@@ -72,7 +72,15 @@
               <div slot="activator">
                 <v-avatar size="180" v-ripple v-if="!avatar" class="grey lighten-3">
                   <v-img
+                    v-if="userProfile.image_profile !== null"
                     :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
+                    lazy-src="https://picsum.photos/id/11/10/6"
+                  >
+                    <v-icon color="white" size="33">camera_alt</v-icon>
+                  </v-img>
+                  <v-img
+                    v-else
+                    :src="require('../../assets/cover-book.jpg')"
                     lazy-src="https://picsum.photos/id/11/10/6"
                   >
                     <v-icon color="white" size="33">camera_alt</v-icon>

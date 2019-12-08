@@ -24,7 +24,7 @@
               <template v-slot:activator="{ on }">
                 <v-text-field
                   v-model="form.birth_date"
-                  label="Picker without buttons"
+                  label="Birth Date"
                   prepend-icon="event"
                   readonly
                   v-on="on"

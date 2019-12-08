@@ -202,7 +202,7 @@ export default {
       this.$store.dispatch("setStatus", true);
       this.$http
         .post(this.$baseUrl + "book", form, {
-          headers: { "content-type": "multipart/form-data" }
+          headers: { "content-type": "application/x-www-form-urlencoded" }
         })
         .then(response => {
           this.$store.dispatch("setStatus", false);

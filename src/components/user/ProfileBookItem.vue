@@ -28,8 +28,10 @@
                   >
                     <div class="overline justify-center text-center mt-2">
                       <!-- <v-icon dark class="text-center">star_border</v-icon>6.9 -->
-                      <p class="text-center">Owned</p>
-                      <router-link :to="url">
+                      <p class="text-center" v-if="check_bookmarked != null">
+                        <span v-if="check_bookmarked.is_owned == 1">Owned</span>
+                      </p>
+                      <router-link :to="'/book/' + data.slug">
                         <p>{{data.title}}</p>
                       </router-link>
 
@@ -78,7 +80,7 @@
                     <div class="overline justify-center text-center mt-2">
                       <!-- <v-icon dark class="text-center">star_border</v-icon>6.9 -->
                       <p class="text-center">Owned</p>
-                      <router-link :to="url">
+                      <router-link :to="'/book/' + data.slug">
                         <p>{{data.title}}</p>
                       </router-link>
 
@@ -124,31 +126,18 @@
 
 <script>
 export default {
-  created() {
-    this.getData();
-  },
   data() {
     return {
       url: "/",
-      datas: [],
       imageUrl: "http://localhost/rak-buku-web/public/"
     };
   },
-  methods: {
-    getData() {
-      this.$store.dispatch("setStatus", true);
-      this.$http
-        .get(`${this.$baseUrl}bookmark`)
-        .then(result => {
-          this.datas = result.data;
-          this.$store.dispatch("setStatus", false);
-        })
-        .catch(error => {
-          alert(error);
-          this.$store.dispatch("setStatus", false);
-        });
+  props: {
+    datas: {
+      required: true
     }
-  }
+  },
+  methods: {}
 };
 </script>
 

@@ -121,18 +121,41 @@
       <v-card height="590">
         <v-card-title class="pb-0"></v-card-title>
         <v-card-text class="text--primary mt-8">
-          <v-layout align-center justify-center>
-            <div class="my-2">
-              <v-btn text>My Book</v-btn>
-            </div>
-            <div class="my-2">
-              <v-btn text>Wish List</v-btn>
-            </div>
-            <div class="my-2">
-              <v-btn text>Favorite</v-btn>
-            </div>
-          </v-layout>
-          <profile-book></profile-book>
+          <v-tabs class="mt-12" centered>
+            <v-tab>Followed Book</v-tab>
+            <v-tab>Owned</v-tab>
+            <v-tab>Favorite</v-tab>
+            <v-tab>Wish List</v-tab>
+
+            <v-tab-item>
+              <v-card flat>
+                <v-card-text>
+                  <profile-book></profile-book>
+                </v-card-text>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
+                <v-card-text>
+                  <profile-book></profile-book>
+                </v-card-text>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
+                <v-card-text>
+                  <profile-book></profile-book>
+                </v-card-text>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card flat>
+                <v-card-text>
+                  <profile-book></profile-book>
+                </v-card-text>
+              </v-card>
+            </v-tab-item>
+          </v-tabs>
         </v-card-text>
       </v-card>
     </v-col>

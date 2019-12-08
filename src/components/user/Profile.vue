@@ -122,36 +122,36 @@
         <v-card-title class="pb-0"></v-card-title>
         <v-card-text class="text--primary mt-8">
           <v-tabs class="mt-12" centered>
-            <v-tab>Followed Book</v-tab>
-            <v-tab>Owned</v-tab>
-            <v-tab>Favorite</v-tab>
-            <v-tab>Wish List</v-tab>
+            <v-tab @click="getAllBook">Followed Book</v-tab>
+            <v-tab @click="getOwned">Owned</v-tab>
+            <v-tab @click="getFavorite">Favorite</v-tab>
+            <v-tab @click="getWishList">Wish List</v-tab>
 
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book></profile-book>
+                  <profile-book :datas="allBook"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book></profile-book>
+                  <profile-book :datas="ownedBook"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book></profile-book>
+                  <profile-book :datas="favoriteBook"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book></profile-book>
+                  <profile-book :datas="wishList"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -178,6 +178,7 @@ export default {
   },
   created() {
     this.getData();
+    this.getAllBook();
   },
   data() {
     return {
@@ -215,7 +216,11 @@ export default {
         timeout: 2000,
         message: "",
         snackbar: false
-      }
+      },
+      allBook: [],
+      ownedBook: [],
+      favoriteBook: [],
+      wishList: []
     };
   },
   watch: {
@@ -298,6 +303,66 @@ export default {
           this.bodySnackBar.message = "Failed!";
           this.bodySnackBar.snackbar = true;
         });
+    },
+    getAllBook() {
+      if (this.allBook.length != null) {
+        this.$store.dispatch("setStatus", true);
+        this.$http
+          .get(`${this.$baseUrl}bookmark`)
+          .then(result => {
+            this.allBook = result.data;
+            this.$store.dispatch("setStatus", false);
+          })
+          .catch(error => {
+            alert(error);
+            this.$store.dispatch("setStatus", false);
+          });
+      }
+    },
+    getOwned() {
+      if (this.ownedBook.length != null) {
+        this.$store.dispatch("setStatus", true);
+        this.$http
+          .get(`${this.$baseUrl}bookmark?isOwned=1`)
+          .then(result => {
+            this.ownedBook = result.data;
+            this.$store.dispatch("setStatus", false);
+          })
+          .catch(error => {
+            alert(error);
+            this.$store.dispatch("setStatus", false);
+          });
+      }
+    },
+    getFavorite() {
+      if (this.favoriteBook.length != null) {
+        this.$store.dispatch("setStatus", true);
+        this.$http
+          .get(`${this.$baseUrl}bookmark?isFavorite=1`)
+          .then(result => {
+            this.favoriteBook = result.data;
+            this.$store.dispatch("setStatus", false);
+          })
+          .catch(error => {
+            alert(error);
+            this.$store.dispatch("setStatus", false);
+          });
+      }
+    },
+    getWishList() {
+      if (this.wishList.length != null) {
+        this.$store.dispatch("setStatus", true);
+        this.$http
+          .get(`${this.$baseUrl}bookmark?status=Wish List`)
+          .then(result => {
+            this.wishList = result.data;
+            this.$store.dispatch("setStatus", false);
+          })
+          .catch(error => {
+            alert(error);
+            this.$store.dispatch("setStatus", false);
+          });
+      }
     }
   },
   computed: {

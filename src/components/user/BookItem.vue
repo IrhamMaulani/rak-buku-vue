@@ -76,28 +76,43 @@
     <v-col cols="12" md="12" lg="12">
       <h1>Reviews</h1>
       <div class="d-flex justify-end">
-        <v-icon class="mr-1 mb-4">create</v-icon>
-        <router-link :to="reviewUrl">
+        <v-btn text small v-on:click="openModal">
+          <v-icon class="mr-1 mb-4">create</v-icon>
           <p class="mr-5">Write Review</p>
-        </router-link>
+        </v-btn>
+
         <router-link :to="reviewUrl">
           <p>More Reviews</p>
         </router-link>
       </div>
       <v-divider class="mb-6"></v-divider>
-      <review />
+      <review ref="review" />
     </v-col>
     <snack-bar :body="bodySnackBar"></snack-bar>
+    <half-modal ref="halfModal" v-on:saveData="submitReview($event)">
+      <div slot="form-content">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field label="Title" v-model="review.title" required></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea name="input-7-1" label="Your Review" v-model="review.content" required></v-textarea>
+          </v-col>
+        </v-row>
+      </div>
+    </half-modal>
   </v-row>
 </template>
 
 <script>
 import Review from "../user/Review";
 import SnackBar from "../../components/SnackBar";
+import HalfModal from "../../components/HalfModal";
 export default {
   components: {
     review: Review,
-    SnackBar
+    SnackBar,
+    HalfModal
   },
   created() {
     this.getData();
@@ -136,10 +151,39 @@ export default {
       },
       slug: this.$route.params.id,
       status: {},
-      userScore: {}
+      userScore: {},
+      review: {
+        title: "",
+        content: "",
+        slug: ""
+      }
     };
   },
   methods: {
+    openModal() {
+      this.$refs.halfModal.openModal("Add Reviews", "Submit");
+    },
+    submitReview() {
+      this.review.slug = this.slug;
+      this.$store.dispatch("setStatus", true);
+      this.$http
+        .post(`${process.env.VUE_APP_API}review`, this.review)
+        .then(result => {
+          this.$store.dispatch("setStatus", false);
+          this.bodySnackBar.message = "Success Added Review!";
+          this.bodySnackBar.snackbar = true;
+          this.review.title = "";
+          this.review.content = "";
+          this.review.slug = "";
+          this.$refs.halfModal.closeModal();
+          this.$refs.review.getData();
+        })
+        .catch(err => {
+          this.$store.dispatch("setStatus", false);
+          this.bodySnackBar.message = "Failed";
+          this.bodySnackBar.snackbar = true;
+        });
+    },
     getData() {
       this.$store.dispatch("setStatus", true);
       this.$http

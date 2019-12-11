@@ -38,6 +38,9 @@ export default {
     },
     saveData() {
       this.$emit("saveData");
+    },
+    closeModal() {
+      this.dialog = false;
     }
   }
 };

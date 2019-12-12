@@ -75,7 +75,7 @@
                         <div
                           class="body-1 justify-center text-center mx-4"
                           :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
-                        >{{book.description}}</div>
+                        >{{book.description | snippet(1000)}}</div>
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -297,7 +297,7 @@ export default {
   methods: {
     getData(
       orderBy = this.$route.query.orderBy || "created_at",
-      order = this.$route.query.order || "asc",
+      order = this.$route.query.order || "desc",
       searchParams = 1
     ) {
       this.overLay = true;

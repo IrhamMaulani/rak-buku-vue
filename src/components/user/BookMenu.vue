@@ -287,7 +287,7 @@ export default {
   methods: {
     getData(
       orderBy = this.$route.query.orderBy || "created_at",
-      order = this.$route.query.order || "desc",
+      order = this.$route.query.order || "asc",
       searchParams = 1
     ) {
       this.overLay = true;
@@ -300,6 +300,9 @@ export default {
       if (searchParams !== 1) {
         search = searchParams;
       }
+
+      console.log(orderBy);
+      console.log(order);
 
       this.$http
         .get(
@@ -361,9 +364,15 @@ export default {
   },
   watch: {
     $route(to, from) {
-      // console.log(to.query.search);
-      this.getData("created_at", "desc", to.query.search);
+      this.getData(
+        this.$route.query.orderBy,
+        this.$route.query.order,
+        to.query.search
+      );
     }
+    // "$route.query.search"() {
+    //   this.getData($route.query.search);
+    // }
   }
 };
 </script>

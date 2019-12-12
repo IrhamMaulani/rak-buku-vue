@@ -13,7 +13,7 @@
         <v-col cols="5">
           <p class="ma-0 pa-0 caption">
             <v-icon class="mr-1 mb-1">person</v-icon>
-            <router-link :to="url">{{review.user.name | snippet(16)}}</router-link>
+            {{review.user.name | snippet(15)}}
           </p>
         </v-col>
         <v-col cols="5">

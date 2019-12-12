@@ -110,7 +110,11 @@
             </div>
 
             <p class="subtitle-1">
-              <router-link v-for="(tag, index) in book.tags" :key="index" :to="url">
+              <router-link
+                v-for="(tag, index) in book.tags"
+                :key="index"
+                :to="{ path: '/book', query: {tag: tag.name } }"
+              >
                 <span v-if="index != 0">{{', '}}</span>
                 <span>{{tag.name}}</span>
               </router-link>
@@ -125,7 +129,11 @@
             <div class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular">
               <p class="mr-3">
                 Pengarang :
-                <router-link v-for="(author, index) in book.authors" :key="index" :to="url">
+                <router-link
+                  v-for="(author, index) in book.authors"
+                  :key="index"
+                  :to="{ path: '/book', query: {author: author.name } }"
+                >
                   <span v-if="index != 0">{{', '}}</span>
                   <span>{{author.name}}</span>
                 </router-link>
@@ -133,7 +141,9 @@
 
               <p class="mr-3">
                 Publisher :
-                <router-link :to="url">{{book.publisher.name}}</router-link>
+                <router-link
+                  :to="{ path: '/book', query: {publisher: book.publisher.name } }"
+                >{{book.publisher.name}}</router-link>
               </p>
               <p>
                 <v-icon class="mr-2">print</v-icon>
@@ -303,10 +313,11 @@ export default {
 
       const tag = this.$route.query.tag || "";
       const author = this.$route.query.author || "";
+      const publisher = this.$route.query.publisher || "";
 
       this.$http
         .get(
-          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&author=${author}&tag=${tag}&limit=5`
+          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&author=${author}&publisher=${publisher}&tag=${tag}&limit=5`
         )
         .then(result => {
           this.books = result.data;

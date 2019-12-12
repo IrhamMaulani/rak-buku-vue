@@ -301,12 +301,12 @@ export default {
         search = searchParams;
       }
 
-      console.log(orderBy);
-      console.log(order);
+      const tag = this.$route.query.tag || "";
+      const author = this.$route.query.author || "";
 
       this.$http
         .get(
-          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&limit=5`
+          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&author=${author}&tag=${tag}&limit=5`
         )
         .then(result => {
           this.books = result.data;

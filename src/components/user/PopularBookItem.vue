@@ -26,9 +26,8 @@
           <p class="subtitle-2">{{book.title}}</p>
         </router-link>
         <div class="d-flex ma-0 pa-0">
-          <router-link :to="imageUrl">
-            <p class="ma-0 pa-0">Vol {{book.volume}}</p>
-          </router-link>
+          <p class="ma-0 pa-0">Vol {{book.volume}}</p>
+
           <p class="ml-auto my-0 pa-0">
             <v-icon class="mr-2 mb-1">star</v-icon>
             {{book.score}}

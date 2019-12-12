@@ -5,7 +5,7 @@
         <v-img
           :src="`${url}storage/${book.book_images_cover.name}`"
           lazy-src="https://picsum.photos/id/11/10/6"
-          height="825"
+          height="1200"
         />
       </div>
       <div v-else>
@@ -24,7 +24,11 @@
         </v-col>
         <v-col cols="6" class="border border-right">
           <p class="subtitle-1">
-            <router-link v-for="(tag, index) in book.tags" :key="tag.id" :to="url">
+            <router-link
+              v-for="(tag, index) in book.tags"
+              :key="tag.id"
+              :to="{ path: '/book', query: {tag: tag.name } }"
+            >
               <span v-if="index != 0">{{', '}}</span>
               <span>{{tag.name}}</span>
             </router-link>
@@ -41,12 +45,21 @@
           </div>
           <p>
             Pengarang :
-            <router-link v-for="(author, index) in book.authors" :key="index" :to="url">
+            <router-link
+              v-for="(author, index) in book.authors"
+              :key="index"
+              :to="{ path: '/book', query: {author: author.name } }"
+            >
               <span v-if="index != 0">{{', '}}</span>
               <span>{{author.name}}</span>
             </router-link>
           </p>
-          <p>Publisher : {{book.publisher.name}}</p>
+          <p>
+            Publisher :
+            <router-link
+              :to="{ path: '/book', query: {publisher: book.publisher.name } }"
+            >{{book.publisher.name}}</router-link>
+          </p>
           <p>Tahun Terbit : {{book.print_year}}</p>
           <p>Origin Langauge : {{book.origin_language}}</p>
           <p class="title">IS OWNED</p>

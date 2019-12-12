@@ -3,7 +3,11 @@
     <v-row class="mt-8" v-for="book in datas.data" :key="book.id">
       <v-col cols="8" class="pa-0 mx-0">
         <p class="caption mx-4">
-          <router-link v-for="(tag, index) in book.tags" :key="index" :to="url">
+          <router-link
+            v-for="(tag, index) in book.tags"
+            :key="index"
+            :to="{ path: '/book', query: {tag: tag.name } }"
+          >
             <span v-if="index != 0">{{', '}}</span>
             <span>{{ tag.name }}</span>
           </router-link>
@@ -15,7 +19,11 @@
 
         <p class="mx-4 body-1">
           Pengarang :
-          <router-link v-for="(author, index) in book.authors" :key="index" :to="url">
+          <router-link
+            v-for="(author, index) in book.authors"
+            :key="index"
+            :to="{ path: '/book', query: {author: author.name } }"
+          >
             <span v-if="index != 0">{{', '}}</span>
             <span>{{author.name}}</span>
           </router-link>

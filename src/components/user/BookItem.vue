@@ -63,8 +63,6 @@
           <p>Tahun Terbit : {{book.print_year}}</p>
           <p>Origin Langauge : {{book.origin_language}}</p>
           <div v-if="isLoggedIn">
-            <p class="title">IS OWNED</p>
-
             <v-select
               :items="statuses"
               v-model="status"
@@ -81,6 +79,33 @@
               label="Your Scores"
               v-on:change="addScore"
             ></v-select>
+            <div class="d-flex flex-row">
+              <span
+                class="mt-3 mr-4"
+                v-if="book.check_bookmarked !== null && book.check_bookmarked.is_favorite !== 1"
+              >
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon v-on="on">
+                      <v-icon>favorite</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Already Favorited!</span>
+                </v-tooltip>
+              </span>
+              <span class="ml-auto" v-else>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon v-on="on" @click>
+                      <v-icon>favorite_border</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Add To Your Favorite</span>
+                </v-tooltip>
+              </span>
+
+              <v-checkbox v-model="checkbox" :label="'Already Owned?'"></v-checkbox>
+            </div>
           </div>
         </v-col>
         <v-col cols="6" class>

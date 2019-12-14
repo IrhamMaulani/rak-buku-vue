@@ -29,28 +29,30 @@
           </router-link>
         </p>
 
-        <div class="d-flex mx-2" v-if="isLoggedIn">
+        <div class="d-flex mx-2">
           <p class="pa-2">Vol : {{book.volume}}</p>
-          <span class="ml-auto" v-if="book.check_bookmarked !== null">
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon>bookmark</v-icon>
-                </v-btn>
-              </template>
-              <span>Already Added To Your Wishlist!</span>
-            </v-tooltip>
-          </span>
-          <span class="ml-auto" v-else>
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on" @click="bookMark(book.id)">
-                  <v-icon>bookmark_border</v-icon>
-                </v-btn>
-              </template>
-              <span>Add To Your Wish List</span>
-            </v-tooltip>
-          </span>
+          <div class="ml-auto" v-if="isLoggedIn">
+            <span v-if="book.check_bookmarked !== null">
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon v-on="on">
+                    <v-icon>bookmark</v-icon>
+                  </v-btn>
+                </template>
+                <span>Already Added To Your Wishlist!</span>
+              </v-tooltip>
+            </span>
+            <span class="ml-auto" v-else>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon v-on="on" @click="bookMark(book.id)">
+                    <v-icon>bookmark_border</v-icon>
+                  </v-btn>
+                </template>
+                <span>Add To Your Wish List</span>
+              </v-tooltip>
+            </span>
+          </div>
         </div>
       </v-col>
       <v-col cols="4" class="pa-0">

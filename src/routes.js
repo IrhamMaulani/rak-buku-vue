@@ -1,4 +1,4 @@
-import Modal from './components/Modal.vue'
+import ImageInput from './components/ImageInput.vue'
 import AdminUser from './components/admin/user/BreadUser.vue'
 import AdminBook from './components/admin/book/BreadBook.vue'
 import Home from './components/user/Home.vue'
@@ -11,6 +11,7 @@ import BookItem from "./components/user/BookItem.vue";
 import AddBook from "./components/user/AddBook.vue";
 import AddPublisher from "./components/user/AddPublisher.vue";
 import AddAuthor from "./components/user/AddAuthor.vue";
+import Setting from "./components/user/Setting.vue";
 import Login from "./components/auth/Login.vue";
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -29,7 +30,7 @@ const router = new Router({
                     component: Home
                 },
                 {
-                    path: "profile",
+                    path: "profile/",
                     component: Profile,
                     meta: {
                         requiresAuth: true
@@ -84,12 +85,21 @@ const router = new Router({
                     meta: {
                         login: true
                     }
-                }
+                },
+                {
+                    path: "setting",
+                    component: Setting,
+                    meta: {
+                        requiresAuth: true
+                    }
+
+                },
+
             ]
         },
         {
             path: '/coba',
-            component: Modal
+            component: ImageInput
         },
         {
             path: '/admin',

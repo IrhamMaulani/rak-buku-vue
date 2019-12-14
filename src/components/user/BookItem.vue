@@ -126,20 +126,14 @@
               </v-avatar>
             </v-col>
             <v-col cols="8" class="mt-4 pl-0">
-              <router-link :to="url">
-                <p class="title ma-0">{{book.user_review.title}}</p>
-              </router-link>
+              <p class="title ma-0">{{book.user_review.title}}</p>
             </v-col>
           </v-row>
           <v-row justify="center" class="mt-n6">
             <v-col cols="1" :class="{'mr-12' : $vuetify.breakpoint.smAndDown }"></v-col>
             <v-col cols="10" class="ml-n8">
-              <span class="mr-6">
-                <router-link :to="url">{{book.user_review.created_at}}</router-link>
-              </span>
-              <span class="underline">
-                <router-link :to="url">{{book.user_review.user.name}} (Your Review)</router-link>
-              </span>
+              <span class="mr-6">{{book.user_review.created_at}}</span>
+              <span class="underline">{{book.user_review.user.name}} (Your Review)</span>
             </v-col>
           </v-row>
           <v-row justify="center">
@@ -298,6 +292,7 @@ export default {
           this.review.slug = "";
           this.$refs.halfModal.closeModal();
           this.$refs.review.getData();
+          this.getData();
         })
         .catch(err => {
           this.$store.dispatch("setStatus", false);

@@ -163,26 +163,28 @@
                   <v-icon class="mr-2 mb-1">favorite</v-icon>
                   {{book.favorites}}
                 </span>
-                <span v-if="book.check_bookmarked !== null">
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on }">
-                      <v-btn icon v-on="on">
-                        <v-icon>bookmark</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Already Added To Your Wishlist!</span>
-                  </v-tooltip>
-                  <span v-if="book.check_bookmarked.is_owned === 1">Is Owned</span>
-                </span>
-                <span v-else>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on }">
-                      <v-btn icon v-on="on" @click="bookMark(book.id)">
-                        <v-icon>bookmark_border</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Add To Your Wish List</span>
-                  </v-tooltip>
+                <span v-if="isLoggedIn">
+                  <span v-if="book.check_bookmarked !== null">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on">
+                          <v-icon>bookmark</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Already Added To Your Wishlist!</span>
+                    </v-tooltip>
+                    <span v-if="book.check_bookmarked.is_owned === 1">Is Owned</span>
+                  </span>
+                  <span v-else>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn icon v-on="on" @click="bookMark(book.id)">
+                          <v-icon>bookmark_border</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Add To Your Wish List</span>
+                    </v-tooltip>
+                  </span>
                 </span>
               </div>
             </div>
@@ -371,6 +373,11 @@ export default {
           this.bodySnackBar.message = "Failed!";
           this.bodySnackBar.snackbar = true;
         });
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   },
   watch: {

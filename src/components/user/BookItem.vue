@@ -62,24 +62,26 @@
           </p>
           <p>Tahun Terbit : {{book.print_year}}</p>
           <p>Origin Langauge : {{book.origin_language}}</p>
-          <p class="title">IS OWNED</p>
+          <div v-if="isLoggedIn">
+            <p class="title">IS OWNED</p>
 
-          <v-select
-            :items="statuses"
-            v-model="status"
-            item-text="name"
-            return-object
-            label="Status Read"
-            v-on:change="addStatus"
-          ></v-select>
-          <v-select
-            :items="scores"
-            v-model="userScore"
-            item-text="id"
-            item-value="id"
-            label="Your Scores"
-            v-on:change="addScore"
-          ></v-select>
+            <v-select
+              :items="statuses"
+              v-model="status"
+              item-text="name"
+              return-object
+              label="Status Read"
+              v-on:change="addStatus"
+            ></v-select>
+            <v-select
+              :items="scores"
+              v-model="userScore"
+              item-text="id"
+              item-value="id"
+              label="Your Scores"
+              v-on:change="addScore"
+            ></v-select>
+          </div>
         </v-col>
         <v-col cols="6" class>
           <p class="body-2">{{book.description}}</p>
@@ -89,17 +91,19 @@
     <v-col cols="12" md="12" lg="12">
       <h1>Reviews</h1>
       <div class="d-flex justify-end">
-        <div v-if="alreadyReviewed">
-          <v-btn text small v-on:click="openModalEdit">
-            <v-icon class="mr-1 mb-4">create</v-icon>
-            <p class="mr-5">Edit Review</p>
-          </v-btn>
-        </div>
-        <div v-else>
-          <v-btn text small v-on:click="openModal">
-            <v-icon class="mr-1 mb-4">create</v-icon>
-            <p class="mr-5">Add Review</p>
-          </v-btn>
+        <div v-if="isLoggedIn">
+          <div v-if="alreadyReviewed">
+            <v-btn text small v-on:click="openModalEdit">
+              <v-icon class="mr-1 mb-4">create</v-icon>
+              <p class="mr-5">Edit Review</p>
+            </v-btn>
+          </div>
+          <div v-else>
+            <v-btn text small v-on:click="openModal">
+              <v-icon class="mr-1 mb-4">create</v-icon>
+              <p class="mr-5">Add Review</p>
+            </v-btn>
+          </div>
         </div>
 
         <router-link :to="reviewUrl">
@@ -401,6 +405,11 @@ export default {
           this.bodySnackBar.message = "Failed Scored Book!";
           this.bodySnackBar.snackbar = true;
         });
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   }
 };

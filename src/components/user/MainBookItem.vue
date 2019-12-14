@@ -29,7 +29,7 @@
           </router-link>
         </p>
 
-        <div class="d-flex mx-2">
+        <div class="d-flex mx-2" v-if="isLoggedIn">
           <p class="pa-2">Vol : {{book.volume}}</p>
           <span class="ml-auto" v-if="book.check_bookmarked !== null">
             <v-tooltip top>
@@ -149,6 +149,11 @@ export default {
         .catch(error => {
           alert(error);
         });
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   }
 };

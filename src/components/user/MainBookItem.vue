@@ -1,36 +1,36 @@
 <template>
   <div>
-    <v-row class="mt-8" v-for="book in datas.data" :key="book.id">
+    <v-row class="mt-8" v-for="(book, index) in datas" :key="index">
       <v-col cols="8" class="pa-0 mx-0">
         <p class="caption mx-4">
           <router-link
             v-for="(tag, index) in book.tags"
             :key="index"
-            :to="{ path: '/book', query: {tag: tag.name } }"
+            :to="{ path: '/book', query: { tag: tag.name } }"
           >
-            <span v-if="index != 0">{{', '}}</span>
+            <span v-if="index != 0">{{ ", " }}</span>
             <span>{{ tag.name }}</span>
           </router-link>
         </p>
         <router-link :to="'/book/' + book.slug">
-          <h1 class="mx-4">{{book.title}}</h1>
+          <h1 class="mx-4">{{ book.title }}</h1>
         </router-link>
-        <p class=".body-2 mx-4 mt-4">{{book.description | snippet(50)}}</p>
+        <p class=".body-2 mx-4 mt-4">{{ book.description | snippet(50) }}</p>
 
         <p class="mx-4 body-1">
           Pengarang :
           <router-link
             v-for="(author, index) in book.authors"
             :key="index"
-            :to="{ path: '/book', query: {author: author.name } }"
+            :to="{ path: '/book', query: { author: author.name } }"
           >
-            <span v-if="index != 0">{{', '}}</span>
-            <span>{{author.name}}</span>
+            <span v-if="index != 0">{{ ", " }}</span>
+            <span>{{ author.name }}</span>
           </router-link>
         </p>
 
         <div class="d-flex mx-2">
-          <p class="pa-2">Vol : {{book.volume}}</p>
+          <p class="pa-2">Vol : {{ book.volume }}</p>
           <div class="ml-auto" v-if="isLoggedIn">
             <span v-if="book.check_bookmarked !== null">
               <v-tooltip top>
@@ -56,7 +56,11 @@
         </div>
       </v-col>
       <v-col cols="4" class="pa-0">
-        <v-layout align-center justify-center v-if="book.book_images_cover !== null">
+        <v-layout
+          align-center
+          justify-center
+          v-if="book.book_images_cover !== null"
+        >
           <v-img
             class="justify-center"
             :src="`${url}storage/${book.book_images_cover.name}`"
@@ -78,6 +82,15 @@
         </v-layout>
       </v-col>
     </v-row>
+    <div v-if="!nextPageUrl" class="d-flex justify-center mt-12 ">
+      <v-btn class="pa-8" @click="toTop" text large block :elevation="2">
+        <p class="mt-n4">
+          Sorry You Lurk Too Deep
+          <br />
+          Click To Top
+        </p></v-btn
+      >
+    </div>
     <snack-bar :body="bodySnackBar"></snack-bar>
   </div>
 
@@ -99,11 +112,13 @@ export default {
         timeout: 2000,
         message: "",
         snackbar: false
-      }
+      },
+      page: 1,
+      nextPageUrl: ""
     };
   },
   created() {
-    this.getData();
+    this.getData(1);
   },
   computed: {
     imageDefault() {
@@ -140,23 +155,53 @@ export default {
           this.bodySnackBar.snackbar = true;
         });
     },
-    getData() {
+    getData(page) {
       this.$store.dispatch("setStatus", true);
       this.$http
-        .get(`${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10`)
+        .get(
+          `${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10&page=${page}`
+        )
         .then(result => {
-          this.datas = result.data;
+          const datas = result.data.data;
+
+          datas.forEach(element => {
+            this.datas.push(element);
+          });
+          this.nextPageUrl = result.data.next_page_url;
+
           this.$store.dispatch("setStatus", false);
         })
         .catch(error => {
           alert(error);
         });
+    },
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          if (this.nextPageUrl !== null) {
+            setTimeout(
+              () => (this.getData(this.page), (this.page = this.page + 1)),
+              1000
+            );
+          }
+        }
+      };
+    },
+    toTop() {
+      window.scrollTo(0, 0);
     }
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
     }
+  },
+  mounted() {
+    this.scroll();
   }
 };
 </script>

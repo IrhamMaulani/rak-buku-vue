@@ -1,4 +1,4 @@
-<template >
+<template>
   <v-row class="mt-12">
     <v-overlay :value="overLay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -19,8 +19,8 @@
           <v-icon class="ml-1">{{ data.item.icon }}</v-icon>
         </template>
         <template slot="item" slot-scope="data">
-          <span class="mr-1 cb-item">{{data.item.title}}</span>
-          <v-icon class>{{data.item.icon}}</v-icon>
+          <span class="mr-1 cb-item">{{ data.item.title }}</span>
+          <v-icon class>{{ data.item.icon }}</v-icon>
         </template>
       </v-overflow-btn>
     </v-col>
@@ -39,7 +39,7 @@
             <v-list-item v-for="(item, index) in addNewList" :key="index">
               <router-link :to="item.url">
                 <v-list-item-title>
-                  <v-icon class="mr-2">{{item.icon}}</v-icon>
+                  <v-icon class="mr-2">{{ item.icon }}</v-icon>
                   {{ item.title }}
                 </v-list-item-title>
               </router-link>
@@ -49,11 +49,11 @@
       </div>
     </v-col>
     <v-col cols="12" class>
-      <v-card flat class="border" v-for="(book, index) in books.data" :key="index">
+      <v-card flat class="border" v-for="(book, index) in books" :key="index">
         <!-- <v-card-title class="border"></v-card-title> -->
         <!-- <v-card-text> -->
         <div class="d-flex justify-end mr-4">
-          <p>{{index = index+1}}</p>
+          <p>{{ (index = index + 1) }}</p>
         </div>
         <v-row class="pa-0">
           <v-col cols="12" md="4" lg="4" class>
@@ -64,7 +64,7 @@
                     :src="`${imageUrl}storage/${book.book_images_cover.name}`"
                     lazy-src="https://picsum.photos/id/11/10/6"
                     min-height="570"
-                    :aspect-ratio="16/9"
+                    :aspect-ratio="16 / 9"
                   >
                     <v-expand-transition>
                       <div
@@ -74,8 +74,13 @@
                       >
                         <div
                           class="body-1 justify-center text-center mx-4"
-                          :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
-                        >{{book.description | snippet(1000)}}</div>
+                          :class="{
+                            caption: $vuetify.breakpoint.lgOnly,
+                            overline: $vuetify.breakpoint.mdOnly
+                          }"
+                        >
+                          {{ book.description | snippet(1000) }}
+                        </div>
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -85,7 +90,7 @@
                     :src="require('../../assets/cover-book.jpg')"
                     lazy-src="https://picsum.photos/id/11/10/6"
                     min-height="570"
-                    :aspect-ratio="16/9"
+                    :aspect-ratio="16 / 9"
                   >
                     <v-expand-transition>
                       <div
@@ -95,8 +100,13 @@
                       >
                         <div
                           class="body-1 justify-center text-center mx-4"
-                          :class="{'caption' : $vuetify.breakpoint.lgOnly, 'overline' : $vuetify.breakpoint.mdOnly,  }"
-                        >{{book.description}}</div>
+                          :class="{
+                            caption: $vuetify.breakpoint.lgOnly,
+                            overline: $vuetify.breakpoint.mdOnly
+                          }"
+                        >
+                          {{ book.description }}
+                        </div>
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -104,7 +114,13 @@
               </v-card>
             </v-hover>
           </v-col>
-          <v-col cols="12" md="8" lg="8" class="mt-12" style="position: relative; width:100%">
+          <v-col
+            cols="12"
+            md="8"
+            lg="8"
+            class="mt-12"
+            style="position: relative; width:100%"
+          >
             <div class="d-flex flex-row headline mt-12">
               <p>Vol 1</p>
             </div>
@@ -113,41 +129,49 @@
               <router-link
                 v-for="(tag, index) in book.tags"
                 :key="index"
-                :to="{ path: '/book', query: {tag: tag.name } }"
+                :to="{ path: '/book', query: { tag: tag.name } }"
               >
-                <span v-if="index != 0">{{', '}}</span>
-                <span>{{tag.name}}</span>
+                <span v-if="index != 0">{{ ", " }}</span>
+                <span>{{ tag.name }}</span>
               </router-link>
             </p>
 
             <div class="mt-6">
               <p class="display-2 font-weight-bold">
-                <router-link :to="'book/' + book.slug">{{book.title}}</router-link>
+                <router-link :to="'book/' + book.slug">{{
+                  book.title
+                }}</router-link>
               </p>
             </div>
 
-            <div class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular">
+            <div
+              class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular"
+            >
               <p class="mr-3">
                 Pengarang :
                 <router-link
                   v-for="(author, index) in book.authors"
                   :key="index"
-                  :to="{ path: '/book', query: {author: author.name } }"
+                  :to="{ path: '/book', query: { author: author.name } }"
                 >
-                  <span v-if="index != 0">{{', '}}</span>
-                  <span>{{author.name}}</span>
+                  <span v-if="index != 0">{{ ", " }}</span>
+                  <span>{{ author.name }}</span>
                 </router-link>
               </p>
 
               <p class="mr-3">
                 Publisher :
                 <router-link
-                  :to="{ path: '/book', query: {publisher: book.publisher.name } }"
-                >{{book.publisher.name}}</router-link>
+                  :to="{
+                    path: '/book',
+                    query: { publisher: book.publisher.name }
+                  }"
+                  >{{ book.publisher.name }}</router-link
+                >
               </p>
               <p>
                 <v-icon class="mr-2">print</v-icon>
-                {{book.print_year}}
+                {{ book.print_year }}
               </p>
             </div>
             <div
@@ -157,11 +181,11 @@
               <div class="d-flex fill-height mt-auto">
                 <span class="mr-6">
                   <v-icon class="mr-2 mb-2">star</v-icon>
-                  {{book.score}}
+                  {{ book.score }}
                 </span>
                 <span class="mr-6">
                   <v-icon class="mr-2 mb-1">favorite</v-icon>
-                  {{book.favorites}}
+                  {{ book.favorites }}
                 </span>
                 <span v-if="isLoggedIn">
                   <span v-if="book.check_bookmarked !== null">
@@ -173,7 +197,9 @@
                       </template>
                       <span>Already Added To Your Wishlist!</span>
                     </v-tooltip>
-                    <span v-if="book.check_bookmarked.is_owned === 1">Is Owned</span>
+                    <span v-if="book.check_bookmarked.is_owned === 1"
+                      >Is Owned</span
+                    >
                   </span>
                   <span v-else>
                     <v-tooltip top>
@@ -290,7 +316,10 @@ export default {
         { title: "Book", icon: "menu_book", url: "/add-book" },
         { title: "Author", icon: "person", url: "/add-author" },
         { title: "Publisher", icon: "business", url: "/add-publisher" }
-      ]
+      ],
+      page: 1,
+      checked: true,
+      nextPageUrl: ""
     };
   },
   created() {
@@ -319,10 +348,15 @@ export default {
 
       this.$http
         .get(
-          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&author=${author}&publisher=${publisher}&tag=${tag}&limit=5`
+          `${this.$baseUrl}book?search=${search}&orderBy=${orderBy}&order=${order}&author=${author}&publisher=${publisher}&tag=${tag}&limit=5&page=${this.page}`
         )
         .then(result => {
-          this.books = result.data;
+          const datas = result.data.data;
+          datas.forEach(element => {
+            this.books.push(element);
+          });
+          this.nextPageUrl = result.data.next_page_url;
+          this.page = this.page + 1;
           this.overLay = false;
         })
         .catch(error => {
@@ -340,6 +374,7 @@ export default {
         .catch(err => {});
 
       this.getData(orderBy.orderBy, orderBy.order, " ");
+      this.page = 1;
     },
     bookMark(bookId) {
       if (window.$cookies.get("token") === null) {
@@ -373,6 +408,27 @@ export default {
           this.bodySnackBar.message = "Failed!";
           this.bodySnackBar.snackbar = true;
         });
+    },
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          Math.max(
+            window.pageYOffset,
+            document.documentElement.scrollTop,
+            document.body.scrollTop
+          ) +
+            window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (this.checked) {
+          //stupid condition when stupid mounted keep persistent in another route
+          if (bottomOfWindow) {
+            if (this.nextPageUrl !== null) {
+              this.getData();
+            }
+          }
+        }
+      };
     }
   },
   computed: {
@@ -388,9 +444,13 @@ export default {
         to.query.search
       );
     }
-    // "$route.query.search"() {
-    //   this.getData($route.query.search);
-    // }
+  },
+  mounted() {
+    this.scroll();
+  },
+  destroyed() {
+    //stupid variable when stupid mounted keep persistent in another route
+    this.checked = false;
   }
 };
 </script>

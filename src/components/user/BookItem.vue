@@ -82,21 +82,21 @@
             <div class="d-flex flex-row">
               <span
                 class="mt-3 mr-4"
-                v-if="book.check_bookmarked !== null && book.check_bookmarked.is_favorite !== 1"
+                v-if="book.check_bookmarked !== null && book.check_bookmarked.is_favorite === 1"
               >
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on">
+                    <v-btn icon v-on="on" @click="favorite(0)">
                       <v-icon>favorite</v-icon>
                     </v-btn>
                   </template>
                   <span>Already Favorited!</span>
                 </v-tooltip>
               </span>
-              <span class="ml-auto" v-else>
+              <span class="mt-3 mr-4" v-else>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" @click>
+                    <v-btn icon v-on="on" @click="favorite(1)">
                       <v-icon>favorite_border</v-icon>
                     </v-btn>
                   </template>
@@ -104,7 +104,11 @@
                 </v-tooltip>
               </span>
 
-              <v-checkbox v-model="checkbox" :label="'Already Owned?'"></v-checkbox>
+              <v-checkbox
+                v-model="book.check_bookmarked.is_owned"
+                v-on:change="changeOwned"
+                :label="'Already Owned?'"
+              ></v-checkbox>
             </div>
           </div>
         </v-col>
@@ -281,6 +285,9 @@ export default {
           user: {
             image_profile: null
           }
+        },
+        check_bookmarked: {
+          is_favorite: 0
         }
       },
       slug: this.$route.params.id,
@@ -391,7 +398,6 @@ export default {
     addStatus() {
       const data = {
         status: this.status.name,
-        is_owned: 0,
         book_id: this.book.id
       };
 
@@ -401,6 +407,48 @@ export default {
         .then(result => {
           this.$store.dispatch("setStatus", true);
           this.bodySnackBar.message = "Success Added Status!";
+          this.bodySnackBar.snackbar = true;
+          this.getData();
+        })
+        .catch(err => {
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Failed";
+          this.bodySnackBar.snackbar = true;
+        });
+    },
+    favorite(statusFavorite) {
+      const data = {
+        is_favorite: statusFavorite,
+        book_id: this.book.id
+      };
+
+      this.$store.dispatch("setStatus", false);
+      this.$http
+        .post(`${process.env.VUE_APP_API}bookmark`, data)
+        .then(result => {
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Success!";
+          this.bodySnackBar.snackbar = true;
+          this.getData();
+        })
+        .catch(err => {
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Failed";
+          this.bodySnackBar.snackbar = true;
+        });
+    },
+    changeOwned() {
+      const data = {
+        is_owned: this.book.check_bookmarked.is_owned,
+        book_id: this.book.id
+      };
+
+      this.$store.dispatch("setStatus", false);
+      this.$http
+        .post(`${process.env.VUE_APP_API}bookmark`, data)
+        .then(result => {
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Success!";
           this.bodySnackBar.snackbar = true;
           this.getData();
         })

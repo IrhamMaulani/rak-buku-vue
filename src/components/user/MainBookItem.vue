@@ -114,7 +114,8 @@ export default {
         snackbar: false
       },
       page: 1,
-      nextPageUrl: ""
+      nextPageUrl: "",
+      checked: true
     };
   },
   created() {
@@ -178,15 +179,21 @@ export default {
     scroll() {
       window.onscroll = () => {
         let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
+          Math.max(
+            window.pageYOffset,
+            document.documentElement.scrollTop,
+            document.body.scrollTop
+          ) +
+            window.innerHeight ===
           document.documentElement.offsetHeight;
 
-        if (bottomOfWindow) {
-          if (this.nextPageUrl !== null) {
-            setTimeout(
-              () => (this.getData(this.page), (this.page = this.page + 1)),
-              1000
-            );
+        if (this.checked) {
+          //stupid condition when stupid mounted keep persistent in another route
+          if (bottomOfWindow) {
+            if (this.nextPageUrl !== null) {
+              this.getData(this.page);
+              this.page = this.page + 1;
+            }
           }
         }
       };
@@ -202,6 +209,10 @@ export default {
   },
   mounted() {
     this.scroll();
+  },
+  destroyed() {
+    //stupid variable when stupid mounted keep persistent in another route
+    this.checked = false;
   }
 };
 </script>

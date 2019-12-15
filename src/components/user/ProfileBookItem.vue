@@ -135,6 +135,7 @@
       :total-visible="4"
       :length="datas.last_page"
       circle
+      @input="pagination"
     ></v-pagination>
     <!-- </div> -->
   </div>
@@ -156,11 +157,25 @@ export default {
   },
   methods: {
     getData() {
-      const url = this.status;
+      let url = this.status;
 
       this.$store.dispatch("setStatus", true);
       this.$http
         .get(`${this.$baseUrl}bookmark?${url}`)
+        .then(result => {
+          this.datas = result.data;
+          this.$store.dispatch("setStatus", false);
+        })
+        .catch(error => {
+          alert(error);
+          this.$store.dispatch("setStatus", false);
+        });
+    },
+    pagination() {
+      let url = this.status;
+
+      this.$http
+        .get(`${this.$baseUrl}bookmark?${url}&page=${this.datas.current_page}`)
         .then(result => {
           this.datas = result.data;
           this.$store.dispatch("setStatus", false);

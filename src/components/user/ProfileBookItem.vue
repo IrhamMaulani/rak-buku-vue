@@ -1,5 +1,5 @@
 <template>
-  <div class="coba">
+  <div class="relative">
     <v-row class="pa-0">
       <!-- NOTE IF large 6 item md 9 -->
 
@@ -130,7 +130,7 @@
 
     <!-- <div class="coba-lagi"> -->
     <v-pagination
-      class="coba-lagi"
+      class="center-pagination"
       v-model="datas.current_page"
       :total-visible="4"
       :length="datas.last_page"
@@ -208,13 +208,13 @@ a {
 a:hover {
   text-decoration: underline;
 }
-.coba {
+.relative {
   height: 490px !important;
   position: relative;
   padding-bottom: 50px;
 }
 
-.coba-lagi {
+.center-pagination {
   position: absolute;
   bottom: 0;
   right: 3%;

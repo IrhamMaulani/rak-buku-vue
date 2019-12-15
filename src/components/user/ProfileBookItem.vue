@@ -1,17 +1,9 @@
 <template>
-  <div>
+  <div class="coba">
     <v-row class="pa-0">
       <!-- NOTE IF large 6 item md 9 -->
-      <v-col
-        cols="4"
-        v-for="(data,index) in datas.data"
-        :key="index"
-        class="ma-0"
-        :class="{
-          'mt-12': $vuetify.breakpoint.lgOnly,
-          'mt-10': $vuetify.breakpoint.mdOnly
-        }"
-      >
+
+      <v-col cols="4" v-for="(data,index) in datas.data" :key="index" class="ma-0">
         <v-hover v-slot:default="{ hover }">
           <v-card color="grey lighten-4" max-width="212" class="mx-auto mt-n2">
             <div v-if="data.book_images_cover !== null">
@@ -118,9 +110,16 @@
         </v-hover>
       </v-col>
     </v-row>
-    <!-- <div class="text-center">
-      <v-pagination :length="4" circle></v-pagination>
-    </div>-->
+
+    <!-- <div class="coba-lagi"> -->
+    <v-pagination
+      class="coba-lagi"
+      v-model="page"
+      :total-visible="4"
+      :length="datas.last_page"
+      circle
+    ></v-pagination>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -156,5 +155,17 @@ a {
 }
 a:hover {
   text-decoration: underline;
+}
+.coba {
+  height: 490px !important;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.coba-lagi {
+  position: absolute;
+  bottom: 0;
+  right: 3%;
+  /* left: 20%; */
 }
 </style>

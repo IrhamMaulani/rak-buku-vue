@@ -445,6 +445,7 @@ export default {
   },
   watch: {
     $route(to, from) {
+      this.sort = true;
       this.getData(
         this.$route.query.orderBy,
         this.$route.query.order,

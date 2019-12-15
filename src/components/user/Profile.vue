@@ -1,13 +1,22 @@
 <template>
   <v-row class="ma-2">
-    <v-col cols="12" md="4" lg="4" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
+    <v-col
+      cols="12"
+      md="4"
+      lg="4"
+      :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }"
+    >
       <div v-if="!isEdit">
         <v-card dark class="mr-2" height="590">
           <v-card-title class="pb-0"></v-card-title>
           <v-card-text class="text--primary mt-8 text-center">
-            <v-avatar v-if="userProfile.image_profile !== null" size="180" class>
+            <v-avatar
+              v-if="userProfile.image_profile !== null"
+              size="180"
+              class
+            >
               <v-img
-                :src="`${imageUrl}storage/${userProfile.image_profile.name}` "
+                :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
                 lazy-src="https://picsum.photos/id/11/10/6"
               />
             </v-avatar>
@@ -26,23 +35,25 @@
                   </template>
                   <span>Verified Writer</span>
                 </v-tooltip>
-                {{userProfile.full_name}}
+                {{ userProfile.full_name }}
               </h1>
               <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                  <p v-on="on" class="mt-4 subtitle-1">{{userProfile.name}}</p>
+                  <p v-on="on" class="mt-4 subtitle-1">
+                    {{ userProfile.name }}
+                  </p>
                 </template>
                 <span>Your Username</span>
               </v-tooltip>
               <p class="body-2">
                 <v-icon class="mr-2">email</v-icon>
-                {{userProfile.email}}
+                {{ userProfile.email }}
               </p>
               <v-tooltip left>
                 <template v-slot:activator="{ on }">
                   <p v-on="on" class="body-2">
                     <v-icon class="mr-2">event_seat</v-icon>
-                    {{userProfile.reputation.name}}
+                    {{ userProfile.reputation.name }}
                   </p>
                 </template>
                 <span>Reputation</span>
@@ -54,7 +65,8 @@
                 large
                 color="white black--text"
                 @click="isEdit = true"
-              >Edit Profile</v-btn>
+                >Edit Profile</v-btn
+              >
             </div>
           </v-card-text>
         </v-card>
@@ -70,10 +82,17 @@
           <v-card-text class="text--primary mt-8 text-center">
             <image-input v-model="avatar">
               <div slot="activator">
-                <v-avatar size="180" v-ripple v-if="!avatar" class="grey lighten-3">
+                <v-avatar
+                  size="180"
+                  v-ripple
+                  v-if="!avatar"
+                  class="grey lighten-3"
+                >
                   <v-img
                     v-if="userProfile.image_profile !== null"
-                    :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
+                    :src="
+                      `${imageUrl}storage/${userProfile.image_profile.name}`
+                    "
                     lazy-src="https://picsum.photos/id/11/10/6"
                   >
                     <v-icon color="white" size="33">camera_alt</v-icon>
@@ -95,13 +114,22 @@
               <div class="divider mt-5"></div>
               <v-row class="justify-center align-center">
                 <v-col cols="7" class="mb-n8">
-                  <v-text-field label="Full Name" v-model="userProfile.full_name"></v-text-field>
+                  <v-text-field
+                    label="Full Name"
+                    v-model="userProfile.full_name"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="7" class="mb-n8">
-                  <v-text-field label="User Name" v-model="userProfile.name"></v-text-field>
+                  <v-text-field
+                    label="User Name"
+                    v-model="userProfile.name"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="7" class="mb-n6">
-                  <v-text-field label="Email" v-model="userProfile.email"></v-text-field>
+                  <v-text-field
+                    label="Email"
+                    v-model="userProfile.email"
+                  ></v-text-field>
                 </v-col>
               </v-row>
               <v-btn
@@ -110,47 +138,53 @@
                 large
                 color="white black--text"
                 @click="editProfile"
-              >Save Profile</v-btn>
+                >Save Profile</v-btn
+              >
             </div>
           </v-card-text>
         </v-card>
       </div>
     </v-col>
 
-    <v-col cols="12" md="8" lg="8" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
+    <v-col
+      cols="12"
+      md="8"
+      lg="8"
+      :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }"
+    >
       <v-card height="590" class="mt-n8">
         <v-card-text class="text--primary mt-8">
           <v-tabs centered>
-            <v-tab @click="getAllBook">Followed Book</v-tab>
-            <v-tab @click="getOwned">Owned</v-tab>
-            <v-tab @click="getFavorite">Favorite</v-tab>
-            <v-tab @click="getWishList">Wish List</v-tab>
+            <v-tab>Followed Book</v-tab>
+            <v-tab>Owned</v-tab>
+            <v-tab>Favorite</v-tab>
+            <v-tab>Wish List</v-tab>
 
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book :datas="allBook"></profile-book>
+                  <profile-book :status="``"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book :datas="ownedBook"></profile-book>
+                  <profile-book :status="`isOwned=1`"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book :datas="favoriteBook"></profile-book>
+                  <profile-book :status="`isFavorite=1`"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
                 <v-card-text>
-                  <profile-book :datas="wishList"></profile-book>
+                  <profile-book :status="`status=Wish List`"></profile-book>
                 </v-card-text>
               </v-card>
             </v-tab-item>
@@ -158,7 +192,10 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="functionHelper"></dialog-confirm>
+    <dialog-confirm
+      :body="bodyDialog"
+      v-on:confirmDialog="functionHelper"
+    ></dialog-confirm>
     <snack-bar :body="bodySnackBar"></snack-bar>
   </v-row>
 </template>
@@ -177,7 +214,6 @@ export default {
   },
   created() {
     this.getData();
-    this.getAllBook();
   },
   data() {
     return {
@@ -302,66 +338,6 @@ export default {
           this.bodySnackBar.message = "Failed!";
           this.bodySnackBar.snackbar = true;
         });
-    },
-    getAllBook() {
-      if (this.allBook.length != null) {
-        this.$store.dispatch("setStatus", true);
-        this.$http
-          .get(`${this.$baseUrl}bookmark`)
-          .then(result => {
-            this.allBook = result.data;
-            this.$store.dispatch("setStatus", false);
-          })
-          .catch(error => {
-            alert(error);
-            this.$store.dispatch("setStatus", false);
-          });
-      }
-    },
-    getOwned() {
-      if (this.ownedBook.length != null) {
-        this.$store.dispatch("setStatus", true);
-        this.$http
-          .get(`${this.$baseUrl}bookmark?isOwned=1`)
-          .then(result => {
-            this.ownedBook = result.data;
-            this.$store.dispatch("setStatus", false);
-          })
-          .catch(error => {
-            alert(error);
-            this.$store.dispatch("setStatus", false);
-          });
-      }
-    },
-    getFavorite() {
-      if (this.favoriteBook.length != null) {
-        this.$store.dispatch("setStatus", true);
-        this.$http
-          .get(`${this.$baseUrl}bookmark?isFavorite=1`)
-          .then(result => {
-            this.favoriteBook = result.data;
-            this.$store.dispatch("setStatus", false);
-          })
-          .catch(error => {
-            alert(error);
-            this.$store.dispatch("setStatus", false);
-          });
-      }
-    },
-    getWishList() {
-      if (this.wishList.length != null) {
-        this.$store.dispatch("setStatus", true);
-        this.$http
-          .get(`${this.$baseUrl}bookmark?status=Wish List`)
-          .then(result => {
-            this.wishList = result.data;
-            this.$store.dispatch("setStatus", false);
-          })
-          .catch(error => {
-            alert(error);
-            this.$store.dispatch("setStatus", false);
-          });
-      }
     }
   },
   computed: {

@@ -319,7 +319,8 @@ export default {
       ],
       page: 1,
       checked: true,
-      nextPageUrl: ""
+      nextPageUrl: "",
+      sort: false
     };
   },
   created() {
@@ -352,11 +353,14 @@ export default {
         )
         .then(result => {
           const datas = result.data.data;
-          datas.forEach(element => {
-            this.books.push(element);
-          });
-          this.nextPageUrl = result.data.next_page_url;
-          this.page = this.page + 1;
+          if (!this.sort) {
+            datas.forEach(element => {
+              this.books.push(element);
+            });
+            this.nextPageUrl = result.data.next_page_url;
+          } else {
+            this.books = datas;
+          }
           this.overLay = false;
         })
         .catch(error => {
@@ -365,6 +369,8 @@ export default {
     },
     order() {
       this.overLay = true;
+      this.sort = true;
+      this.page = 1;
       const orderBy = this.dataOrderBy.find(x => x.id === this.orderById);
       this.$router
         .replace({
@@ -374,7 +380,6 @@ export default {
         .catch(err => {});
 
       this.getData(orderBy.orderBy, orderBy.order, " ");
-      this.page = 1;
     },
     bookMark(bookId) {
       if (window.$cookies.get("token") === null) {
@@ -424,6 +429,8 @@ export default {
           //stupid condition when stupid mounted keep persistent in another route
           if (bottomOfWindow) {
             if (this.nextPageUrl !== null) {
+              this.sort = false;
+              this.page = this.page + 1;
               this.getData();
             }
           }

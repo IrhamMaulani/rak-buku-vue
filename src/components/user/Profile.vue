@@ -118,10 +118,9 @@
     </v-col>
 
     <v-col cols="12" md="8" lg="8" :class="{'px-0' : !$vuetify.breakpoint.smAndDown }">
-      <v-card height="590">
-        <v-card-title class="pb-0"></v-card-title>
+      <v-card height="590" class="mt-n8">
         <v-card-text class="text--primary mt-8">
-          <v-tabs class="mt-12" centered>
+          <v-tabs centered>
             <v-tab @click="getAllBook">Followed Book</v-tab>
             <v-tab @click="getOwned">Owned</v-tab>
             <v-tab @click="getFavorite">Favorite</v-tab>

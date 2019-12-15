@@ -1,10 +1,16 @@
 <template>
   <v-row>
     <v-col cols="12" md="8" lg="8">
-      <v-card>
+      <v-card v-if="!$vuetify.breakpoint.smAndDown">
         <v-card-title>Latest Update</v-card-title>
         <v-card-text class="text--primary mt-8">
           <main-item></main-item>
+        </v-card-text>
+      </v-card>
+      <v-card v-else>
+        <v-card-title class="pb-0">Popular Books</v-card-title>
+        <v-card-text class="text--primary mt-8">
+          <popular-book-item :datas="popularBook"></popular-book-item>
         </v-card-text>
       </v-card>
     </v-col>
@@ -23,10 +29,16 @@
       <div :class="{ sticky: !$vuetify.breakpoint.smAndDown }">
         <v-row>
           <v-col cols="12" class="py-0 mb-1">
-            <v-card>
+            <v-card v-if="!$vuetify.breakpoint.smAndDown">
               <v-card-title class="pb-0">Popular Books</v-card-title>
               <v-card-text class="text--primary mt-8">
                 <popular-book-item :datas="popularBook"></popular-book-item>
+              </v-card-text>
+            </v-card>
+            <v-card v-else>
+              <v-card-title>Latest Update</v-card-title>
+              <v-card-text class="text--primary mt-8">
+                <main-item></main-item>
               </v-card-text>
             </v-card>
           </v-col>

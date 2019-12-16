@@ -44,16 +44,45 @@
       <v-row justify="center" class="mt-n8">
         <v-col cols="1"></v-col>
         <v-col cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
-          <span class="mr-12">
-            <!-- <v-icon class="mr-4">thumb_up</v-icon> -->
-            <v-btn text icon class="mr-4">
+          <span v-if="data.self_response !== null" class="mr-12">
+            <v-btn
+              v-if="data.self_response.is_like ==1"
+              text
+              icon
+              class="mr-4"
+              color="blue"
+              @click="addLike(data.id, 0)"
+            >
+              <v-icon>thumb_up</v-icon>
+            </v-btn>
+            <v-btn
+              v-if="data.self_response.is_like ==0"
+              text
+              icon
+              class="mr-4"
+              @click="addLike(data.id, 1)"
+            >
               <v-icon>thumb_up</v-icon>
             </v-btn>
             <span>{{data.likes}}</span>
           </span>
 
-          <span class="mr-12">
-            <v-btn text icon class="mr-4">
+          <span v-else class="mr-12">
+            <v-btn text icon class="mr-4" @click="addLike(data.id, 1)">
+              <v-icon>thumb_up</v-icon>
+            </v-btn>
+
+            <span>{{data.likes}}</span>
+          </span>
+
+          <span class="mr-12" v-if="data.self_response !== null">
+            <v-btn
+              text
+              icon
+              class="mr-4"
+              v-if="data.self_response.is_like ==2"
+              @click="addLike(data.id, 2)"
+            >
               <v-icon>thumb_down</v-icon>
             </v-btn>
             <span>{{data.dislikes}}</span>
@@ -68,16 +97,27 @@
         </v-col>
       </v-row>
     </v-card>
+    <snack-bar :body="bodySnackBar"></snack-bar>
   </div>
 </template>
 
 <script>
+import SnackBar from "../../components/SnackBar";
 export default {
+  components: {
+    SnackBar
+  },
   data() {
     return {
       url: "/reviews/1",
       datas: [],
-      slug: this.$route.params.id
+      slug: this.$route.params.id,
+      coba: true,
+      bodySnackBar: {
+        timeout: 2000,
+        message: "",
+        snackbar: false
+      }
     };
   },
   created() {
@@ -98,6 +138,27 @@ export default {
         })
         .catch(error => {
           alert(error);
+        });
+    },
+    addLike(reviewId, response) {
+      const data = {
+        is_like: response,
+        review_id: reviewId
+      };
+
+      this.$store.dispatch("setStatus", false);
+      this.$http
+        .post(`${process.env.VUE_APP_API}review-response`, data)
+        .then(result => {
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Success!";
+          this.bodySnackBar.snackbar = true;
+          this.getData();
+        })
+        .catch(err => {
+          this.$store.dispatch("setStatus", true);
+          this.bodySnackBar.message = "Failed";
+          this.bodySnackBar.snackbar = true;
         });
     }
   }

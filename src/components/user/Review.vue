@@ -46,7 +46,7 @@
         <v-col cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
           <span v-if="data.self_response !== null" class="mr-12">
             <v-btn
-              v-if="data.self_response.is_like ==1"
+              v-if="data.self_response.is_like === 1"
               text
               icon
               class="mr-4"
@@ -55,13 +55,7 @@
             >
               <v-icon>thumb_up</v-icon>
             </v-btn>
-            <v-btn
-              v-if="data.self_response.is_like ==0"
-              text
-              icon
-              class="mr-4"
-              @click="addLike(data.id, 1)"
-            >
+            <v-btn v-else text icon class="mr-4" @click="addLike(data.id, 1)">
               <v-icon>thumb_up</v-icon>
             </v-btn>
             <span>{{data.likes}}</span>
@@ -80,12 +74,26 @@
               text
               icon
               class="mr-4"
+              color="red"
               v-if="data.self_response.is_like ==2"
-              @click="addLike(data.id, 2)"
+              @click="addLike(data.id, 0)"
             >
               <v-icon>thumb_down</v-icon>
             </v-btn>
+
+            <v-btn text icon class="mr-4" v-else @click="addLike(data.id, 2)">
+              <v-icon>thumb_down</v-icon>
+            </v-btn>
+
             <span>{{data.dislikes}}</span>
+          </span>
+
+          <span v-else class="mr-12">
+            <v-btn text icon class="mr-4" @click="addLike(data.id, 2)">
+              <v-icon>thumb_down</v-icon>
+            </v-btn>
+
+            <span>{{data.likes}}</span>
           </span>
 
           <span class="mr-12 mt-2">

@@ -45,16 +45,21 @@
         <v-col cols="1"></v-col>
         <v-col cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
           <span class="mr-12">
-            <v-icon class="mr-4">thumb_up</v-icon>
+            <!-- <v-icon class="mr-4">thumb_up</v-icon> -->
+            <v-btn text icon class="mr-4">
+              <v-icon>thumb_up</v-icon>
+            </v-btn>
             <span>{{data.likes}}</span>
           </span>
 
           <span class="mr-12">
-            <v-icon class="mr-4">thumb_down</v-icon>
+            <v-btn text icon class="mr-4">
+              <v-icon>thumb_down</v-icon>
+            </v-btn>
             <span>{{data.dislikes}}</span>
           </span>
 
-          <span class="mr-12">
+          <span class="mr-12 mt-2">
             <v-icon class="mr-4">mode_comment</v-icon>
             <span>
               <router-link :to="url">100 Comments</router-link>

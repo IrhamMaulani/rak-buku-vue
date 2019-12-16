@@ -79,11 +79,8 @@
               label="Your Scores"
               v-on:change="addScore"
             ></v-select>
-            <div class="d-flex flex-row">
-              <span
-                class="mt-3 mr-4"
-                v-if="book.check_bookmarked !== null && book.check_bookmarked.is_favorite === 1"
-              >
+            <div class="d-flex flex-row" v-if="book.check_bookmarked !== null">
+              <span class="mt-3 mr-4" v-if=" book.check_bookmarked.is_favorite === 1">
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
                     <v-btn icon v-on="on" @click="favorite(0)">
@@ -109,6 +106,20 @@
                 v-on:change="changeOwned"
                 :label="'Already Owned?'"
               ></v-checkbox>
+            </div>
+            <div class="d-flex flex-row" v-else>
+              <span class="mt-3 mr-4">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon v-on="on" @click="favorite(1)">
+                      <v-icon>favorite_border</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Add To Your Favorite</span>
+                </v-tooltip>
+              </span>
+
+              <v-checkbox v-on:change="changeOwned(1)" :label="'Already Owned?'"></v-checkbox>
             </div>
           </div>
         </v-col>
@@ -183,18 +194,18 @@
             <v-col cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
               <span class="mr-12">
                 <v-icon class="mr-4">thumb_up</v-icon>
-                <span>1</span>
+                <span>{{book.user_review.likes}}</span>
               </span>
 
               <span class="mr-12">
                 <v-icon class="mr-4">thumb_down</v-icon>
-                <span>100</span>
+                <span>{{book.user_review.dislikes}}</span>
               </span>
 
               <span class="mr-12">
                 <v-icon class="mr-4">mode_comment</v-icon>
                 <span>
-                  <router-link :to="url">100 Comments</router-link>
+                  <router-link :to="url">100 comments</router-link>
                 </span>
               </span>
             </v-col>
@@ -287,7 +298,8 @@ export default {
           }
         },
         check_bookmarked: {
-          is_favorite: 0
+          is_favorite: 0,
+          is_owned: 0
         }
       },
       slug: this.$route.params.id,
@@ -437,12 +449,20 @@ export default {
           this.bodySnackBar.snackbar = true;
         });
     },
-    changeOwned() {
-      const data = {
-        is_owned: this.book.check_bookmarked.is_owned,
-        book_id: this.book.id
-      };
+    changeOwned(owned = null) {
+      let data = {};
 
+      if (owned == 1) {
+        data = {
+          is_owned: owned,
+          book_id: this.book.id
+        };
+      } else {
+        data = {
+          is_owned: this.book.check_bookmarked.is_owned,
+          book_id: this.book.id
+        };
+      }
       this.$store.dispatch("setStatus", false);
       this.$http
         .post(`${process.env.VUE_APP_API}bookmark`, data)

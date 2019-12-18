@@ -115,7 +115,8 @@ export default {
       contentLength: 50,
       page: 1,
       nextPageUrl: "",
-      checked: true
+      checked: true,
+      like: false
     };
   },
   created() {
@@ -132,9 +133,15 @@ export default {
         .then(result => {
           const datas = result.data.data;
 
-          datas.forEach(element => {
-            this.datas.push(element);
-          });
+          if (this.like) {
+            //TODOS add overwrite data so no refresh all data
+            this.datas = datas;
+          } else {
+            datas.forEach(element => {
+              console.log(element.id);
+              this.datas.push(element);
+            });
+          }
           this.nextPageUrl = result.data.next_page_url;
 
           this.$store.dispatch("setStatus", false);
@@ -159,6 +166,7 @@ export default {
           if (bottomOfWindow) {
             if (this.nextPageUrl !== null) {
               this.page = this.page + 1;
+              this.like = false;
               this.getData(this.page);
             }
           }
@@ -178,6 +186,8 @@ export default {
           this.$store.dispatch("setStatus", true);
           this.bodySnackBar.message = "Success!";
           this.bodySnackBar.snackbar = true;
+          this.like = true;
+          this.page = 1;
           this.getData();
         })
         .catch(err => {
@@ -189,6 +199,10 @@ export default {
   },
   mounted() {
     this.scroll();
+  },
+  destroyed() {
+    //stupid variable when stupid mounted keep persistent in another route
+    this.checked = false;
   }
 };
 </script>

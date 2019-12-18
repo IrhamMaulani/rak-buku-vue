@@ -201,13 +201,6 @@
                 <v-icon class="mr-4">thumb_down</v-icon>
                 <span>{{book.user_review.dislikes}}</span>
               </span>
-
-              <span class="mr-12">
-                <v-icon class="mr-4">mode_comment</v-icon>
-                <span>
-                  <router-link :to="url">100 comments</router-link>
-                </span>
-              </span>
             </v-col>
           </v-row>
         </v-card>

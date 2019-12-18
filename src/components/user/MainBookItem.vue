@@ -56,11 +56,7 @@
         </div>
       </v-col>
       <v-col cols="4" class="pa-0">
-        <v-layout
-          align-center
-          justify-center
-          v-if="book.book_images_cover !== null"
-        >
+        <v-layout align-center justify-center v-if="book.book_images_cover !== null">
           <v-img
             class="justify-center"
             :src="`${url}storage/${book.book_images_cover.name}`"
@@ -82,14 +78,13 @@
         </v-layout>
       </v-col>
     </v-row>
-    <div v-if="!nextPageUrl" class="d-flex justify-center mt-12 ">
+    <div v-if="!nextPageUrl" class="d-flex justify-center mt-12">
       <v-btn class="pa-8" @click="toTop" text large block :elevation="2">
         <p class="mt-n4">
           Sorry You Lurk Too Deep
-          <br />
-          Click To Top
-        </p></v-btn
-      >
+          <br />Click To Top
+        </p>
+      </v-btn>
     </div>
     <snack-bar :body="bodySnackBar"></snack-bar>
   </div>
@@ -119,7 +114,7 @@ export default {
     };
   },
   created() {
-    this.getData(1);
+    this.getData();
   },
   computed: {
     imageDefault() {
@@ -156,11 +151,11 @@ export default {
           this.bodySnackBar.snackbar = true;
         });
     },
-    getData(page) {
+    getData() {
       this.$store.dispatch("setStatus", true);
       this.$http
         .get(
-          `${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10&page=${page}`
+          `${this.$baseUrl}book?orderBy=created_at&order=desc&limit=10&page=${this.page}`
         )
         .then(result => {
           const datas = result.data.data;
@@ -191,8 +186,8 @@ export default {
           //stupid condition when stupid mounted keep persistent in another route
           if (bottomOfWindow) {
             if (this.nextPageUrl !== null) {
-              this.getData(this.page);
               this.page = this.page + 1;
+              this.getData(this.page);
             }
           }
         }

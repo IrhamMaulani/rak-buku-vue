@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mb-4" v-for="(data,index) in datas.data" :key="index">
+    <v-card class="mb-4" v-for="(data,index) in datas" :key="index">
       <v-row>
         <v-col
           cols="1"
@@ -112,7 +112,10 @@ export default {
         message: "",
         snackbar: false
       },
-      contentLength: 50
+      contentLength: 50,
+      page: 1,
+      nextPageUrl: "",
+      checked: true
     };
   },
   created() {
@@ -124,16 +127,43 @@ export default {
       this.$store.dispatch("setStatus", true);
       this.$http
         .get(
-          `${this.$baseUrl}review?bookSlug=${this.slug}&userIncluded=1&orderBy=created_at&order=desc&slug=${this.reviewSlug}`
+          `${this.$baseUrl}review?bookSlug=${this.slug}&userIncluded=1&orderBy=created_at&order=desc&slug=${this.reviewSlug}&page=${this.page}`
         )
         .then(result => {
-          this.datas = result.data;
+          const datas = result.data.data;
+
+          datas.forEach(element => {
+            this.datas.push(element);
+          });
+          this.nextPageUrl = result.data.next_page_url;
 
           this.$store.dispatch("setStatus", false);
         })
         .catch(error => {
           alert(error);
         });
+    },
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          Math.max(
+            window.pageYOffset,
+            document.documentElement.scrollTop,
+            document.body.scrollTop
+          ) +
+            window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (this.checked) {
+          //stupid condition when stupid mounted keep persistent in another route
+          if (bottomOfWindow) {
+            if (this.nextPageUrl !== null) {
+              this.page = this.page + 1;
+              this.getData(this.page);
+            }
+          }
+        }
+      };
     },
     addLike(reviewId, response) {
       const data = {
@@ -156,6 +186,9 @@ export default {
           this.bodySnackBar.snackbar = true;
         });
     }
+  },
+  mounted() {
+    this.scroll();
   }
 };
 </script>

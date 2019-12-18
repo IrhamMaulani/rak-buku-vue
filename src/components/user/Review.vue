@@ -16,20 +16,14 @@
           </v-avatar>
         </v-col>
         <v-col cols="8" class="mt-4 pl-0">
-          <router-link :to="url">
-            <p class="title ma-0">{{data.title}}</p>
-          </router-link>
+          <p class="title ma-0">{{data.title}}</p>
         </v-col>
       </v-row>
       <v-row justify="center" class="mt-n6">
         <v-col cols="1" :class="{'mr-12' : $vuetify.breakpoint.smAndDown }"></v-col>
         <v-col cols="10" class="ml-n8">
-          <span class="mr-6">
-            <router-link :to="url">{{data.created_at}}</router-link>
-          </span>
-          <span class="underline">
-            <router-link :to="url">{{data.user.name}}</router-link>
-          </span>
+          <span class="mr-6">{{data.created_at}}</span>
+          <span class="underline">{{data.user.name}}</span>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -113,7 +107,7 @@ export default {
       url: "/reviews/1",
       datas: [],
       slug: this.$route.params.id,
-      reviewSlug: this.$route.query.slug || '',
+      reviewSlug: this.$route.query.slug || "",
       coba: true,
       bodySnackBar: {
         timeout: 2000,

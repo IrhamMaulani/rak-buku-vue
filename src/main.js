@@ -37,7 +37,10 @@ if (token) {
 
 
 Vue.filter('snippet', function (value, slice) {
-  return value.slice(0, slice) + '...';
+
+  const valueSlice = value.slice(0, slice);
+
+  return slice >= value.length ? valueSlice : valueSlice + '...';
 })
 
 new Vue({

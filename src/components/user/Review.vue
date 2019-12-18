@@ -95,13 +95,6 @@
 
             <span>{{data.likes}}</span>
           </span>
-
-          <span class="mr-12 mt-2">
-            <v-icon class="mr-4">mode_comment</v-icon>
-            <span>
-              <router-link :to="url">100 Comments</router-link>
-            </span>
-          </span>
         </v-col>
       </v-row>
     </v-card>
@@ -120,6 +113,7 @@ export default {
       url: "/reviews/1",
       datas: [],
       slug: this.$route.params.id,
+      reviewSlug: this.$route.query.slug || '',
       coba: true,
       bodySnackBar: {
         timeout: 2000,
@@ -137,7 +131,7 @@ export default {
       this.$store.dispatch("setStatus", true);
       this.$http
         .get(
-          `${this.$baseUrl}review?bookSlug=${this.slug}&orderBy=created_at&order=desc`
+          `${this.$baseUrl}review?bookSlug=${this.slug}&userIncluded=1&orderBy=created_at&order=desc&slug=${this.reviewSlug}`
         )
         .then(result => {
           this.datas = result.data;

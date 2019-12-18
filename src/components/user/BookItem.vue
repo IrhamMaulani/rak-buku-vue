@@ -146,9 +146,9 @@
           </div>
         </div>
 
-        <router-link :to="reviewUrl">
+        <!-- <router-link v-if="reviewSlug !==null" :to="'/book/' + slug">
           <p>More Reviews</p>
-        </router-link>
+        </router-link>-->
       </div>
       <v-divider class="mb-6"></v-divider>
 
@@ -296,6 +296,7 @@ export default {
         }
       },
       slug: this.$route.params.id,
+      reviewSlug: this.$route.query.slug || null,
       status: {},
       userScore: {},
       review: {

@@ -3,7 +3,7 @@
     <v-row class="mb-3 pa-0" v-for="review in datas.data" :key="review.id">
       <v-col cols="12" class="pa-0 ma-0">
         <v-layout :justify-center="!$vuetify.breakpoint.smAndDown" class="pa-0 ma-0">
-          <router-link :to="url">
+          <router-link :to="'book/' + review.book.slug + '?slug=' + review.slug ">
             <p class="font-weight-bold pa-0 ma-0">{{review.title}}</p>
           </router-link>
         </v-layout>

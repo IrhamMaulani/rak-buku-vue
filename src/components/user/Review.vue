@@ -28,12 +28,10 @@
       </v-row>
       <v-row justify="center">
         <v-col cols="12" class="px-10 text-left">
-          <p class="mx-12">{{data.content}}</p>
+          <p class="mx-12">{{data.content | snippet(contentLength)}}</p>
         </v-col>
 
-        <p class="ml-auto mr-12">
-          <router-link :to="url">Read More</router-link>
-        </p>
+        <v-btn text class="ml-auto mr-12" @click="contentLength = 100000">Read More</v-btn>
       </v-row>
       <v-row justify="center" class="mt-n8">
         <v-col cols="1"></v-col>
@@ -113,7 +111,8 @@ export default {
         timeout: 2000,
         message: "",
         snackbar: false
-      }
+      },
+      contentLength: 50
     };
   },
   created() {

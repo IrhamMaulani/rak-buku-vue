@@ -104,7 +104,7 @@ export default {
     return {
       url: "/reviews/1",
       datas: [],
-      slug: this.$route.params.id,
+      slug: this.$route.params.id || "",
       reviewSlug: this.$route.query.slug || "",
       coba: true,
       bodySnackBar: {

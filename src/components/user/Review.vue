@@ -43,7 +43,7 @@
               icon
               class="mr-4"
               color="blue"
-              @click="addLike(data.id, 0)"
+              @click="addLike(data.id, 0, 'likes')"
             >
               <v-icon>thumb_up</v-icon>
             </v-btn>
@@ -68,7 +68,7 @@
               class="mr-4"
               color="red"
               v-if="data.self_response.is_like ==2"
-              @click="addLike(data.id, 0)"
+              @click="addLike(data.id, 0, 'dislikes')"
             >
               <v-icon>thumb_down</v-icon>
             </v-btn>
@@ -173,7 +173,7 @@ export default {
         }
       };
     },
-    addLike(reviewId, response) {
+    addLike(reviewId, response, type = "") {
       const data = {
         is_like: response,
         review_id: reviewId
@@ -186,9 +186,30 @@ export default {
           this.$store.dispatch("setStatus", true);
           this.bodySnackBar.message = "Success!";
           this.bodySnackBar.snackbar = true;
-          this.like = true;
-          this.page = 1;
-          this.getData();
+          const updatedItem = this.datas.find(element => {
+            return element.id === reviewId;
+          });
+
+          if (response === 1) {
+            updatedItem.likes = updatedItem.likes + 1;
+            if (updatedItem.dislikes !== 0) {
+              updatedItem.dislikes = updatedItem.dislikes - 1;
+            }
+          } else if (response === 2) {
+            updatedItem.dislikes = updatedItem.dislikes + 1;
+            if (updatedItem.likes !== 0) {
+              updatedItem.likes = updatedItem.likes - 1;
+            }
+          } else {
+            if (type === "likes") {
+              updatedItem.likes = updatedItem.likes - 1;
+            } else if (type === "dislikes") {
+              updatedItem.dislikes = updatedItem.dislikes - 1;
+            }
+          }
+
+          updatedItem.self_response.is_like = response;
+          this.$store.dispatch("setStatus", false);
         })
         .catch(err => {
           this.$store.dispatch("setStatus", true);

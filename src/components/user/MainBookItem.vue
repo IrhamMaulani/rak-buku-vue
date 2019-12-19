@@ -129,7 +129,6 @@ export default {
         return 0;
       }
 
-      this.$store.dispatch("setStatus", true);
       this.$http({
         url: `${process.env.VUE_APP_API}bookmark`,
         method: "POST",
@@ -140,13 +139,18 @@ export default {
         }
       })
         .then(resp => {
-          this.$store.dispatch("setStatus", false);
-          this.getData();
+          const updatedItem = this.datas.find(element => {
+            return element.id === bookId;
+          });
+          console.log(updatedItem);
+
+          updatedItem.check_bookmarked = {};
+
+          updatedItem.check_bookmarked["is_owned"] = 1;
           this.bodySnackBar.message = "You Bookmarked It!";
           this.bodySnackBar.snackbar = true;
         })
         .catch(err => {
-          this.$store.dispatch("setStatus", false);
           this.bodySnackBar.message = "Failed";
           this.bodySnackBar.snackbar = true;
         });

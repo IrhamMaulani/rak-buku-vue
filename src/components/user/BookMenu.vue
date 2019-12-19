@@ -78,9 +78,7 @@
                             caption: $vuetify.breakpoint.lgOnly,
                             overline: $vuetify.breakpoint.mdOnly
                           }"
-                        >
-                          {{ book.description | snippet(1000) }}
-                        </div>
+                        >{{ book.description | snippet(1000) }}</div>
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -104,9 +102,7 @@
                             caption: $vuetify.breakpoint.lgOnly,
                             overline: $vuetify.breakpoint.mdOnly
                           }"
-                        >
-                          {{ book.description }}
-                        </div>
+                        >{{ book.description }}</div>
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -114,13 +110,7 @@
               </v-card>
             </v-hover>
           </v-col>
-          <v-col
-            cols="12"
-            md="8"
-            lg="8"
-            class="mt-12"
-            style="position: relative; width:100%"
-          >
+          <v-col cols="12" md="8" lg="8" class="mt-12" style="position: relative; width:100%">
             <div class="d-flex flex-row headline mt-12">
               <p>Vol 1</p>
             </div>
@@ -138,15 +128,15 @@
 
             <div class="mt-6">
               <p class="display-2 font-weight-bold">
-                <router-link :to="'book/' + book.slug">{{
+                <router-link :to="'book/' + book.slug">
+                  {{
                   book.title
-                }}</router-link>
+                  }}
+                </router-link>
               </p>
             </div>
 
-            <div
-              class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular"
-            >
+            <div class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular">
               <p class="mr-3">
                 Pengarang :
                 <router-link
@@ -166,8 +156,7 @@
                     path: '/book',
                     query: { publisher: book.publisher.name }
                   }"
-                  >{{ book.publisher.name }}</router-link
-                >
+                >{{ book.publisher.name }}</router-link>
               </p>
               <p>
                 <v-icon class="mr-2">print</v-icon>
@@ -197,9 +186,7 @@
                       </template>
                       <span>Already Added To Your Wishlist!</span>
                     </v-tooltip>
-                    <span v-if="book.check_bookmarked.is_owned === 1"
-                      >Is Owned</span
-                    >
+                    <span v-if="book.check_bookmarked.is_owned === 1">Is Owned</span>
                   </span>
                   <span v-else>
                     <v-tooltip top>
@@ -388,23 +375,21 @@ export default {
         return 0;
       }
 
-      this.overLay = true;
       this.$http({
         url: `${process.env.VUE_APP_API}bookmark`,
         method: "POST",
         data: {
           status: "Wish List",
-          is_owned: 0,
           book_id: bookId
         }
       })
         .then(resp => {
-          const queryOrderBy = this.$route.query.orderBy || "created_at";
-          const queryOrder = this.$route.query.order || "desc";
-          const searchQuery = this.$route.query.search || "";
+          const updatedItem = this.books.find(element => {
+            return element.id === bookId;
+          });
+          updatedItem.check_bookmarked = {};
 
-          this.getData(queryOrderBy, queryOrder, searchQuery);
-          this.overLay = false;
+          updatedItem.check_bookmarked["status"] = "Wish List";
           this.bodySnackBar.message = "You Bookmarked It!";
           this.bodySnackBar.snackbar = true;
         })

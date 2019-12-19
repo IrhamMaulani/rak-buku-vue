@@ -142,8 +142,6 @@ export default {
           const updatedItem = this.datas.find(element => {
             return element.id === bookId;
           });
-          console.log(updatedItem);
-
           updatedItem.check_bookmarked = {};
 
           updatedItem.check_bookmarked["is_owned"] = 1;

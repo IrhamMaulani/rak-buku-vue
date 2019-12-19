@@ -144,7 +144,7 @@ export default {
           });
           updatedItem.check_bookmarked = {};
 
-          updatedItem.check_bookmarked["is_owned"] = 1;
+          updatedItem.check_bookmarked["status"] = "Wish List";
           this.bodySnackBar.message = "You Bookmarked It!";
           this.bodySnackBar.snackbar = true;
         })

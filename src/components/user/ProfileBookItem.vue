@@ -1,8 +1,12 @@
 <template>
   <div class="relative">
-    <v-row class="pa-0">
-      <!-- NOTE IF large 6 item md 9 -->
-
+    <v-row v-if="datas.length < 0">
+      <v-container class="fill-height d-flex justify-center" fluid>
+        <v-img :src="require('../../assets/nothing.svg')" max-height="425" contain />
+        <p class="title mt-2">Nothing Here. You Need To Start Book Mark Book</p>
+      </v-container>
+    </v-row>
+    <v-row v-else class="pa-0">
       <v-col cols="4" v-for="(data, index) in dataPagin" :key="index" class="ma-0">
         <v-hover v-slot:default="{ hover }">
           <v-card color="grey lighten-4" max-width="212" class="mx-auto mt-n2">
@@ -117,16 +121,18 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-pagination
+        class="center-pagination"
+        v-model="currentPage"
+        :length="dataLength"
+        circle
+        :total-visible="6"
+        @input="pagination"
+      ></v-pagination>
     </v-row>
 
     <!-- <div class="coba-lagi"> -->
-    <v-pagination
-      class="center-pagination"
-      v-model="currentPage"
-      :length="dataLength"
-      circle
-      @input="pagination"
-    ></v-pagination>
+
     <!-- </div> -->
   </div>
 </template>
@@ -216,6 +222,11 @@ export default {
   opacity: 1;
   position: absolute;
   width: 100%;
+}
+.img-not-found {
+  position: absolute;
+  /* width: 100%; */
+  height: 100%;
 }
 a {
   text-decoration: none;

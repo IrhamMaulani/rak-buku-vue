@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-row class="mt-8" v-for="(book, index) in datas" :key="index">
+    <v-row v-if="datas.length < 0"></v-row>
+    <v-row class="mt-8" v-else v-for="(book, index) in datas" :key="index">
       <v-col cols="8" class="pa-0 mx-0">
         <p class="caption mx-4">
           <router-link
@@ -78,7 +79,7 @@
         </v-layout>
       </v-col>
     </v-row>
-    <div v-if="!nextPageUrl" class="d-flex justify-center mt-12">
+    <div v-if="!nextPageUrl && datas.length > 0" class="d-flex justify-center mt-12">
       <v-btn class="pa-8" @click="toTop" text large block :elevation="2">
         <p class="mt-n4">
           Sorry You Lurk Too Deep

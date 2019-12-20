@@ -3,12 +3,7 @@
     <v-row class="pa-0">
       <!-- NOTE IF large 6 item md 9 -->
 
-      <v-col
-        cols="4"
-        v-for="(data, index) in datas.data"
-        :key="index"
-        class="ma-0"
-      >
+      <v-col cols="4" v-for="(data, index) in dataPagin" :key="index" class="ma-0">
         <v-hover v-slot:default="{ hover }">
           <v-card color="grey lighten-4" max-width="212" class="mx-auto mt-n2">
             <div v-if="data.book_images_cover !== null">
@@ -34,18 +29,18 @@
 
                       <p>
                         Penulis :
-                        <router-link :to="url">{{
+                        <router-link :to="url">
+                          {{
                           data.authors[0].name
-                        }}</router-link>
+                          }}
+                        </router-link>
                       </p>
                       <p>Status : {{ data.check_bookmarked.status }}</p>
                       <div class="d-flex flex-row justify-center">
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on }">
                             <p class="mr-3">
-                              <v-icon v-on="on" class="mr-1 white--text"
-                                >star</v-icon
-                              >
+                              <v-icon v-on="on" class="mr-1 white--text">star</v-icon>
                               {{ data.user_score.score }}
                             </p>
                           </template>
@@ -55,9 +50,7 @@
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on }">
                             <p>
-                              <v-icon v-on="on" class="mr-1 white--text"
-                                >favorite_border</v-icon
-                              >
+                              <v-icon v-on="on" class="mr-1 white--text">favorite_border</v-icon>
                             </p>
                           </template>
                           <span>Your Favorite</span>
@@ -89,18 +82,18 @@
 
                       <p>
                         Penulis :
-                        <router-link :to="url">{{
+                        <router-link :to="url">
+                          {{
                           data.authors[0].name
-                        }}</router-link>
+                          }}
+                        </router-link>
                       </p>
                       <p>Status : {{ data.check_bookmarked.status }}</p>
                       <div class="d-flex flex-row justify-center">
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on }">
                             <p class="mr-3">
-                              <v-icon v-on="on" class="mr-1 white--text"
-                                >star</v-icon
-                              >
+                              <v-icon v-on="on" class="mr-1 white--text">star</v-icon>
                               {{ data.user_score.score }}
                             </p>
                           </template>
@@ -110,9 +103,7 @@
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on }">
                             <p>
-                              <v-icon v-on="on" class="mr-1 white--text"
-                                >favorite_border</v-icon
-                              >
+                              <v-icon v-on="on" class="mr-1 white--text">favorite_border</v-icon>
                             </p>
                           </template>
                           <span>Your Favorite</span>
@@ -131,9 +122,8 @@
     <!-- <div class="coba-lagi"> -->
     <v-pagination
       class="center-pagination"
-      v-model="datas.current_page"
-      :total-visible="4"
-      :length="datas.last_page"
+      v-model="currentPage"
+      :length="dataLength"
       circle
       @input="pagination"
     ></v-pagination>
@@ -147,7 +137,10 @@ export default {
     return {
       url: "/",
       imageUrl: "http://localhost/rak-buku-web/public/",
-      datas: []
+      datas: [],
+      dataPagin: [],
+      dataLength: null,
+      currentPage: null
     };
   },
   props: {
@@ -163,8 +156,17 @@ export default {
       this.$http
         .get(`${this.$baseUrl}bookmark?${url}`)
         .then(result => {
-          this.datas = result.data;
+          // this.datas = result.data;
           this.$store.dispatch("setStatus", false);
+          this.dataLength = result.data.last_page;
+          this.currentPage = result.data.currentPage;
+
+          const datas = result.data.data;
+          datas.forEach(element => {
+            element["pagin"] = 1;
+            this.dataPagin.push(element);
+            this.datas.push(element);
+          });
         })
         .catch(error => {
           alert(error);
@@ -174,16 +176,30 @@ export default {
     pagination() {
       let url = this.status;
 
-      this.$http
-        .get(`${this.$baseUrl}bookmark?${url}&page=${this.datas.current_page}`)
-        .then(result => {
-          this.datas = result.data;
-          this.$store.dispatch("setStatus", false);
-        })
-        .catch(error => {
-          alert(error);
-          this.$store.dispatch("setStatus", false);
-        });
+      const filteredData = this.datas.filter(element => {
+        return element.pagin === this.currentPage;
+      });
+
+      this.dataPagin = filteredData;
+
+      if (this.dataPagin.length < 1) {
+        this.$http
+          .get(`${this.$baseUrl}bookmark?${url}&page=${this.currentPage}`)
+          .then(result => {
+            const datas = result.data.data;
+            datas.forEach(element => {
+              element["pagin"] = this.currentPage;
+              this.datas.push(element);
+              this.dataPagin.push(element);
+            });
+
+            this.$store.dispatch("setStatus", false);
+          })
+          .catch(error => {
+            alert(error);
+            this.$store.dispatch("setStatus", false);
+          });
+      }
     }
   },
   created() {

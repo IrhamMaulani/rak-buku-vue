@@ -105,7 +105,7 @@ export default {
     getData() {
       this.$store.dispatch("setStatus", true);
       this.$http
-        .get(`${this.$baseUrl}${this.detail.url}`)
+        .get(`${this.$baseUrl}${this.detail.url}page=${this.page}`)
         .then(result => {
           const datas = result.data.data;
 
@@ -146,50 +146,6 @@ export default {
           }
         }
       };
-    },
-    addLike(reviewId, response, type = "") {
-      const data = {
-        is_like: response,
-        review_id: reviewId
-      };
-
-      this.$store.dispatch("setStatus", false);
-      this.$http
-        .post(`${process.env.VUE_APP_API}review-response`, data)
-        .then(result => {
-          this.$store.dispatch("setStatus", true);
-          this.bodySnackBar.message = "Success!";
-          this.bodySnackBar.snackbar = true;
-          const updatedItem = this.datas.find(element => {
-            return element.id === reviewId;
-          });
-
-          if (response === 1) {
-            updatedItem.likes = updatedItem.likes + 1;
-            if (updatedItem.dislikes !== 0) {
-              updatedItem.dislikes = updatedItem.dislikes - 1;
-            }
-          } else if (response === 2) {
-            updatedItem.dislikes = updatedItem.dislikes + 1;
-            if (updatedItem.likes !== 0) {
-              updatedItem.likes = updatedItem.likes - 1;
-            }
-          } else {
-            if (type === "likes") {
-              updatedItem.likes = updatedItem.likes - 1;
-            } else if (type === "dislikes") {
-              updatedItem.dislikes = updatedItem.dislikes - 1;
-            }
-          }
-
-          updatedItem.self_response.is_like = response;
-          this.$store.dispatch("setStatus", false);
-        })
-        .catch(err => {
-          this.$store.dispatch("setStatus", true);
-          this.bodySnackBar.message = "Failed";
-          this.bodySnackBar.snackbar = true;
-        });
     }
   },
   mounted() {

@@ -33,7 +33,10 @@
 
                       <p>
                         Penulis :
-                        <router-link v-if="data.authors > 0" :to="url">
+                        <router-link
+                          v-if="data.authors > 0"
+                          :to="{ path: '/book', query: { author: data.authors[0].name } }"
+                        >
                           {{
                           data.authors[0].name
                           }}
@@ -53,14 +56,16 @@
                           </v-tooltip>
                         </span>
 
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on }">
-                            <p>
-                              <v-icon v-on="on" class="mr-1 white--text">favorite_border</v-icon>
-                            </p>
-                          </template>
-                          <span>Your Favorite</span>
-                        </v-tooltip>
+                        <div v-if="data.check_bookmarked !== null">
+                          <v-tooltip v-if="data.check_bookmarked.is_favorite !== 0" bottom>
+                            <template v-slot:activator="{ on }">
+                              <p>
+                                <v-icon v-on="on" class="mr-1 white--text">favorite_border</v-icon>
+                              </p>
+                            </template>
+                            <span>Your Favorite</span>
+                          </v-tooltip>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -88,7 +93,9 @@
 
                       <p v-if="data.authors.length > 0">
                         Penulis :
-                        <router-link :to="url">
+                        <router-link
+                          :to="{ path: '/book', query: { author: data.authors[0].name } }"
+                        >
                           {{
                           data.authors[0].name
                           }}
@@ -106,14 +113,16 @@
                           <span>Your Score</span>
                         </v-tooltip>
 
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on }">
-                            <p>
-                              <v-icon v-on="on" class="mr-1 white--text">favorite_border</v-icon>
-                            </p>
-                          </template>
-                          <span>Your Favorite</span>
-                        </v-tooltip>
+                        <div v-if="data.check_bookmarked !== null">
+                          <v-tooltip v-if="data.check_bookmarked.is_favorite !== 0" bottom>
+                            <template v-slot:activator="{ on }">
+                              <p>
+                                <v-icon v-on="on" class="mr-1 white--text">favorite_border</v-icon>
+                              </p>
+                            </template>
+                            <span>Your Favorite</span>
+                          </v-tooltip>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -48,7 +48,18 @@
       </v-row>
       <v-row justify="center" class="mt-n8">
         <v-col cols="1"></v-col>
-        <v-col cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
+        <v-col v-if="!isLoggedIn" cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
+          <span class="mr-12">
+            <v-icon class="mr-4">thumb_up</v-icon>
+            <span>{{data.likes}}</span>
+          </span>
+
+          <span class="mr-12">
+            <v-icon class="mr-4">thumb_down</v-icon>
+            <span>{{data.dislikes}}</span>
+          </span>
+        </v-col>
+        <v-col v-else cols="11" class="mb-4 ml-12 d-flex flex-row justify-start">
           <span v-if="data.self_response !== null" class="mr-12">
             <v-btn
               v-if="data.self_response.is_like === 1"
@@ -238,6 +249,11 @@ export default {
   destroyed() {
     //stupid variable when stupid mounted keep persistent in another route
     this.checked = false;
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
   }
 };
 </script>

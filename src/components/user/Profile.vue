@@ -1,20 +1,11 @@
 <template>
   <v-row class="ma-2">
-    <v-col
-      cols="12"
-      md="4"
-      lg="4"
-      :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }"
-    >
+    <v-col cols="12" md="4" lg="4" :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }">
       <div v-if="!isEdit">
         <v-card dark class="mr-2" height="590">
           <v-card-title class="pb-0"></v-card-title>
           <v-card-text class="text--primary mt-8 text-center">
-            <v-avatar
-              v-if="userProfile.image_profile !== null"
-              size="180"
-              class
-            >
+            <v-avatar v-if="userProfile.image_profile !== null" size="180" class>
               <v-img
                 :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
                 lazy-src="https://picsum.photos/id/11/10/6"
@@ -39,9 +30,7 @@
               </h1>
               <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                  <p v-on="on" class="mt-4 subtitle-1">
-                    {{ userProfile.name }}
-                  </p>
+                  <p v-on="on" class="mt-4 subtitle-1">{{ userProfile.name }}</p>
                 </template>
                 <span>Your Username</span>
               </v-tooltip>
@@ -65,8 +54,7 @@
                 large
                 color="white black--text"
                 @click="isEdit = true"
-                >Edit Profile</v-btn
-              >
+              >Edit Profile</v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -82,12 +70,7 @@
           <v-card-text class="text--primary mt-8 text-center">
             <image-input v-model="avatar">
               <div slot="activator">
-                <v-avatar
-                  size="180"
-                  v-ripple
-                  v-if="!avatar"
-                  class="grey lighten-3"
-                >
+                <v-avatar size="180" v-ripple v-if="!avatar" class="grey lighten-3">
                   <v-img
                     v-if="userProfile.image_profile !== null"
                     :src="
@@ -114,22 +97,13 @@
               <div class="divider mt-5"></div>
               <v-row class="justify-center align-center">
                 <v-col cols="7" class="mb-n8">
-                  <v-text-field
-                    label="Full Name"
-                    v-model="userProfile.full_name"
-                  ></v-text-field>
+                  <v-text-field label="Full Name" v-model="userProfile.full_name"></v-text-field>
                 </v-col>
                 <v-col cols="7" class="mb-n8">
-                  <v-text-field
-                    label="User Name"
-                    v-model="userProfile.name"
-                  ></v-text-field>
+                  <v-text-field label="User Name" v-model="userProfile.name"></v-text-field>
                 </v-col>
                 <v-col cols="7" class="mb-n6">
-                  <v-text-field
-                    label="Email"
-                    v-model="userProfile.email"
-                  ></v-text-field>
+                  <v-text-field label="Email" v-model="userProfile.email"></v-text-field>
                 </v-col>
               </v-row>
               <v-btn
@@ -138,20 +112,14 @@
                 large
                 color="white black--text"
                 @click="editProfile"
-                >Save Profile</v-btn
-              >
+              >Save Profile</v-btn>
             </div>
           </v-card-text>
         </v-card>
       </div>
     </v-col>
 
-    <v-col
-      cols="12"
-      md="8"
-      lg="8"
-      :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }"
-    >
+    <v-col cols="12" md="8" lg="8" :class="{ 'px-0': !$vuetify.breakpoint.smAndDown }">
       <v-card height="590" class="mt-n8">
         <v-card-text class="text--primary mt-8">
           <v-tabs centered>
@@ -192,10 +160,7 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <dialog-confirm
-      :body="bodyDialog"
-      v-on:confirmDialog="functionHelper"
-    ></dialog-confirm>
+    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="functionHelper"></dialog-confirm>
     <snack-bar :body="bodySnackBar"></snack-bar>
   </v-row>
 </template>
@@ -279,11 +244,13 @@ export default {
       this.isClosed = false;
       this.bodyDialog.dialog = true;
       this.bodyDialog.message = "Save Profile?";
+      this.bodyDialog.title = "Save?";
     },
     closeEdit() {
       this.isClosed = true;
       this.bodyDialog.dialog = true;
       this.bodyDialog.message = "Are You Sure Want to Discard?";
+      this.bodyDialog.title = "Discard";
     },
     functionHelper() {
       if (this.isClosed) {

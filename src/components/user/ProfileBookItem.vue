@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <v-row v-if="datas.length < 0">
+    <v-row v-if="datas.length <= 0">
       <v-container class="fill-height d-flex justify-center" fluid>
         <v-img :src="require('../../assets/nothing.svg')" max-height="425" contain />
         <p class="title mt-2">Nothing Here. You Need To Start Book Mark Book</p>

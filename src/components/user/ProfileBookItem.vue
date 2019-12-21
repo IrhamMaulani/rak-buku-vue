@@ -33,7 +33,7 @@
 
                       <p>
                         Penulis :
-                        <router-link :to="url">
+                        <router-link v-if="data.authors > 0" :to="url">
                           {{
                           data.authors[0].name
                           }}
@@ -41,15 +41,17 @@
                       </p>
                       <p>Status : {{ data.check_bookmarked.status }}</p>
                       <div class="d-flex flex-row justify-center">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on }">
-                            <p class="mr-3">
-                              <v-icon v-on="on" class="mr-1 white--text">star</v-icon>
-                              {{ data.user_score.score }}
-                            </p>
-                          </template>
-                          <span>Your Score</span>
-                        </v-tooltip>
+                        <span v-if=" data.user_score !== null">
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                              <p class="mr-3">
+                                <v-icon v-on="on" class="mr-1 white--text">star</v-icon>
+                                {{ data.user_score.score }}
+                              </p>
+                            </template>
+                            <span>Your Score</span>
+                          </v-tooltip>
+                        </span>
 
                         <v-tooltip bottom>
                           <template v-slot:activator="{ on }">
@@ -84,7 +86,7 @@
                         <p>{{ data.title }}</p>
                       </router-link>
 
-                      <p>
+                      <p v-if="data.authors.length > 0">
                         Penulis :
                         <router-link :to="url">
                           {{

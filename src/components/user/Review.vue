@@ -1,6 +1,19 @@
 <template>
   <div>
-    <v-card class="mb-4" v-for="(data,index) in datas" :key="index">
+    <v-container
+      v-if="datas.length <= 0 && reviewUser === null"
+      class="fill-height d-flex justify-center mt-12"
+      fluid
+    >
+      <v-img
+        :src="require('../../assets/empty-review.svg')"
+        max-height="625"
+        contain
+        class="mt-12"
+      />
+      <p class="title mt-12">Nothing Here. Write Review For This Book</p>
+    </v-container>
+    <v-card v-else class="mb-4" v-for="(data,index) in datas" :key="index">
       <v-row>
         <v-col
           cols="1"
@@ -119,6 +132,9 @@ export default {
       like: false
     };
   },
+  props: {
+    reviewUser: Object
+  },
   created() {
     this.bookId;
     this.getData();
@@ -128,20 +144,18 @@ export default {
       this.$store.dispatch("setStatus", true);
       this.$http
         .get(
-          `${this.$baseUrl}review?bookSlug=${this.slug}&userIncluded=1&orderBy=created_at&order=desc&slug=${this.reviewSlug}&page=${this.page}`
+          `${this.$baseUrl}review?bookSlug=${this.slug}&userIncluded=0&orderBy=created_at&order=desc&slug=${this.reviewSlug}&page=${this.page}`
         )
         .then(result => {
           const datas = result.data.data;
 
-          if (this.like) {
-            //TODOS add overwrite data so no refresh all data
-            this.datas = datas;
-          } else {
-            datas.forEach(element => {
-              console.log(element.id);
-              this.datas.push(element);
-            });
-          }
+          datas.forEach(element => {
+            console.log(element.id);
+            this.datas.push(element);
+          });
+
+          const coba = this.datas;
+
           this.nextPageUrl = result.data.next_page_url;
 
           this.$store.dispatch("setStatus", false);

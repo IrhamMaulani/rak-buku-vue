@@ -206,7 +206,7 @@
         </v-card>
       </div>
 
-      <review ref="review" />
+      <review :reviewUser="book.user_review" ref="review" />
     </v-col>
     <snack-bar :body="bodySnackBar"></snack-bar>
     <half-modal ref="halfModal" v-on:saveData="submitReview($event)">

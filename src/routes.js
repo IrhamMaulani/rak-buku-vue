@@ -16,6 +16,7 @@ import Login from "./components/auth/Login.vue";
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store/store.js'
+import NotFound from "./components/NotFound.vue";
 
 
 Vue.use(Router)
@@ -23,6 +24,10 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [{
+            path: '*',
+            component: NotFound
+        },
+        {
             path: '/',
             component: UserHeader,
             children: [{

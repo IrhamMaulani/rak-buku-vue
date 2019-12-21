@@ -131,7 +131,7 @@ export default {
     return {
       lists: [
         { title: "Profile", icon: "person", url: "/profile" },
-        { title: "Setting", icon: "settings", url: "/admin/add-user" },
+        { title: "Setting", icon: "settings", url: "/setting" },
         { title: "Log Out", icon: "exit_to_app", url: "", method: "coba" }
       ],
       listsGuest: [

@@ -5,7 +5,7 @@ import Home from './components/user/Home.vue'
 import AdminHeader from "./components/AdminHeader.vue";
 import UserHeader from "./components/UserHeader.vue";
 import Profile from "./components/user/Profile.vue";
-import Review from "./components/user/Review.vue";
+import ReviewMenu from "./components/user/ReviewMenu.vue";
 import BookMenu from "./components/user/BookMenu.vue";
 import BookItem from "./components/user/BookItem.vue";
 import AddBook from "./components/user/AddBook.vue";
@@ -44,12 +44,9 @@ const router = new Router({
                 },
                 {
                     path: "reviews",
-                    component: Review
+                    component: ReviewMenu
                 },
-                {
-                    path: "reviews/:id",
-                    component: Review
-                },
+
                 {
                     path: "book",
                     component: BookMenu
@@ -80,10 +77,7 @@ const router = new Router({
                         requiresAuth: true
                     }
                 },
-                {
-                    path: "book/:id/reviews",
-                    component: Review
-                },
+
                 {
                     path: "login",
                     component: Login,

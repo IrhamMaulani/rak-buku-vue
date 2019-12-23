@@ -19,14 +19,25 @@
         <template v-slot:item.reputation="{ item }">
           <li>{{item.reputation.name }}</li>
         </template>
-        <template v-slot:item.action="{ item }">
-          <v-icon small class="mr-2" v-on:click="editItem(item)">edit</v-icon>
-          <v-icon small @click="deleteItem(item)">delete</v-icon>
-        </template>
+
         <template v-slot:item.roles="{ item }">
           <ul v-for="data in item.roles">
             <li v-if="checkArray(item.roles)">{{data.name }}</li>
           </ul>
+        </template>
+        <template v-slot:item.is_ban="{ item }">
+          <v-btn
+            v-if="item.is_ban === 1"
+            small
+            color="error"
+            class="pr-6"
+            @click="ban([0, item.id])"
+          >Is Banned</v-btn>
+          <v-btn v-else small color="success" @click="ban([1, item.id])">Not Banned</v-btn>
+        </template>
+        <template v-slot:item.action="{ item }">
+          <v-icon small class="mr-2" v-on:click="editItem(item)">edit</v-icon>
+          <v-icon small @click="deleteItem(item)">delete</v-icon>
         </template>
       </v-data-table>
     </v-card>
@@ -34,15 +45,20 @@
 </template>
 <script>
 export default {
+  template: {
+    coba: `dada`
+  },
   data() {
     return {
       search: "",
+      datas: [],
       headers: [
         { text: "Id", value: "id" },
         { text: "Name", value: "name" },
         { text: "Email", value: "email" },
         { text: "Reputation", value: "reputation" },
         { text: "Roles", value: "roles" },
+        { text: "Is Ban?", value: "is_ban" },
         { text: "Actions", value: "action", sortable: false }
       ],
       loading: {
@@ -50,11 +66,6 @@ export default {
         message: "Loading... Please wait"
       }
     };
-  },
-  computed: {
-    datas() {
-      return this.$store.getters.users;
-    }
   },
   watch: {
     datas() {
@@ -65,16 +76,7 @@ export default {
     }
   },
   created() {
-    // this.getData();
-    this.$store
-      .dispatch("getUsers")
-      .then(result => {
-        this.loading.loading = false;
-      })
-      .catch(err => {
-        alert(error);
-        this.loading.message = "" + error;
-      });
+    this.getData();
   },
   methods: {
     checkArray(item) {
@@ -85,20 +87,23 @@ export default {
     },
     deleteItem(item) {
       this.$emit("deleteItem", item);
+    },
+    ban(item) {
+      this.$emit("ban", item);
+    },
+    getData() {
+      this.$http
+        .get(this.$baseUrl + "admin/user")
+        .then(result => {
+          this.loading.loading = true;
+          const data = result.data.data;
+          this.datas = data;
+        })
+        .catch(error => {
+          alert(error);
+          this.loading.message = "" + error;
+        });
     }
-    // getData() {
-    //   this.$http
-    //     .get(this.$baseUrl + "admin/user")
-    //     .then(result => {
-    //       this.loading.loading = true;
-    //       const data = result.data.data;
-    //       this.datas = data;
-    //     })
-    //     .catch(error => {
-    //       alert(error);
-    //       this.loading.message = "" + error;
-    //     });
-    // }
   }
 };
 </script>

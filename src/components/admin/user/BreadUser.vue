@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <data-user ref="dataUser" v-on:editItem="editItem($event)" v-on:deleteItem="deleteItem($event)"></data-user>
+    <data-user
+      ref="dataUser"
+      v-on:editItem="editItem($event)"
+      v-on:deleteItem="deleteItem($event)"
+      v-on:ban="openBanDialog($event)"
+    ></data-user>
     <modal ref="modal" v-on:saveData="validation($event)">
       <div slot="form-content">
         <v-form ref="form" v-model="valid">
@@ -18,6 +23,7 @@
             counter
             @click:append="show1 = !show1"
           ></v-text-field>
+
           <v-select
             :items="reputationList"
             :rules="[v => !!v || 'Item is required']"
@@ -45,6 +51,7 @@
     <add-button v-on:openComponent="addData"></add-button>
     <snack-bar :body="bodySnackBar"></snack-bar>
     <dialog-confirm :body="bodyDialog" v-on:confirmDialog="deleteUserData"></dialog-confirm>
+    <dialog-confirm :body="banDialog" v-on:confirmDialog="ban"></dialog-confirm>
     <dialog-progress :progress="progress"></dialog-progress>
   </v-container>
 </template>
@@ -62,7 +69,6 @@ import {
   emailRules,
   roleRules
 } from "../../FormRules.js";
-
 export default {
   components: {
     DataUser,
@@ -73,9 +79,9 @@ export default {
     DialogProgress
   },
   created() {
-    this.$store.dispatch("getRoles");
-    this.$store.dispatch("getReputations");
+    this.getRoleAndReputation();
   },
+  computed: {},
   data() {
     return {
       show1: false,
@@ -84,6 +90,9 @@ export default {
       emailRules: emailRules,
       roleRules: roleRules,
       password: "",
+      reputationList: [],
+      rolesList: [],
+
       valid: true,
       user: {
         name: "",
@@ -108,21 +117,19 @@ export default {
         message: "Are You Sure Want To Delete This Item?",
         title: "Delete Item"
       },
-      progress: false
+      banDialog: {
+        dialog: false,
+        message: "",
+        title: ""
+      },
+      progress: false,
+      statusBan: null
     };
   },
   watch: {
     "user.password"() {
       //watch and push password to user object
       this.user.password_confirmation = this.user.password;
-    }
-  },
-  computed: {
-    rolesList() {
-      return this.$store.getters.roles;
-    },
-    reputationList() {
-      return this.$store.getters.reputations;
     }
   },
   methods: {
@@ -133,23 +140,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.progress = true;
         if (this.isPost) {
-          // this.postUserData();
-          console.log(this.user);
-          try {
-            this.$store
-              .dispatch("addUsers", this.user)
-
-              .then(result => {
-                //  this.openSnackbar(true, response.data);
-                // this.reset();
-                // this.$refs.dataUser.getData();
-                this.progress = false;
-                this.$refs.modal.dialog = false;
-              })
-              .catch(err => {
-                alert("error" + err);
-              });
-          } catch (error) {}
+          this.postUserData();
         } else {
           this.updateUserData();
         }
@@ -176,6 +167,22 @@ export default {
       this.bodyDialog.dialog = true;
       this.user = Object.assign({}, item);
     },
+    getRoleAndReputation() {
+      this.$http
+        .all([
+          this.$http.get(this.$baseUrl + "admin/reputation"),
+          this.$http.get(this.$baseUrl + "admin/role")
+        ])
+        .then(
+          this.$http.spread((reputation, role) => {
+            this.reputationList = reputation.data.data;
+            this.rolesList = role.data.data;
+          })
+        )
+        .catch(error => {
+          this.openSnackbar(true, error);
+        });
+    },
     reset() {
       this.$refs.form.reset();
     },
@@ -185,7 +192,7 @@ export default {
         .then(response => {
           this.openSnackbar(true, response.data);
           this.reset();
-          // this.$refs.dataUser.getData();
+          this.$refs.dataUser.getData();
           this.progress = false;
           this.$refs.modal.dialog = false;
         })
@@ -200,7 +207,7 @@ export default {
         .then(response => {
           this.openSnackbar(true, response.data);
           this.reset();
-          // this.$refs.dataUser.getData();
+          this.$refs.dataUser.getData();
           this.progress = false;
           this.$refs.modal.dialog = false;
         })
@@ -222,8 +229,39 @@ export default {
           this.openSnackbar(true, error);
           this.progress = false;
         });
+    },
+    openBanDialog(item) {
+      if (item[0] === 1) {
+        this.banDialog.message = "Ban This User?";
+        this.banDialog.title = "Ban?";
+      } else if (item[0] === 0) {
+        this.banDialog.message = "Unban This User?";
+        this.banDialog.title = "Unban?";
+      }
+
+      this.statusBan = item[0];
+
+      this.user.id = item[1];
+
+      this.banDialog.dialog = true;
+    },
+    ban() {
+      this.$http
+        .put(`${this.$baseUrl}admin/user/${this.user.id}/ban`, {
+          statusBan: this.statusBan
+        })
+        .then(response => {
+          this.openSnackbar(true, response.data);
+
+          this.$refs.dataUser.getData();
+          // this.progress = false;
+          this.isBan = false;
+        })
+        .catch(error => {
+          this.openSnackbar(true, error);
+          this.isBan = false;
+        });
     }
   }
 };
 </script>
-

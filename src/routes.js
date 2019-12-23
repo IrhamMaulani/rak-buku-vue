@@ -1,6 +1,7 @@
 import ImageInput from './components/ImageInput.vue'
 import AdminUser from './components/admin/user/BreadUser.vue'
 import AdminBook from './components/admin/book/BreadBook.vue'
+import AdminTag from './components/admin/tag/BreadTag.vue'
 import Home from './components/user/Home.vue'
 import AdminHeader from "./components/AdminHeader.vue";
 import UserHeader from "./components/UserHeader.vue";
@@ -110,6 +111,10 @@ const router = new Router({
                 {
                     path: 'add-book',
                     component: AdminBook
+                },
+                {
+                    path: 'add-tag',
+                    component: AdminTag
                 }
             ]
         },

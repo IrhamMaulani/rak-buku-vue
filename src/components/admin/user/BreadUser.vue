@@ -252,9 +252,7 @@ export default {
         })
         .then(response => {
           this.openSnackbar(true, response.data);
-
           this.$refs.dataUser.getData();
-          // this.progress = false;
           this.isBan = false;
         })
         .catch(error => {

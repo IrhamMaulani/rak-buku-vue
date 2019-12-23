@@ -100,7 +100,7 @@ export default {
         text: "Books",
         model: false,
         children: [
-          { icon: "add", text: "Create label", url: "/" },
+          { icon: "style", text: "Add Tag", url: "/admin/add-tag" },
           { icon: "menu_book", text: "Add New Book", url: "/admin/add-book" }
         ]
       },

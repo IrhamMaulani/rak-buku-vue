@@ -27,7 +27,7 @@ export default {
             return new Promise((resolve, reject) => {
                 commit("auth_request");
                 axios({
-                        url: `${process.env.VUE_APP_API}admin/check-admin`,
+                        url: `${process.env.VUE_APP_API}check-admin`,
                         method: "GET"
                     })
                     .then(resp => {

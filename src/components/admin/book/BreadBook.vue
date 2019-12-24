@@ -250,7 +250,7 @@ export default {
     deleteUserData() {
       this.progress = true;
       this.$http
-        .delete(`${this.$baseUrl}admin/author/${this.form.id}`)
+        .delete(`${this.$baseUrl}admin/book/${this.form.id}`)
         .then(response => {
           this.openSnackbar(true, response.data);
           this.$refs.dataBook.getData();

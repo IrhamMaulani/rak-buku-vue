@@ -119,7 +119,8 @@ export default {
         children: [
           { icon: "person_add", text: "Add New User", url: "/admin/add-user" }
         ]
-      }
+      },
+      { icon: "home_work", text: "To Rak Buku", url: "/" }
     ]
   }),
   methods: {

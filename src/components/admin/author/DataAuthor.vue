@@ -15,6 +15,7 @@
         class="elevation-1"
         :loading="loading.loading"
         :loading-text="loading.message"
+        items-per-page="6"
       >
         <template v-slot:item.author_image.name="{ item }">
           <span v-if="item.author_image !== null">

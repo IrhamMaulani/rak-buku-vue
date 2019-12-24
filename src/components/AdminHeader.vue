@@ -101,6 +101,11 @@ export default {
         model: false,
         children: [
           { icon: "style", text: "Add Tag", url: "/admin/add-tag" },
+          {
+            icon: "store",
+            text: "Add New Publisher",
+            url: "/admin/add-publisher"
+          },
           { icon: "menu_book", text: "Add New Book", url: "/admin/add-book" }
         ]
       },

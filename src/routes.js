@@ -21,6 +21,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store/store.js'
 import NotFound from "./components/NotFound.vue";
+import About from './components/user/About.vue'
+import Career from './components/user/Career.vue'
+import Privacy from './components/user/Privacy.vue'
+import Term from './components/user/Term.vue'
 
 
 Vue.use(Router)
@@ -97,7 +101,22 @@ const router = new Router({
                     }
 
                 },
-
+                {
+                    path: "about",
+                    component: About
+                },
+                {
+                    path: "career",
+                    component: Career
+                },
+                {
+                    path: "privacy",
+                    component: Privacy
+                },
+                {
+                    path: "term",
+                    component: Term
+                },
             ]
         },
         {

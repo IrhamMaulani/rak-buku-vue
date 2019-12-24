@@ -14,8 +14,7 @@ export default {
         // { text: "Help", url: "" },
         { text: "About", url: "about" },
         { text: "Terms", url: "term" },
-        { text: "Careers", url: "career" },
-        { text: "Privacy", url: "privacy" }
+        { text: "Careers", url: "career" }
       ]
     };
   }

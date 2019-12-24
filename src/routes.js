@@ -23,7 +23,6 @@ import store from './store/store.js'
 import NotFound from "./components/NotFound.vue";
 import About from './components/user/About.vue'
 import Career from './components/user/Career.vue'
-import Privacy from './components/user/Privacy.vue'
 import Term from './components/user/Term.vue'
 
 
@@ -109,10 +108,7 @@ const router = new Router({
                     path: "career",
                     component: Career
                 },
-                {
-                    path: "privacy",
-                    component: Privacy
-                },
+
                 {
                     path: "term",
                     component: Term

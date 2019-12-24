@@ -11,11 +11,11 @@ export default {
   data() {
     return {
       footers: [
-        { text: "Help", url: "" },
-        { text: "About", url: "About" },
-        { text: "Terms", url: "" },
-        { text: "Careers", url: "" },
-        { text: "Privacy", url: "" }
+        // { text: "Help", url: "" },
+        { text: "About", url: "about" },
+        { text: "Terms", url: "term" },
+        { text: "Careers", url: "career" },
+        { text: "Privacy", url: "privacy" }
       ]
     };
   }

@@ -65,16 +65,10 @@
         class="hidden-sm-and-down"
       ></v-text-field>
       <div class="flex-grow-1"></div>
-      <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-      <v-btn icon large>
-        <v-avatar size="32px" item>
-          <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img>
-        </v-avatar>
+
+      <v-btn text class="pa-0" @click="openDialog">
+        <v-icon>power_settings_new</v-icon>
+        <span class="hidden-sm-and-down ml-2">Log Out</span>
       </v-btn>
     </v-app-bar>
     <v-content>
@@ -82,18 +76,28 @@
         <router-view></router-view>
       </v-container>
     </v-content>
+    <dialog-confirm :body="bodyDialog" v-on:confirmDialog="logOut"></dialog-confirm>
   </v-app>
 </template>
 
 <script>
+import DialogConfirm from "../components/DialogConfirm";
 export default {
+  components: {
+    DialogConfirm
+  },
   props: {
     source: String
   },
   data: () => ({
+    bodyDialog: {
+      dialog: false,
+      message: "Are You Sure Want To Logout?",
+      title: "Logout"
+    },
     drawer: null,
     items: [
-      { icon: "home", text: "Home", url: "/home" },
+      { icon: "home", text: "Home", url: "/admin/home" },
       {
         icon: "keyboard_arrow_up",
         "icon-alt": "keyboard_arrow_down",
@@ -124,7 +128,22 @@ export default {
         ]
       }
     ]
-  })
+  }),
+  methods: {
+    logOut() {
+      this.$store
+        .dispatch("logout")
+        .then(() => {
+          this.$store.dispatch("setStatus", false);
+          this.$router.push("/login");
+          window.location.reload();
+        })
+        .catch(err => console.log(err));
+    },
+    openDialog() {
+      this.bodyDialog.dialog = true;
+    }
+  }
 };
 </script>
 

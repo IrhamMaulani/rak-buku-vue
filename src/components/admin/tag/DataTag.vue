@@ -65,9 +65,6 @@ export default {
     deleteItem(item) {
       this.$emit("deleteItem", item);
     },
-    ban(item) {
-      this.$emit("ban", item);
-    },
     getData() {
       this.$http
         .get(this.$baseUrl + "admin/tag")

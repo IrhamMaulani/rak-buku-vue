@@ -3,6 +3,7 @@ import AdminUser from './components/admin/user/BreadUser.vue'
 import AdminBook from './components/admin/book/BreadBook.vue'
 import AdminTag from './components/admin/tag/BreadTag.vue'
 import AdminPublisher from './components/admin/publisher/BreadPublisher.vue'
+import AdminAuthor from './components/admin/author/BreadAuthor.vue'
 import Home from './components/user/Home.vue'
 import AdminHeader from "./components/AdminHeader.vue";
 import UserHeader from "./components/UserHeader.vue";
@@ -123,6 +124,10 @@ const router = new Router({
                 {
                     path: 'add-publisher',
                     component: AdminPublisher
+                },
+                {
+                    path: 'add-author',
+                    component: AdminAuthor
                 },
                 {
                     path: 'home',

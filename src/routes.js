@@ -4,6 +4,7 @@ import AdminBook from './components/admin/book/BreadBook.vue'
 import AdminTag from './components/admin/tag/BreadTag.vue'
 import AdminPublisher from './components/admin/publisher/BreadPublisher.vue'
 import AdminAuthor from './components/admin/author/BreadAuthor.vue'
+import AdminHome from './components/admin/home/Home.vue'
 import Home from './components/user/Home.vue'
 import AdminHeader from "./components/AdminHeader.vue";
 import UserHeader from "./components/UserHeader.vue";
@@ -131,7 +132,7 @@ const router = new Router({
                 },
                 {
                     path: 'home',
-                    component: AdminTag
+                    component: AdminHome
                 }
             ]
         },
@@ -161,7 +162,6 @@ router.beforeEach((to, from, next) => {
         next()
     }
     if (to.matched.some(record => record.meta.admin)) {
-        let isAdmin = false;
         store.dispatch("checkAdmin").
         then(() => {
             if (store.getters.isAdmin) {

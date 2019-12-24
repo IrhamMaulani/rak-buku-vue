@@ -6,6 +6,7 @@ import reputation from './modules/reputation'
 import book from './modules/book'
 import login from './modules/login'
 import status from './modules/status'
+import admin from './modules/admin'
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         reputation,
         book,
         login,
-        status
+        status,
+        admin
     }
 })

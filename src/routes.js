@@ -104,6 +104,9 @@ const router = new Router({
         {
             path: '/admin',
             component: AdminHeader,
+            meta: {
+                admin: true
+            },
             children: [{
                     path: 'add-user',
                     component: AdminUser
@@ -114,6 +117,10 @@ const router = new Router({
                 },
                 {
                     path: 'add-tag',
+                    component: AdminTag
+                },
+                {
+                    path: 'home',
                     component: AdminTag
                 }
             ]
@@ -140,6 +147,22 @@ router.beforeEach((to, from, next) => {
             return
         }
         next('/')
+    } else {
+        next()
+    }
+    if (to.matched.some(record => record.meta.admin)) {
+        let isAdmin = false;
+        store.dispatch("checkAdmin").
+        then(() => {
+            if (store.getters.isAdmin) {
+                next()
+                return
+            }
+            next('/')
+        })
+
+
+
     } else {
         next()
     }

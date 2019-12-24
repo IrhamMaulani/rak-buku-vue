@@ -22,6 +22,7 @@
               label="Add Tags"
               multiple
               autocomplete="new-password"
+              return-object
             ></v-autocomplete>
           </v-col>
           <v-col cols="6">
@@ -40,6 +41,7 @@
               label="Add Authors"
               multiple
               autocomplete="new-password"
+              return-object
             ></v-autocomplete>
           </v-col>
           <v-col cols="6">
@@ -198,6 +200,8 @@ export default {
       }
 
       form.append("book_images", this.files);
+      form.append("tags_json", JSON.stringify(this.form.tags));
+      form.append("authors_json", JSON.stringify(this.form.authors));
 
       this.$store.dispatch("setStatus", true);
       this.$http

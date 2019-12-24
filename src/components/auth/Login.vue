@@ -66,7 +66,14 @@ export default {
 
       this.$store
         .dispatch("login", { email, password, rememberMe })
-        .then(() => this.$router.push("/"))
+        .then(() => {
+          this.$store.dispatch("checkAdmin").then(() => {
+            if (this.$store.getters.isAdmin) {
+              this.$router.push("/admin/home");
+            }
+          });
+          this.$router.push("/");
+        })
         .catch(err => console.log(err));
     }
   },

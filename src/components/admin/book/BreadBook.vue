@@ -28,6 +28,7 @@
                 dense
                 label="Add Tags"
                 multiple
+                return-object
                 autocomplete="new-password"
               ></v-autocomplete>
             </v-col>
@@ -47,6 +48,7 @@
                 label="Add Authors"
                 multiple
                 autocomplete="new-password"
+                return-object
               ></v-autocomplete>
             </v-col>
             <v-col cols="6">
@@ -59,18 +61,6 @@
                 label="Add Publisher"
                 autocomplete="new-password"
               ></v-autocomplete>
-            </v-col>
-            <v-col cols="6" class="mt-n8">
-              <small>
-                Can't Find The Author? Add
-                <router-link :to="'add-author'" target="_blank">Here</router-link>
-              </small>
-            </v-col>
-            <v-col cols="6" class="mt-n8">
-              <small>
-                Can't Find The Publisher? Add
-                <router-link :to="'add-publisher'" target="_blank">Here</router-link>
-              </small>
             </v-col>
             <v-col cols="12">
               <v-textarea v-model="form.description" color="teal">
@@ -207,6 +197,8 @@ export default {
       }
 
       form.append("book_images", this.files);
+      form.append("tags_json", JSON.stringify(this.form.tags));
+      form.append("authors_json", JSON.stringify(this.form.authors));
 
       this.$store.dispatch("setStatus", true);
       this.$http
@@ -232,18 +224,21 @@ export default {
         form.append(key, thisForm[key]);
       }
 
-      form.append("author_images", this.files);
+      form.append("book_images", this.files);
       form.append("_method", "PUT");
+
+      form.append("tags_json", JSON.stringify(this.form.tags));
+      form.append("authors_json", JSON.stringify(this.form.authors));
 
       this.$store.dispatch("setStatus", true);
       this.$http
-        .post(this.$baseUrl + "admin/author/" + this.form.id, form, {
+        .post(this.$baseUrl + "admin/book/" + this.form.id, form, {
           headers: { "content-type": "application/x-www-form-urlencoded" }
         })
         .then(response => {
           this.openSnackbar(true, response.data);
           this.reset();
-          this.$refs.dataTag.getData();
+          this.$refs.dataBook.getData();
           this.progress = false;
           this.$refs.modal.dialog = false;
         })
@@ -258,7 +253,7 @@ export default {
         .delete(`${this.$baseUrl}admin/author/${this.form.id}`)
         .then(response => {
           this.openSnackbar(true, response.data);
-          this.$refs.dataTag.getData();
+          this.$refs.dataBook.getData();
           this.progress = false;
         })
         .catch(error => {

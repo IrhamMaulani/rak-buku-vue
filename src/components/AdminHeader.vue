@@ -106,6 +106,11 @@ export default {
             text: "Add New Publisher",
             url: "/admin/add-publisher"
           },
+          {
+            icon: "brush",
+            text: "Add New Author",
+            url: "/admin/add-author"
+          },
           { icon: "menu_book", text: "Add New Book", url: "/admin/add-book" }
         ]
       },

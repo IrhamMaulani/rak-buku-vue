@@ -186,7 +186,7 @@ export default {
     deleteItem(item) {
       this.isPost = false;
       this.bodyDialog.dialog = true;
-      this.publisher = Object.assign({}, item);
+      this.form = Object.assign({}, item);
     },
     reset() {
       this.$refs.form.reset();
@@ -263,7 +263,7 @@ export default {
     deleteUserData() {
       this.progress = true;
       this.$http
-        .delete(`${this.$baseUrl}admin/publisher/${this.publisher.id}`)
+        .delete(`${this.$baseUrl}admin/author/${this.form.id}`)
         .then(response => {
           this.openSnackbar(true, response.data);
           this.$refs.dataTag.getData();

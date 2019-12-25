@@ -145,10 +145,6 @@
             </v-btn>
           </div>
         </div>
-
-        <!-- <router-link v-if="reviewSlug !==null" :to="'/book/' + slug">
-          <p>More Reviews</p>
-        </router-link>-->
       </div>
       <v-divider class="mb-6"></v-divider>
 
@@ -181,9 +177,10 @@
             </v-col>
           </v-row>
           <v-row justify="center">
-            <v-col cols="12" class="px-10 text-left">
+            <v-col cols="12" class="px-10 text-left" v-if="book.user_review.content ">
               <p class="mx-12">{{book.user_review.content | snippet(contentLength)}}</p>
             </v-col>
+            <v-col cols="12" class="px-10 text-left" v-else></v-col>
 
             <v-btn text class="ml-auto mr-12" @click="contentLength = 10000000">Read More</v-btn>
           </v-row>

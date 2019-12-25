@@ -135,8 +135,8 @@ export default {
         { title: "Log Out", icon: "exit_to_app", url: "", method: "coba" }
       ],
       listsGuest: [
-        { title: "Login", icon: "exit_to_app", url: "/login" },
-        { title: "Sign Up", icon: "create", url: "/sign-up" }
+        { title: "Login", icon: "exit_to_app", url: "/login" }
+        // { title: "Sign Up", icon: "create", url: "/sign-up" }
       ],
       drawer: null,
       items: [

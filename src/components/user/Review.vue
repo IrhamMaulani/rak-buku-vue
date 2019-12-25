@@ -232,10 +232,15 @@ export default {
             }
           }
 
-          updatedItem.self_response.is_like = response;
+          if (updatedItem.self_response === null) {
+            updatedItem.self_response = { is_like: response };
+          } else {
+            updatedItem.self_response.is_like = response;
+          }
           this.$store.dispatch("setStatus", false);
         })
         .catch(err => {
+          console.log(err);
           this.$store.dispatch("setStatus", true);
           this.bodySnackBar.message = "Failed";
           this.bodySnackBar.snackbar = true;

@@ -61,7 +61,7 @@
           <v-img
             class="justify-center"
             :src="`${url}storage/${book.book_images_cover.name}`"
-            :lazy-src="require('../../assets/cover-book.jpg')"
+            :lazy-src="require('../../assets/cover-book.svg')"
             aspect-ratio="1"
             max-width="200"
             max-height="183"
@@ -70,8 +70,8 @@
         <v-layout align-center justify-center v-else>
           <v-img
             class="justify-center"
-            :src="require('../../assets/cover-book.jpg')"
-            :lazy-src="require('../../assets/cover-book.jpg')"
+            :src="require('../../assets/cover-book.svg')"
+            :lazy-src="require('../../assets/cover-book.svg')"
             aspect-ratio="1"
             max-width="200"
             max-height="183"

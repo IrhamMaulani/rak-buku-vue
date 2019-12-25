@@ -6,7 +6,7 @@
           <v-img
             class="justify-center"
             :src="`${imageUrl}storage/${book.book_images_cover.name}`"
-            lazy-src="require('../../assets/cover-book.jpg')"
+            :lazy-src="require('../../assets/cover-book.svg')"
             max-width="45"
             height="60"
           />
@@ -14,8 +14,8 @@
         <div v-else>
           <v-img
             class="justify-center"
-            :src="require('../../assets/cover-book.jpg')"
-            lazy-src="require('../../assets/cover-book.jpg')"
+            :src="require('../../assets/cover-book.svg')"
+            :lazy-src="require('../../assets/cover-book.svg')"
             max-width="45"
             height="60"
           />

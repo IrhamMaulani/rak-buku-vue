@@ -4,14 +4,14 @@
       <div v-if="book.book_images_cover !== null">
         <v-img
           :src="`${url}storage/${book.book_images_cover.name}`"
-          lazy-src="https://picsum.photos/id/11/10/6"
+          :lazy-src="require('../../assets/cover-book.svg')"
           height="1200"
         />
       </div>
       <div v-else>
         <v-img
-          :src="require('../../assets/cover-book.jpg')"
-          lazy-src="https://picsum.photos/id/11/10/6"
+          :src="require('../../assets/cover-book.svg')"
+          :lazy-src="require('../../assets/cover-book.svg')"
           height="825"
         />
       </div>
@@ -160,7 +160,7 @@
                 <v-img
                   v-if="book.user_review.user.image_profile !== null"
                   :src="`${url}storage/${book.user_review.user.image_profile.name}`"
-                  lazy-src="https://picsum.photos/id/11/10/6"
+                  :lazy-src="require('../../assets/cover-book.svg')"
                   class="ma-0"
                 />
               </v-avatar>

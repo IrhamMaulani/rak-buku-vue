@@ -76,7 +76,7 @@
               <v-img
                 :aspect-ratio="1 / 1"
                 height="190"
-                src="https://cdn.vuetifyjs.com/images/cards/kitchen.png"
+                :src="require('../../assets/cover-book.svg')"
               >
                 <v-expand-transition>
                   <div

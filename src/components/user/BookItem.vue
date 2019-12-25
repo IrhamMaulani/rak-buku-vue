@@ -182,12 +182,10 @@
           </v-row>
           <v-row justify="center">
             <v-col cols="12" class="px-10 text-left">
-              <p class="mx-12">{{book.user_review.content}}</p>
+              <p class="mx-12">{{book.user_review.content | snippet(contentLength)}}</p>
             </v-col>
 
-            <p class="ml-auto mr-12">
-              <router-link :to="url">Read More</router-link>
-            </p>
+            <v-btn text class="ml-auto mr-12" @click="contentLength = 10000000">Read More</v-btn>
           </v-row>
           <v-row justify="center" class="mt-n8">
             <v-col cols="1"></v-col>
@@ -310,7 +308,8 @@ export default {
         content: "",
         slug: ""
       },
-      alreadyReviewed: false
+      alreadyReviewed: false,
+      contentLength: 50
     };
   },
   methods: {

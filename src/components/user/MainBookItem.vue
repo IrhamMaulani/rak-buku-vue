@@ -19,7 +19,7 @@
         <p class=".body-2 mx-4 mt-4">{{ book.description | snippet(50) }}</p>
 
         <p class="mx-4 body-1">
-          Pengarang :
+          Author :
           <router-link
             v-for="(author, index) in book.authors"
             :key="index"

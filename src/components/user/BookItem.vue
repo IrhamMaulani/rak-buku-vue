@@ -44,7 +44,7 @@
             <span class="ml-8">Edition {{book.edition}}</span>
           </div>
           <p>
-            Pengarang :
+            Author :
             <router-link
               v-for="(author, index) in book.authors"
               :key="index"
@@ -60,7 +60,7 @@
               :to="{ path: '/book', query: {publisher: book.publisher.name } }"
             >{{book.publisher.name}}</router-link>
           </p>
-          <p>Tahun Terbit : {{book.print_year}}</p>
+          <p>Print Year : {{book.print_year}}</p>
           <p>Origin Langauge : {{book.origin_language}}</p>
           <div v-if="isLoggedIn">
             <v-select

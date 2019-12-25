@@ -138,7 +138,7 @@
 
             <div class="d-flex align-content-start flex-wrap mt-12 mb-12 title font-weight-regular">
               <p class="mr-3">
-                Pengarang :
+                Author :
                 <router-link
                   v-for="(author, index) in book.authors"
                   :key="index"

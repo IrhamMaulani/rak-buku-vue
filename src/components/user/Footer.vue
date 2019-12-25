@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-content-start flex-wrap">
-    <router-link v-for="footer in footers" class="pa-3 ma-0" :to="footer.url">
+    <router-link v-for="(footer, index) in footers" class="pa-3 ma-0" :to="footer.url" :key="index">
       <p class="pa-0 ma-0 body-2">{{footer.text}}</p>
     </router-link>
   </div>

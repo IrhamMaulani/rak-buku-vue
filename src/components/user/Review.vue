@@ -41,10 +41,10 @@
       </v-row>
       <v-row justify="center">
         <v-col cols="12" class="px-10 text-left">
-          <p class="mx-12">{{data.content | snippet(contentLength)}}</p>
+          <p class="mx-12">{{data.content | snippet(data.content_length)}}</p>
         </v-col>
 
-        <v-btn text class="ml-auto mr-12" @click="contentLength = 100000">Read More</v-btn>
+        <v-btn text class="ml-auto mr-12" @click="openMore(data.id)">Read More</v-btn>
       </v-row>
       <v-row justify="center" class="mt-n8">
         <v-col cols="1"></v-col>
@@ -161,7 +161,6 @@ export default {
           const datas = result.data.data;
 
           datas.forEach(element => {
-            console.log(element.id);
             this.datas.push(element);
           });
 
@@ -241,6 +240,13 @@ export default {
           this.bodySnackBar.message = "Failed";
           this.bodySnackBar.snackbar = true;
         });
+    },
+    openMore(reviewId) {
+      const updatedItem = this.datas.find(element => {
+        return element.id === reviewId;
+      });
+
+      updatedItem.content_length = 10000;
     }
   },
   mounted() {

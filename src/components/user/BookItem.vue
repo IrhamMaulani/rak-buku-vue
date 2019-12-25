@@ -80,7 +80,7 @@
               v-on:change="addScore"
             ></v-select>
             <div class="d-flex flex-row" v-if="book.check_bookmarked !== null">
-              <span class="mt-3 mr-4" v-if=" book.check_bookmarked.is_favorite === 1">
+              <span class="mt-3 mr-4" v-if=" book.check_bookmarked.is_favorite == 1">
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
                     <v-btn icon v-on="on" @click="favorite(0)">
@@ -100,26 +100,13 @@
                   <span>Add To Your Favorite</span>
                 </v-tooltip>
               </span>
-
               <v-checkbox
-                v-model="book.check_bookmarked.is_owned"
-                v-on:change="changeOwned"
+                v-if="book.check_bookmarked.is_owned == 1"
+                input-value="true"
+                v-on:change="changeOwned(0)"
                 :label="'Already Owned?'"
               ></v-checkbox>
-            </div>
-            <div class="d-flex flex-row" v-else>
-              <span class="mt-3 mr-4">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" @click="favorite(1)">
-                      <v-icon>favorite_border</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Add To Your Favorite</span>
-                </v-tooltip>
-              </span>
-
-              <v-checkbox v-on:change="changeOwned(1)" :label="'Already Owned?'"></v-checkbox>
+              <v-checkbox v-else v-on:change="changeOwned(1)" :label="'Already Owned?'"></v-checkbox>
             </div>
           </div>
         </v-col>
@@ -449,7 +436,7 @@ export default {
         };
       } else {
         data = {
-          is_owned: this.book.check_bookmarked.is_owned,
+          is_owned: owned,
           book_id: this.book.id
         };
       }

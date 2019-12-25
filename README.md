@@ -60,6 +60,7 @@ npm run serve
 
 Wait Until process Completed. After that open http://localhost:8080/ 
 
+Make Sure that Server-Side Service already work. If not, this app can't fetch data
 
 Instalation Process Complete, But if you want to deploy you can go to next step
 

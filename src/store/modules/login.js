@@ -76,8 +76,6 @@ export default {
                     })
                     .catch(err => {
                         console.log(err);
-
-
                         window.$cookies.remove("token");
                         window.$cookies.remove("user_name");
 

@@ -18,7 +18,7 @@ export default {
             state.reputations = payload;
         },
         setReputation: (state, payload) => {
-            let reputation = state.reputations.filter(role => {
+            const reputation = state.reputations.filter(role => {
                 return reputation.id == payload;
             });
 
@@ -31,7 +31,7 @@ export default {
     actions: {
         getReputations: async (context, payload) => {
             try {
-                let {
+                const {
                     data
                 } = await axios.get(`${process.env.VUE_APP_API}admin/reputation`);
                 context.commit("setReputations", data.data);

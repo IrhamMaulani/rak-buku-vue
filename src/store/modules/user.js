@@ -18,7 +18,7 @@ export default {
             state.users = payload;
         },
         setUser: (state, payload) => {
-            let user = state.users.filter(user => {
+            const user = state.users.filter(user => {
                 return user.id == payload;
             });
 

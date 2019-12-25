@@ -58,6 +58,11 @@ npm install
 npm run serve
 ```
 
+Wait Until process Completed. After that open http://localhost:8080/ 
+
+
+Instalation Process Complete, But if you want to deploy you can go to next step
+
 ### Compiles and minifies for production
 
 ```
@@ -70,7 +75,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## DEMO
 
-You can visit demo here
+You can visit demo here [Rak Buku](https://rak-buku-240414.firebaseapp.com/)
 
 ## Account
 

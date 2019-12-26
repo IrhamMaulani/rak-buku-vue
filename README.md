@@ -35,6 +35,7 @@ create .env file in root folder (same location as this README). And Copy This
 ```javascript
 VUE_APP_TITLE = Rak Buku
 VUE_APP_URL  = YOUR CLIENT-SIDE URL IN LOCAl
+VUE_APP_IMAGE = YOUR SERVER SIDE IMAGE PLACE
 VUE_APP_API = YOUR SERVER-SIDE URL IN LOCAL
 ```
 
@@ -43,6 +44,7 @@ Example
 ```javascript
 VUE_APP_TITLE = Rak Buku
 VUE_APP_URL  = http://192.168.1.71:8080/
+VUE_APP_IMAGE = http://localhost/rak-buku-web/public/storage/
 VUE_APP_API = http://localhost/rak-buku-web/public/api/
 ```
 
@@ -58,7 +60,7 @@ npm install
 npm run serve
 ```
 
-Wait Until process Completed. After that open http://localhost:8080/ 
+Wait Until process Completed. After that open http://localhost:8080/
 
 Make Sure that Server-Side Service already work. If not, this app can't fetch data
 
@@ -80,7 +82,7 @@ You can visit demo here [Rak Buku](https://rak-buku-240414.firebaseapp.com/)
 
 About Image In Demo
 
-Because lack of hosting in heroku, Image file in image can't be show and uploaded. 
+Because lack of hosting in heroku, Image file in image can't be show and uploaded.
 
 ## Account
 

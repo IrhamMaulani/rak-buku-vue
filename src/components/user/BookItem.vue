@@ -146,7 +146,7 @@
               <v-avatar size="40" class="ma-0">
                 <v-img
                   v-if="book.user_review.user.image_profile !== null"
-                  :src="`${url}storage/${book.user_review.user.image_profile.name}`"
+                  :src="`${url}${book.user_review.user.image_profile.name}`"
                   :lazy-src="require('../../assets/cover-book.svg')"
                   class="ma-0"
                 />
@@ -243,7 +243,7 @@ export default {
         message: "",
         snackbar: false
       },
-      url: "http://localhost/rak-buku-web/public/",
+      url: process.env.VUE_APP_IMAGE,
       reviewUrl: "1/reviews",
       statuses: [
         { id: 1, name: "Wish List" },

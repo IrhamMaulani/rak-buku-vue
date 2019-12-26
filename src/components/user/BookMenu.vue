@@ -61,7 +61,7 @@
               <v-card color="grey lighten-4" class="mr-4">
                 <div v-if="book.book_images_cover !== null">
                   <v-img
-                    :src="`${imageUrl}storage/${book.book_images_cover.name}`"
+                    :src="`${imageUrl}${book.book_images_cover.name}`"
                     :lazy-src="require('../../assets/cover-book.svg')"
                     min-height="570"
                     :aspect-ratio="16 / 9"
@@ -218,7 +218,7 @@ export default {
   },
   data() {
     return {
-      imageUrl: "http://localhost/rak-buku-web/public/",
+      imageUrl: process.env.VUE_APP_IMAGE,
       bodySnackBar: {
         timeout: 2000,
         message: "",

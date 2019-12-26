@@ -14,7 +14,7 @@
               <v-img
                 :aspect-ratio="1 / 1"
                 height="190"
-                :src="`${imageUrl}storage/${data.book_images_cover.name}`"
+                :src="`${imageUrl}${data.book_images_cover.name}`"
               >
                 <v-expand-transition>
                   <div
@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       url: "/",
-      imageUrl: "http://localhost/rak-buku-web/public/",
+      imageUrl: process.env.VUE_APP_IMAGE,
       datas: [],
       dataPagin: [],
       dataLength: null,

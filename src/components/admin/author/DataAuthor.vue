@@ -20,7 +20,7 @@
         <template v-slot:item.author_image.name="{ item }">
           <span v-if="item.author_image !== null">
             <v-avatar width="60" height="60" class="my-4">
-              <img :src="`http://localhost/rak-buku-web/public/storage/${item.author_image.name}`" />
+              <img :src="`${url}${item.author_image.name}`" />
             </v-avatar>
           </span>
           <span v-else>
@@ -44,6 +44,7 @@ export default {
   },
   data() {
     return {
+      url: process.env.VUE_APP_IMAGE,
       search: "",
       datas: [],
       headers: [

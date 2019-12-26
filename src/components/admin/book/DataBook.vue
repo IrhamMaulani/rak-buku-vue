@@ -20,9 +20,7 @@
         <template v-slot:item.book_images_cover.name="{ item }">
           <span v-if="item.book_images_cover !== null">
             <v-avatar width="100" height="100" class="my-2" tile>
-              <img
-                :src="`http://localhost/rak-buku-web/public/storage/${item.book_images_cover.name}`"
-              />
+              <img :src="`${url}${item.book_images_cover.name}`" />
             </v-avatar>
           </span>
           <span v-else>
@@ -56,6 +54,7 @@ export default {
   },
   data() {
     return {
+      url: process.env.VUE_APP_IMAGE,
       search: "",
       datas: [],
       headers: [

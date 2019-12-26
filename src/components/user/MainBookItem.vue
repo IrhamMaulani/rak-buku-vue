@@ -60,7 +60,7 @@
         <v-layout align-center justify-center v-if="book.book_images_cover !== null">
           <v-img
             class="justify-center"
-            :src="`${url}storage/${book.book_images_cover.name}`"
+            :src="`${url}${book.book_images_cover.name}`"
             :lazy-src="require('../../assets/cover-book.svg')"
             aspect-ratio="1"
             max-width="200"
@@ -101,7 +101,7 @@ export default {
   },
   data() {
     return {
-      url: "http://localhost/rak-buku-web/public/",
+      url: process.env.VUE_APP_IMAGE,
       defaultImg: "require('../../assets/cover-book.jpg')",
       datas: [],
       bodySnackBar: {

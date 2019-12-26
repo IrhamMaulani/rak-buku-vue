@@ -5,7 +5,7 @@
         <div v-if="book.book_images_cover !== null">
           <v-img
             class="justify-center"
-            :src="`${imageUrl}storage/${book.book_images_cover.name}`"
+            :src="`${imageUrl}${book.book_images_cover.name}`"
             :lazy-src="require('../../assets/cover-book.svg')"
             max-width="45"
             height="60"
@@ -42,7 +42,7 @@
 export default {
   data() {
     return {
-      imageUrl: "http://localhost/rak-buku-web/public/"
+      imageUrl: process.env.VUE_APP_IMAGE
     };
   },
   props: {

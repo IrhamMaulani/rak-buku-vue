@@ -7,7 +7,7 @@
           <v-card-text class="text--primary mt-8 text-center">
             <v-avatar v-if="userProfile.image_profile !== null" size="180" class>
               <v-img
-                :src="`${imageUrl}storage/${userProfile.image_profile.name}`"
+                :src="`${imageUrl}${userProfile.image_profile.name}`"
                 lazy-src="https://picsum.photos/id/11/10/6"
               />
             </v-avatar>
@@ -74,7 +74,7 @@
                   <v-img
                     v-if="userProfile.image_profile !== null"
                     :src="
-                      `${imageUrl}storage/${userProfile.image_profile.name}`
+                      `${imageUrl}${userProfile.image_profile.name}`
                     "
                     lazy-src="https://picsum.photos/id/11/10/6"
                   >
@@ -182,7 +182,7 @@ export default {
   },
   data() {
     return {
-      imageUrl: "http://localhost/rak-buku-web/public/",
+      imageUrl: process.env.VUE_APP_IMAGE,
       bodyDialog: {
         dialog: false,
         message: "",

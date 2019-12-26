@@ -78,6 +78,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 You can visit demo here [Rak Buku](https://rak-buku-240414.firebaseapp.com/)
 
+About Image In Demo
+
+Because lack of hosting in heroku, Image file in image can't be show and uploaded. 
+
 ## Account
 
 ```

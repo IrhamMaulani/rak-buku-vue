@@ -58,6 +58,12 @@ npm install
 npm run serve
 ```
 
+Wait Until process Completed. After that open http://localhost:8080/ 
+
+Make Sure that Server-Side Service already work. If not, this app can't fetch data
+
+Instalation Process Complete, But if you want to deploy you can go to next step
+
 ### Compiles and minifies for production
 
 ```
@@ -70,7 +76,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## DEMO
 
-You can visit demo here
+You can visit demo here [Rak Buku](https://rak-buku-240414.firebaseapp.com/)
+
+About Image In Demo
+
+Because lack of hosting in heroku, Image file in image can't be show and uploaded. 
 
 ## Account
 
